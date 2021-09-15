@@ -17,10 +17,10 @@ gen_api_query <- function(data_set = NULL,top_n = 1000, filters = NULL, select =
  
   
   # build up the api query starting with the base url for the data set
-  base_url <- fema_api_endpoints(data_set)
+  base_url <- paste0(fema_api_endpoints(data_set),"?$inlinecount=allpages")
 
   # append the querty to represent the top parameter
-  api_query <- paste0(base_url,"?$top=",top_n)
+  api_query <- paste0(base_url,"&$top=",top_n)
   
   # if select is not NULL then append the api query to 
   # limit the api call to the field specified in select

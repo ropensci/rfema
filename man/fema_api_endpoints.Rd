@@ -16,5 +16,7 @@ Returns a character string containing the API endpoint url associated with the d
 Returns the API endpoint associated with a openFEMA data set
 }
 \examples{
-fema_api_endpoints("FimaNfipClaims"), fema_api_endpoints("fImAnfiPclaims"),fema_api_endpoints("fimanfippolicies")
+fema_api_endpoints("FimaNfipClaims")
+fema_api_endpoints("fImAnfiPclaims")
+fema_api_endpoints("fimanfippolicies")
 }

@@ -2,4 +2,5 @@
 
 export(fema_api_endpoints)
 export(fema_data_fields)
+export(valid_parameters)
 importFrom(dplyr,"%>%")

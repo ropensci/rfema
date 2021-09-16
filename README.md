@@ -18,7 +18,17 @@ bulk data files, but can be intimidating for those not used to working
 with APIs. This package contains a set of functions that allows users to
 identify the data they need and query the API to get that data.
 
+In accordance with the openFEMA terms and conditions: This product uses
+the Federal Emergency Management Agency’s OpenFEMA API, but is not
+endorsed by FEMA. The Federal Government or FEMA cannot vouch for the
+data or analyses derived from these data after the data have been
+retrieved from the Agency’s website(s).
+
 ## Installation
+
+Anyone who stumbles upon this package and wants to use it right now can
+do so by cloning this GitHub repo or by using the install\_github()
+function from the devtools package.
 
 ``` r
 #install.packages("devtools") # install if not already in library
@@ -28,7 +38,7 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/Rtmp3ShHfz/remotes2acb7152b45/dylan-turner25-rfema-b18881c/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/Rtmp3ShHfz/remotes2acb7152b45/dylan-turner25-rfema-b18881c/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpQjm5Jp/remotes31c274a5babb/dylan-turner25-rfema-6e87ab1/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpQjm5Jp/remotes31c274a5babb/dylan-turner25-rfema-6e87ab1/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -45,13 +55,14 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
 library(rfema)
 ```
 
-## Example Workflow
+## Supported Datasets
 
-First, to see the avaliable datasets currently supported by the package,
-we can run the “fema\_data\_sets()” function which calls the FEMA API
-endpoint: “<https://www.fema.gov/api/open/v1/DataSets>” and by
-default,filters the results by the data sets currently supported in the
-package.
+TODO: discuss each data set currently supported by the package. \#\#
+Example Workflow First, to see the avaliable datasets currently
+supported by the package, we can run the “fema\_data\_sets()” function
+which calls the FEMA API endpoint:
+“<https://www.fema.gov/api/open/v1/DataSets>” and by default,filters the
+results by the data sets currently supported in the package.
 
 ``` r
 df <- fema_data_sets()
@@ -277,3 +288,7 @@ kable(df)
 | 12115001201 |            5 | 613cae5af3de2d084b0c2328 |
 | 48201522100 |            5 | 613cae5af3de2d084b0c2335 |
 | 48113006100 |            5 | 613cae5af3de2d084b0c2317 |
+
+## More Examples
+
+TODO: add more examples here.

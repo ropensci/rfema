@@ -1,42 +1,79 @@
+#' Get data from the FEMA API
+#'
+#'The function allows users to pull data directly from the FEMA API and have it returned as a data frame natively within R. 
+#' The FEMA API limits a single query to 1000 records, thus for a query resulting in more than 1000 records, an iterative approach is 
+#' necessary to get all of the records. The function handles this and will, by default, warn the user of how many iterations are needed 
+#' to get all the records matching their query, letting the user decide choose whether to continue.
+#'
+#' @param data_set a character string indicating the data set to get data from
+#' @param top_n an optional integer value to specify the maximum number of matching records to return
+#' @param filters an optional list containing values of the data fields contained in the data set to construct filters from
+#' @param select  an optional character vector to specify which data fields to return (default is to return all data fields)
+#' @param ask_before_call a logical indicating if users should be asked if they would like to proceed when an API call results in 
+#' a large number of records (default is T). 
+#' @param file_type  an optional character string that specifies a file type to save the data as (options are "csv" and "rds"). If a file 
+#' is specified, the function will not return the api call as a data frame
+#' @param output_dir  an optional character string specifying the directory to save the exported file if the file_type is specified (defaults to working directory).
+#' @return Returns a data frame containing the data from the FEMA API.
+#' @export
+#' @importFrom utils write.table
+#' @examples
 
 
-
-
-openFema <- function(data_set, top_n, filters, select, ask_before_call = T){
+openFema <- function(data_set, top_n = 1000, filters, select, ask_before_call = T, file_type = NULL, output_dir = NULL){
   
-  # export parameters to the gen_api_query which generates the url string 
-  # to use when generating a query
+  # construct the api query using the gen_api_query() function
   api_query <- gen_api_query(data_set = data_set,
                              top_n = top_n,
                              filters = filters,
                              select = select)
   
+  # if top_n is less than 1000, then call the api without
+  # worrying about having to loop to get all matching records
+    if(top_n < 1000){
+      result <- httr::GET(paste0(api_query))
+      jsonData <- httr::content(result)         
+      fullData <- dplyr::bind_rows(jsonData[[2]])
+    }
   
-  # Determine record count.  
+  
+  # if top_n is greater than 1000, we will have to loop
+  # to make multiple API calls to get all the records
+  if(top_n >= 1000){
+  
+  # construct an api call that will be used to determine the number of 
+  # matching records
   record_check_query  <- gen_api_query(data_set = data_set,
                                                    top_n = 1,
                                                    filters = filters,
                                                    select = "id")
-
+  
+  # run the api call and determine the number of matching records
   result <- httr::GET(record_check_query)
   jsonData <- httr::content(result)        
   n_records <- jsonData$metadata$count
   
-  # calculate number of calls neccesary to get all records
-  itterations <- ceiling(n_records / top_n)
+  # calculate number of calls neccesary to get all records using the 
+  # 1000 records/ call max limit defined by FEMA
+  itterations <- ceiling(n_records / 1000)
   
-  if(ask_before_call == T){
+  # if ask_before_call == T and more than 1 itteration will be needed to
+  # get the data, inform the user of how many itterations are needed and 
+  # ask if they want to proceed with the loop
+  if(ask_before_call == T & itterations > 1){
     # send some logging info to the console so we know what is happening
     print(paste0(n_records, " matching records found. At ", top_n, " records per call, it will take ", itterations," individual API calls to get all matching records. Continue?"),quote=FALSE)
     
-    user_response <- readline(prompt=" 1 - Yes, get that data!, 0 - No, let me rething my API call:")
+    user_response <- readline(prompt=" 1 - Yes, get that data!, 0 - No, let me rethink my API call:")
     
     if(user_response == "0"){
       stop("Opperation aborted by user.")
     }
   }
   
-  if(itterations > 1){
+  # if the number of iterations is greater than 1, start the loop. If only one
+  # itteration is needed, do it without entering the loop
+  if(itterations > 1 ){
     # Loop and call the API endpoint changing the record start each iteration. Each call will
     # return results in a JSON format. The metadata has been suppressed as we no longer need it.
     skip <- 0
@@ -63,23 +100,27 @@ openFema <- function(data_set, top_n, filters, select, ask_before_call = T){
     fullData <- dplyr::bind_rows(jsonData[[2]])
   }
   
-  return(fullData)
-
+}
+  
+  if(is.null(file_type)){
+    return(fullData)
+  } 
+  
+  if(is.null(output_dir)){
+    output_dir <- getwd()
+  }
+  
+  if(file_type == "rds"){
+    saveRDS(fullData, file = paste0(output_dir,"/",data_set,"_",Sys.time(),".rds"))
+    print(paste0("Saving data to ", paste0(output_dir,"/",data_set,"_",Sys.time(),".rds")))
+  }
+  if(file_type == "csv"){
+    write.table(fullData, file = paste0(output_dir,"/",data_set,"_",Sys.time(),".csv"), sep = ",")
+    print(paste0("Saving data to ", paste0(output_dir,"/",data_set,"_",Sys.time(),".csv")))
+    
+  }
+  
+  
 }
 
 
-# filter_list <- list(baseFloodElevation = c(1,2,3),
-#                     countyCode = "51023" )
-# filters <- filter_list
-# data_set <- "fimaNfipPolicies"
-# top_n = 1000
-# select = c("censusTract","countyCode","baseFloodElevation")
-# 
-# filter_list <- list(countyCode = "51023" )
-# 
-# 
-# data <- openFema(data_set = "fimaNfipPolicies",
-#                  top_n = 1000,
-#                  filters = filter_list,
-#                  select = NULL,
-#                  ask_before_call = T)

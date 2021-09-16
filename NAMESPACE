@@ -3,5 +3,7 @@
 export(fema_api_endpoints)
 export(fema_data_fields)
 export(gen_api_query)
+export(openFema)
 export(valid_parameters)
 importFrom(dplyr,"%>%")
+importFrom(utils,write.table)

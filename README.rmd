@@ -13,7 +13,11 @@ rfema allows users to access The Federal Emergency Management Agency's (FEMA) pu
 
 FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be intimidating for those not used to working with APIs. This package contains a set of functions that allows users to identify the data they need and query the API to get that data.
 
+In accordance with the openFEMA terms and conditions: This product uses the Federal Emergency Management Agency’s OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s).
+
+
 ## Installation
+Anyone who stumbles upon this package and wants to use it right now can do so by cloning this GitHub repo or by using the install_github() function from the devtools package.
 ```{r}
 #install.packages("devtools") # install if not already in library
 devtools::install_github("dylan-turner25/rfema", force = TRUE)
@@ -21,6 +25,8 @@ library(rfema)
 ```
 
 
+## Supported Datasets
+TODO: discuss each data set currently supported by the package.
 ## Example Workflow
 First, to see the avaliable datasets currently supported by the package, we can run the "fema_data_sets()" function which calls the FEMA API endpoint: "https://www.fema.gov/api/open/v1/DataSets" and by default,filters the results by the data sets currently supported in the package.
 ```{r}
@@ -87,3 +93,6 @@ kable(df)
 
 
 
+
+## More Examples
+TODO: add more examples here.

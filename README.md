@@ -1,2 +1,6 @@
 # rfema
  rfema allows users to access The Federal Emergency Management Agency's (FEMA)  publicly available data through their API. The package provides a set of functions to easily navigate and access data  from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
+ 
+ FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (ex: may only want a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be intimidating for those not used to working with APIs. This package contains a set of functions that allows users to identify the data they need and query the API to get that data. 
+
+ 

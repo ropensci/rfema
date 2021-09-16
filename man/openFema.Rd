@@ -7,8 +7,8 @@
 openFema(
   data_set,
   top_n = 1000,
-  filters,
-  select,
+  filters = NULL,
+  select = NULL,
   ask_before_call = T,
   file_type = NULL,
   output_dir = NULL

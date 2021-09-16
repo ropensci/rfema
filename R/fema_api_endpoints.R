@@ -1,4 +1,3 @@
-
 fema_api_endpoints <- function(data_set){
   
   #' Returns the API endpoint associated with a openFEMA data set

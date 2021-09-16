@@ -19,8 +19,7 @@
 #' @importFrom utils write.table
 #' @examples
 
-
-openFema <- function(data_set, top_n = 1000, filters, select, ask_before_call = T, file_type = NULL, output_dir = NULL){
+openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL){
   
   # construct the api query using the gen_api_query() function
   api_query <- gen_api_query(data_set = data_set,

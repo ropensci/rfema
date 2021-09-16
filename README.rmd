@@ -16,7 +16,7 @@ FEMA data is publicly available at the open FEMA website (https://www.fema.gov/a
 ## Installation
 ```{r}
 #install.packages("devtools") # install if not already in library
-devtools::install_github("dylan-turner25/rfema", force = T)
+devtools::install_github("dylan-turner25/rfema", force = TRUE)
 library(rfema)
 ```
 

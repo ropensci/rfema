@@ -40,3 +40,6 @@ The FEMA API limits a single query to 1000 records, thus for a query resulting i
 necessary to get all of the records. The function handles this and will, by default, warn the user of how many iterations are needed
 to get all the records matching their query, letting the user decide choose whether to continue.
 }
+\examples{
+data <- openFema(data_set = "fimaNfipClaims",top_n = 100,filters = list(countyCode = "10001"))
+}

@@ -1,24 +1,27 @@
-fema_api_endpoints <- function(data_set){
-  
-  #' Returns the API endpoint associated with a openFEMA data set
-  #'
-  #' @param data_set A character string with the name of the data set to get the API endpoint for. 
-  #'
-  #' @return Returns a character string containing the API endpoint url associated with the data set.
-  #' @export
-  #'
-  #' @examples
-  #' fema_api_endpoints("FimaNfipClaims")
-  #' fema_api_endpoints("fImAnfiPclaims")
-  #' fema_api_endpoints("fimanfippolicies")
-  
-  data_set <- tolower(data_set)
-  endpoints <- data.frame(source = c("FimaNfipClaims",
-                                     "FimaNfipPolicies",
-                                     "HousingAssistanceOwners"), 
-                          endpoint = c("https://www.fema.gov/api/open/v1/FimaNfipClaims",
-                                       "https://www.fema.gov/api/open/v1/FimaNfipPolicies",
-                                       "https://www.fema.gov/api/open/v2/HousingAssistanceOwners"))
+#' Returns the API endpoint associated with a openFEMA data set
+#'
+#' @param data_set A character string with the name of the data set to get the API endpoint for. 
+#'
+#' @return Returns a character string containing the API endpoint url associated with the data set.
+#' @export
+#'
+#' @examples
+#' fema_api_endpoints("FimaNfipClaims")
+#' fema_api_endpoints("fImAnfiPclaims")
+#' fema_api_endpoints("fimanfippolicies")
 
-  return(endpoints$endpoint[which(tolower(endpoints$source) == data_set)])
+fema_api_endpoints <- function(data_set){
+
+  # convert dataset to fema consistent capitalization
+  data_set <- valid_dataset(data_set)
+  
+  # get df of all fema data sets
+  fema_data_sets <- fema_data_sets()
+  
+  # get the most current version
+  version <- fema_data_sets$version[which(data_set == fema_data_sets$name)]
+  
+  endpoint <- paste0("https://www.fema.gov/api/open/v",version,"/",data_set)
+  
+  return(endpoint)
 }

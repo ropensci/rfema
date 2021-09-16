@@ -13,17 +13,11 @@ fema_data_fields <- function(data_set){
   #' 
   #' @importFrom dplyr %>%
   
+  # convert data_set to fema consistent capitalization
+  data_set <- valid_dataset(data_set)
   
-  # get df with info on fema data sets
+  # get df of all fema data sets
   fema_data_sets <- fema_data_sets()
-  
-  # convert user specified data set to lower case
-  data_set <- tolower(data_set)
-  
-  # match up user specified data set to data sets in "fema_data_sets"
-  # and redefine the "data_set" object to make sure its consistent with the 
-  # capitalization fema uses
-  data_set <- fema_data_sets$name[ tolower(fema_data_sets$name) == data_set ]
   
   
   # get url for the data dictionary from the fema_data_sets variable

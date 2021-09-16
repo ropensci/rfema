@@ -18,6 +18,7 @@
 #' @export
 #' @importFrom utils write.table
 #' @examples
+#' data <- openFema(data_set = "fimaNfipClaims",top_n = 100,filters = list(countyCode = "10001"))
 
 openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL){
   

@@ -1,0 +1,89 @@
+---
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+## rfema (R FEMA)
+
+rfema allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
+
+FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be intimidating for those not used to working with APIs. This package contains a set of functions that allows users to identify the data they need and query the API to get that data.
+
+## Installation
+```{r}
+#install.packages("devtools") # install if not already in library
+devtools::install_github("dylan-turner25/rfema", force = T)
+library(rfema)
+```
+
+
+## Example Workflow
+First, to see the avaliable datasets currently supported by the package, we can run the "fema_data_sets()" function which calls the FEMA API endpoint: "https://www.fema.gov/api/open/v1/DataSets" and by default,filters the results by the data sets currently supported in the package.
+```{r}
+df <- fema_data_sets()
+df$description <- paste0(substr(df$description,1,50),"...") # description shortened in this case to make table smaller
+kable(df)
+```
+If we wanted to see all of the data sets that FEMA maintains, we can call the fema_data_sets() function again setting the "rfema_access" parameter to FALSE which will return information on all FEMA data sets regardless of if they are currently supported by the package.
+
+Once we know what data set we want to access, or perhaps if we want to know more about what data is avaliable in a given data set, we can use the fema_data_fields() function to get a look at the avaliable data fields in a given data set by setting the "data_set" parameter to one of the "name" columns in the data frame returned by the fema_data_sets() function.
+
+```{r}
+df <- fema_data_fields(data_set = "fimaNfipPolicies")
+df$Description<- paste0(substr(df$Description,1,50),"...") # description shortened in this case to make table smaller
+kable(head(df))
+```
+The returned data frame is a data dictionary for, in this case, the National Flood Insurance Programs's Policies dataset and includes the name of each variable in the data set, a "Title" for each variable, the variable type, a description of the variable, and a column indicating if the variable is "Searchable". Searchable variables are those than can be used to filter API queries. If we decide to pull some of this data, we can do so using the openFema() function.
+
+The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is neccesary to itterate over multiple API calls. The function handles this automatically, but will warn you before itterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the opperation. As can be seen below, running the following code will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set.
+
+```{r}
+#openFema(data_set = "fimaNfipPolicies")
+
+"[1] 59341663 matching records found. At 1000 records per call, it will take 59342 individual API calls to get all matching records. Continue?"
+```
+
+Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many itterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Policies data.
+```{r}
+df <- openFema(data_set = "fimaNfipPolicies", top_n = 10)
+kable(df)
+```
+
+If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. Again, the data fields for a given data set can be retrieved using the fema_data_fields() function. In this case we will return only the census tract and crs code columns. As can be seen, an id column is always returned even if the select argument is used. 
+```{r}
+df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, select = c("censusTract","crsClassCode"))
+kable(df)
+```
+
+If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the valid_parameters() function to return a vector containing the variables that are "searchable" for a particular data set. 
+```{r}
+params <- valid_parameters(data_set = "fimaNfipPolicies")
+kable(params)
+```
+
+We can see from the above that both censusTract and crsClassCode are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to see unique values of those variables in the data set. We can do this by using the parameter_values() function. This function returns the unique values of a variable contained in the first 1000 observations of a data set. Notably, it does not return all unique values, as that would require access to the entire data set, which as we saw above is almost 59 million records. 
+
+```{r}
+parameter_values(data_set = "fimaNfipPolicies",data_field = "crsClassCode")
+```
+
+
+We can see from the above that crsClassCode is an integer in the data and there are 9 unique values in the first 1000 observations of the full dataset. Lets go a head a define a filter to limit our results to records with a crsClassCode that is either 5 or 6.
+```{r}
+my_filters <- list(crsClassCode = c(5,6))
+
+df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, 
+               select = c("censusTract","crsClassCode"), filters = my_filters)
+kable(df)
+
+
+```
+
+
+
+
+

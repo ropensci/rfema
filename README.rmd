@@ -27,6 +27,9 @@ library(rfema)
 
 ## Supported Datasets
 TODO: discuss each data set currently supported by the package.
+
+
+
 ## Example Workflow
 First, to see the avaliable datasets currently supported by the package, we can run the "fema_data_sets()" function which calls the FEMA API endpoint: "https://www.fema.gov/api/open/v1/DataSets" and by default,filters the results by the data sets currently supported in the package.
 ```{r}

@@ -38,7 +38,7 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/RtmpV50Fin/remotes4e2ba9c395d/dylan-turner25-rfema-382072d/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpV50Fin/remotes4e2ba9c395d/dylan-turner25-rfema-382072d/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpVIVMrg/remotes511c1ee5f52a/dylan-turner25-rfema-e8d08b1/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpVIVMrg/remotes511c1ee5f52a/dylan-turner25-rfema-e8d08b1/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -57,12 +57,15 @@ library(rfema)
 
 ## Supported Datasets
 
-TODO: discuss each data set currently supported by the package. \#\#
-Example Workflow First, to see the avaliable datasets currently
-supported by the package, we can run the “fema\_data\_sets()” function
-which calls the FEMA API endpoint:
-“<https://www.fema.gov/api/open/v1/DataSets>” and by default,filters the
-results by the data sets currently supported in the package.
+TODO: discuss each data set currently supported by the package.
+
+## Example Workflow
+
+First, to see the avaliable datasets currently supported by the package,
+we can run the “fema\_data\_sets()” function which calls the FEMA API
+endpoint: “<https://www.fema.gov/api/open/v1/DataSets>” and by
+default,filters the results by the data sets currently supported in the
+package.
 
 ``` r
 df <- fema_data_sets()

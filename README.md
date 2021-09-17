@@ -38,7 +38,7 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/RtmpY72wPp/remotes45222991c6cd/dylan-turner25-rfema-4695de8/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpY72wPp/remotes45222991c6cd/dylan-turner25-rfema-4695de8/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpV50Fin/remotes4e2ba9c395d/dylan-turner25-rfema-382072d/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpV50Fin/remotes4e2ba9c395d/dylan-turner25-rfema-382072d/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -273,6 +273,27 @@ my_filters <- list(crsClassCode = c(5,6))
 
 df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, 
                select = c("censusTract","crsClassCode"), filters = my_filters)
+```
+
+    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
+    ## the first element will be used
+
+    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
+    ## the first element will be used
+
+    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
+    ## the first element will be used
+
+    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
+    ## the first element will be used
+
+    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
+    ## the first element will be used
+
+    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
+    ## the first element will be used
+
+``` r
 kable(df)
 ```
 
@@ -293,8 +314,8 @@ kable(df)
 
 TODO: add more examples here.
 
-Example: Return the first 100 NFIP claims that for Autauga County, AL
-that happened between 2010 and 2020.
+Example: Return the first 100 NFIP claims for Autauga County, AL that
+happened between 2010 and 2020.
 
 ``` r
 df <- openFema(data_set = "fimaNfipClaims",
@@ -305,6 +326,11 @@ df <- openFema(data_set = "fimaNfipClaims",
 kable(head(df))
 ```
 
-| parameter | error                                                                      |
-|:----------|:---------------------------------------------------------------------------|
-| $filter   | Invalid type for attribute yearOfLoss. Expected number but received string |
+| agricultureStructureIndicator | asOfDate                 | baseFloodElevation | basementEnclosureCrawlspace | reportedCity            | condominiumIndicator | policyCount | countyCode | communityRatingSystemDiscount | dateOfLoss               | elevatedBuildingIndicator | elevationDifference | censusTract | floodZone | houseWorship | latitude | longitude | locationOfContents | lowestAdjacentGrade | lowestFloorElevation | numberOfFloorsInTheInsuredBuilding | nonProfitIndicator | obstructionType | occupancyType | originalConstructionDate | originalNBDate           | amountPaidOnBuildingClaim | postFIRMConstructionIndicator | rateMethod | smallBusinessIndicatorBuilding | state | totalBuildingInsuranceCoverage | totalContentsInsuranceCoverage | yearOfLoss | reportedZipcode | primaryResidence | id                       | amountPaidOnContentsClaim | elevationCertificateIndicator |
+|:------------------------------|:-------------------------|-------------------:|----------------------------:|:------------------------|:---------------------|------------:|:-----------|------------------------------:|:-------------------------|:--------------------------|--------------------:|:------------|:----------|:-------------|:---------|:----------|-------------------:|--------------------:|---------------------:|-----------------------------------:|:-------------------|:----------------|--------------:|:-------------------------|:-------------------------|--------------------------:|:------------------------------|:-----------|:-------------------------------|:------|-------------------------------:|-------------------------------:|-----------:|:----------------|:-----------------|:-------------------------|--------------------------:|------------------------------:|
+| FALSE                         | 2021-09-08T00:26:59.039Z |                164 |                           0 | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2015-12-25T05:00:00.000Z | TRUE                      |                   2 | 01001020700 | A03       | FALSE        | 32.4     | -86.4     |                  6 |               163.7 |                166.4 |                                  5 | FALSE              | 10              |             1 | 1989-01-01T05:00:00.000Z | 2005-09-02T04:00:00.000Z |                   8027.72 | TRUE                          | 1          | FALSE                          | AL    |                          30000 |                          12000 |       2015 | 36067           | TRUE             | 613f4814f2b55a0837e275d2 |                        NA |                            NA |
+| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2016-01-22T05:00:00.000Z | FALSE                     |                  NA | 01001020600 | X         | FALSE        | 32.5     | -86.5     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 1970-01-01T05:00:00.000Z | 2015-10-20T04:00:00.000Z |                        NA | FALSE                         | R          | FALSE                          | AL    |                         250000 |                         100000 |       2016 | 36067           | TRUE             | 613f4838f2b55a0837e4f668 |                        NA |                            NA |
+| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                           1 | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2017-06-22T04:00:00.000Z | TRUE                      |                  NA | 01001020400 | X         | FALSE        | 32.5     | -86.4     |                  7 |                  NA |                  0.0 |                                  2 | FALSE              | NA              |             1 | 1968-01-03T05:00:00.000Z | 2017-02-02T05:00:00.000Z |                  13203.99 | FALSE                         | 7          | FALSE                          | AL    |                          30000 |                          12000 |       2017 | 36066           | TRUE             | 613f4839f2b55a0837e50f69 |                        NA |                            NA |
+| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2012-07-01T04:00:00.000Z | FALSE                     |                  NA | 01001020500 | X         | FALSE        | 32.5     | -86.4     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 2005-01-01T05:00:00.000Z | 2009-06-11T04:00:00.000Z |                        NA | TRUE                          | 7          | FALSE                          | AL    |                          50000 |                          20000 |       2012 | 36066           | FALSE            | 613f484af2b55a0837e6069e |                        NA |                            NA |
+| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2015-06-09T04:00:00.000Z | FALSE                     |                  NA | 01001020400 | X         | FALSE        | 32.5     | -86.4     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 1978-01-01T05:00:00.000Z | 2011-10-21T04:00:00.000Z |                        NA | FALSE                         | Q          | FALSE                          | AL    |                         250000 |                         100000 |       2015 | 36066           | TRUE             | 613f484af2b55a0837e6104a |                        NA |                            NA |
+| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                            NA | 2017-06-18T04:00:00.000Z | TRUE                      |                  NA | 01001020600 | C         | FALSE        | 32.4     | -86.5     |                  7 |                  NA |                  0.0 |                                  2 | FALSE              | 60              |             1 | 1962-01-01T05:00:00.000Z | 2014-10-24T04:00:00.000Z |                  27998.88 | FALSE                         | R          | FALSE                          | AL    |                          50000 |                          20000 |       2017 | 36067           | TRUE             | 613f486af2b55a0837e8709d |                        NA |                            NA |

@@ -98,7 +98,7 @@ kable(df)
 TODO: add more examples here.
 
 
-Example: Return the first 100 NFIP claims that for Autauga County, AL that happened between 2010 and 2020.
+Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 ```{r}
 df <- openFema(data_set = "fimaNfipClaims",
                  top_n = 100,

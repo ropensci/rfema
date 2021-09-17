@@ -38,7 +38,7 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/RtmpVIVMrg/remotes511c1ee5f52a/dylan-turner25-rfema-e8d08b1/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpVIVMrg/remotes511c1ee5f52a/dylan-turner25-rfema-e8d08b1/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpnMKyQE/remotes6f171e3c21de/dylan-turner25-rfema-1a52d1b/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpnMKyQE/remotes6f171e3c21de/dylan-turner25-rfema-1a52d1b/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -57,15 +57,12 @@ library(rfema)
 
 ## Supported Datasets
 
-TODO: discuss each data set currently supported by the package.
-
-## Example Workflow
-
-First, to see the avaliable datasets currently supported by the package,
-we can run the “fema\_data\_sets()” function which calls the FEMA API
-endpoint: “<https://www.fema.gov/api/open/v1/DataSets>” and by
-default,filters the results by the data sets currently supported in the
-package.
+TODO: discuss each data set currently supported by the package. \#\#
+Example Workflow First, to see the avaliable datasets currently
+supported by the package, we can run the “fema\_data\_sets()” function
+which calls the FEMA API endpoint:
+“<https://www.fema.gov/api/open/v1/DataSets>” and by default,filters the
+results by the data sets currently supported in the package.
 
 ``` r
 df <- fema_data_sets()
@@ -276,27 +273,6 @@ my_filters <- list(crsClassCode = c(5,6))
 
 df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, 
                select = c("censusTract","crsClassCode"), filters = my_filters)
-```
-
-    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
-    ## the first element will be used
-
-    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
-    ## the first element will be used
-
-    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
-    ## the first element will be used
-
-    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
-    ## the first element will be used
-
-    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
-    ## the first element will be used
-
-    ## Warning in if (grepl(op, filters[[k]])) {: the condition has length > 1 and only
-    ## the first element will be used
-
-``` r
 kable(df)
 ```
 
@@ -337,3 +313,15 @@ kable(head(df))
 | FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2012-07-01T04:00:00.000Z | FALSE                     |                  NA | 01001020500 | X         | FALSE        | 32.5     | -86.4     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 2005-01-01T05:00:00.000Z | 2009-06-11T04:00:00.000Z |                        NA | TRUE                          | 7          | FALSE                          | AL    |                          50000 |                          20000 |       2012 | 36066           | FALSE            | 613f484af2b55a0837e6069e |                        NA |                            NA |
 | FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2015-06-09T04:00:00.000Z | FALSE                     |                  NA | 01001020400 | X         | FALSE        | 32.5     | -86.4     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 1978-01-01T05:00:00.000Z | 2011-10-21T04:00:00.000Z |                        NA | FALSE                         | Q          | FALSE                          | AL    |                         250000 |                         100000 |       2015 | 36066           | TRUE             | 613f484af2b55a0837e6104a |                        NA |                            NA |
 | FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                            NA | 2017-06-18T04:00:00.000Z | TRUE                      |                  NA | 01001020600 | C         | FALSE        | 32.4     | -86.5     |                  7 |                  NA |                  0.0 |                                  2 | FALSE              | 60              |             1 | 1962-01-01T05:00:00.000Z | 2014-10-24T04:00:00.000Z |                  27998.88 | FALSE                         | R          | FALSE                          | AL    |                          50000 |                          20000 |       2017 | 36067           | TRUE             | 613f486af2b55a0837e8709d |                        NA |                            NA |
+
+## Bulk Downloads
+
+In some cases bulk downloading a full data set file may be preferred. In
+this case, users can use the bulk\_dl() command to download a csv of the
+full data file and save it to a specified directory.
+
+``` r
+bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
+```
+
+    ## [1] "Downloading file to /home/dylan/Dropbox/rfema/FemaRegions_2021-09-17 12:12:17.csv"

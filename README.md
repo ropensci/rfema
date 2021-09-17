@@ -38,7 +38,7 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/RtmpQjm5Jp/remotes31c274a5babb/dylan-turner25-rfema-6e87ab1/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpQjm5Jp/remotes31c274a5babb/dylan-turner25-rfema-6e87ab1/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpY72wPp/remotes45222991c6cd/dylan-turner25-rfema-4695de8/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpY72wPp/remotes45222991c6cd/dylan-turner25-rfema-4695de8/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -292,3 +292,19 @@ kable(df)
 ## More Examples
 
 TODO: add more examples here.
+
+Example: Return the first 100 NFIP claims that for Autauga County, AL
+that happened between 2010 and 2020.
+
+``` r
+df <- openFema(data_set = "fimaNfipClaims",
+                 top_n = 100,
+                 filters = list(countyCode = "= 01001",
+                                yearOfLoss = ">= 2010",
+                                yearOfLoss = "<= 2020"))
+kable(head(df))
+```
+
+| parameter | error                                                                      |
+|:----------|:---------------------------------------------------------------------------|
+| $filter   | Invalid type for attribute yearOfLoss. Expected number but received string |

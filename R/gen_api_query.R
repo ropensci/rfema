@@ -50,10 +50,25 @@ gen_api_query <- function(data_set = NULL,top_n = 1000, filters = NULL, select =
     filters_n <- length(filters)
     filters_vector <- c()
     for(k in 1:filters_n){
-      if(is.character(filters[[k]])){
-        filter_temp <- paste0("(",names(filters)[k]," eq ", noquote(paste0("'",filters[[k]],"'", collapse = paste0(" or ",names(filters)[k]," eq "))),")")
+      
+      operators <- data.frame(sym = c("=",">","<","!=",">=","<="), char = c("eq","gt","lt","ne","ge","le"))
+      
+      op_temp = NULL
+      for(op in operators$sym){
+        if(grepl(op,filters[[k]])){
+          op_temp <- operators$char[which(operators$sym == op)]
+        }
+        if(is.null(op_temp)){
+          op_temp <- "eq"
+        }
+      }
+      
+      filter_temp <- trimws(gsub(paste(operators$sym, collapse = "|"),"",filters[[k]]))
+      
+      if(is.character(filter_temp)){
+        filter_temp <- paste0("(",names(filters)[k]," ",op_temp," ", noquote(paste0("'",filter_temp,"'", collapse = paste0(" or ",names(filters)[k]," ",op_temp," "))),")")
       } else {
-        filter_temp <- paste0("(",names(filters)[k]," eq ", noquote(paste0(filters[[k]], collapse = paste0(" or ",names(filters)[k]," eq "))),")")
+        filter_temp <- paste0("(",names(filters)[k]," ",op_temp," ", noquote(paste0(filter_temp, collapse = paste0(" or ",names(filters)[k]," ",op_temp," "))),")")
       }
       filters_vector <- c(filters_vector,filter_temp)
     }

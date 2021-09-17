@@ -27,9 +27,6 @@ library(rfema)
 
 ## Supported Datasets
 TODO: discuss each data set currently supported by the package.
-
-
-
 ## Example Workflow
 First, to see the avaliable datasets currently supported by the package, we can run the "fema_data_sets()" function which calls the FEMA API endpoint: "https://www.fema.gov/api/open/v1/DataSets" and by default,filters the results by the data sets currently supported in the package.
 ```{r}
@@ -116,3 +113,10 @@ kable(head(df))
 
 
 
+
+## Bulk Downloads
+In some cases bulk downloading a full data set file may be preferred. In this case, users can use the bulk_dl() command
+to download a csv of the full data file and save it to a specified directory.
+```{r}
+bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
+```

@@ -1,6 +1,6 @@
 valid_dataset <- function(data_set){
   # get df with info on fema data sets
-  fema_data_sets <- fema_data_sets()
+  fema_data_sets <- fema_data_sets(rfema_access = F)
   
   # convert user specified data set to lower case
   data_set <- tolower(data_set)

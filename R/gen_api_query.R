@@ -10,8 +10,9 @@
 #'
 #' @examples
 #' filter_list <- list(baseFloodElevation = c(5,6), countyCode = "34029" )
-#' url <- gen_api_query(data_set = "fimaNfipPolicies,top_n = 100, filters = filter_list, select = c("censusTract","countyCode","baseFloodElevation"))
-
+#' vars_to_select <- c("countyCode","baseFloodElevation")
+#' url <- gen_api_query(data_set = "fimaNfipPolicies",top_n = 100, 
+#' filters = filter_list, select = vars_to_select)
 
 gen_api_query <- function(data_set = NULL,top_n = 1000, filters = NULL, select = NULL){
  
@@ -55,7 +56,7 @@ gen_api_query <- function(data_set = NULL,top_n = 1000, filters = NULL, select =
       
       op_temp = NULL
       for(op in operators$sym){
-        if(grepl(op,filters[[k]])){
+        if(T %in% grepl(op,filters[[k]])){
           op_temp <- operators$char[which(operators$sym == op)]
         }
         if(is.null(op_temp)){

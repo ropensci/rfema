@@ -17,6 +17,9 @@ fema_data_sets <- function(){
     df <- plyr::rbind.fill(df, data.frame(t(unlist(jsonData$DataSets[k]))))
   }
   
+  # remove the html line break characters
+  df <- as.data.frame(lapply(df, function(df) gsub("\n", "", df)))
+  
  
   return(df)
 }

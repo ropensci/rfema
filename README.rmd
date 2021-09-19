@@ -5,28 +5,46 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
+library(dplyr)
 ```
 
 ## rfema (R FEMA)
 
-rfema allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
+[![R-CMD-check](https://github.com/ropensci/ijtiff/workflows/R-CMD-check/badge.svg)]
+
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+
+
+
+
+## Introduction
+`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including (but not limited to) the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
 
 FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be intimidating for those not used to working with APIs. This package contains a set of functions that allows users to identify the data they need and query the API to get that data.
 
-In accordance with the openFEMA terms and conditions: This product uses the Federal Emergency Management Agency’s OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s).
+In accordance with the openFEMA terms and conditions: This product uses the Federal Emergency Management Agency’s OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preffered citation for openFEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
 
 
 ## Installation
-Anyone who stumbles upon this package and wants to use it right now can do so by cloning this GitHub repo or by using the install_github() function from the devtools package.
+Anyone who stumbles upon this package and wants to use it right now can do so by cloning this GitHub repo or by using the `install_github()` function from the devtools package.
 ```{r}
-#install.packages("devtools") # install if not already in library
+install.packages("devtools") # install if not already in library
 devtools::install_github("dylan-turner25/rfema", force = TRUE)
 library(rfema)
 ```
 
 
 ## Supported Datasets
-TODO: discuss each data set currently supported by the package.
+Below is a short description of the data sets that are currently supported. `rfema` is designed to work with any of FEMAs data sets, but the following data sets have been explicitly tested.
+
+```{r, echo = F}
+supported_data <- fema_data_sets() %>% dplyr::select(name,title, dataDictionary, distribution.datasetSize , recordCount ) %>%
+  dplyr::rename(data_set = name, size = distribution.datasetSize)
+kable(supported_data,)
+```
+
+
 ## Example Workflow
 First, to see the avaliable datasets currently supported by the package, we can run the "fema_data_sets()" function which calls the FEMA API endpoint: "https://www.fema.gov/api/open/v1/DataSets" and by default,filters the results by the data sets currently supported in the package.
 ```{r}
@@ -43,6 +61,7 @@ df <- fema_data_fields(data_set = "fimaNfipPolicies")
 df$Description<- paste0(substr(df$Description,1,50),"...") # description shortened in this case to make table smaller
 kable(head(df))
 ```
+
 The returned data frame is a data dictionary for, in this case, the National Flood Insurance Programs's Policies dataset and includes the name of each variable in the data set, a "Title" for each variable, the variable type, a description of the variable, and a column indicating if the variable is "Searchable". Searchable variables are those than can be used to filter API queries. If we decide to pull some of this data, we can do so using the openFema() function.
 
 The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is neccesary to itterate over multiple API calls. The function handles this automatically, but will warn you before itterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the opperation. As can be seen below, running the following code will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set.
@@ -98,17 +117,34 @@ kable(df)
 TODO: add more examples here.
 
 
-Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
+### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 ```{r}
 df <- openFema(data_set = "fimaNfipClaims",
                  top_n = 100,
                  filters = list(countyCode = "= 01001",
                                 yearOfLoss = ">= 2010",
                                 yearOfLoss = "<= 2020"))
-kable(head(df))
 ```
 
 
+### Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.
+```{r}
+#valid_parameters("HazardMitigationGrants") # see which parameter can be used for filtering the Hazard Mitigation Grants data set
+
+#parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") # check example values for "incidentType"
+
+
+#parameter_values(data_set = "HazardMitigationGrants", data_field = "state") # check to see how "state" is formatted
+
+# construct a list containing filters for Hurricane and Florida
+#filter_list <- c(incidentType = c("Hurricane"),
+#                 state = c("Florida")) 
+
+# pass filter_list to the openFema function to retreieve data.
+#df <- openFema(data_set = "HazardMitigationGrants", filters = filter_list, 
+#               ask_before_call = FALSE)
+#kable(head(df))
+```
 
 
 
@@ -117,6 +153,6 @@ kable(head(df))
 ## Bulk Downloads
 In some cases bulk downloading a full data set file may be preferred. In this case, users can use the bulk_dl() command
 to download a csv of the full data file and save it to a specified directory.
-```{r}
+```{r,cache = T}
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```

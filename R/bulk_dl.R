@@ -13,7 +13,7 @@
 bulk_dl <- function(data_set, output_dir = NULL,file_name = NULL, size_warning = T){
   
   # get info on all data sets fema offers
-  ds <- fema_data_sets(rfema_access = F)
+  ds <- fema_data_sets()
   
   # make sure data set is valid and uses the FEMA 
   # consistent capitalization

@@ -1,12 +1,22 @@
 
 ## rfema (R FEMA)
 
-rfema allows users to access The Federal Emergency Management Agency’s
+\[![R-CMD-check](https://github.com/ropensci/ijtiff/workflows/R-CMD-check/badge.svg)\]
+
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+
+## Introduction
+
+`rfema` allows users to access The Federal Emergency Management Agency’s
 (FEMA) publicly available data through their API. The package provides a
 set of functions to easily navigate and access data from the National
 Flood Insurance Program along with FEMA’s various disaster aid programs,
-including the Hazard Mitigation Grant Program, the Public Assistance
-Grant Program, and the Individual Assistance Grant Program.
+including (but not limited to) the Hazard Mitigation Grant Program, the
+Public Assistance Grant Program, and the Individual Assistance Grant
+Program.
 
 FEMA data is publicly available at the open FEMA website
 (<https://www.fema.gov/about/openfema/data-sets>) and is avaliable for
@@ -22,25 +32,33 @@ In accordance with the openFEMA terms and conditions: This product uses
 the Federal Emergency Management Agency’s OpenFEMA API, but is not
 endorsed by FEMA. The Federal Government or FEMA cannot vouch for the
 data or analyses derived from these data after the data have been
-retrieved from the Agency’s website(s).
+retrieved from the Agency’s website(s). Guidance on FEMA’s preffered
+citation for openFEMA data can be found at:
+<https://www.fema.gov/about/openfema/terms-conditions>
 
 ## Installation
 
 Anyone who stumbles upon this package and wants to use it right now can
-do so by cloning this GitHub repo or by using the install\_github()
+do so by cloning this GitHub repo or by using the `install_github()`
 function from the devtools package.
 
 ``` r
-#install.packages("devtools") # install if not already in library
+install.packages("devtools") # install if not already in library
+```
+
+    ## Installing package into '/home/dylan/R/x86_64-pc-linux-gnu-library/4.1'
+    ## (as 'lib' is unspecified)
+
+``` r
 devtools::install_github("dylan-turner25/rfema", force = TRUE)
 ```
 
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/RtmpnMKyQE/remotes6f171e3c21de/dylan-turner25-rfema-1a52d1b/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpnMKyQE/remotes6f171e3c21de/dylan-turner25-rfema-1a52d1b/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpRA7NM5/remotes139b920b55b1b/dylan-turner25-rfema-df4f80a/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpRA7NM5/remotes139b920b55b1b/dylan-turner25-rfema-df4f80a/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
-    ##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
+    ##      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
     ##   ─  checking for empty or unneeded directories
     ##    Omitted ‘LazyData’ from DESCRIPTION
@@ -57,12 +75,22 @@ library(rfema)
 
 ## Supported Datasets
 
-TODO: discuss each data set currently supported by the package. \#\#
-Example Workflow First, to see the avaliable datasets currently
-supported by the package, we can run the “fema\_data\_sets()” function
-which calls the FEMA API endpoint:
-“<https://www.fema.gov/api/open/v1/DataSets>” and by default,filters the
-results by the data sets currently supported in the package.
+Below is a short description of the data sets that are currently
+supported. `rfema` is designed to work with any of FEMAs data sets, but
+the following data sets have been explicitly tested.
+
+| data\_set        | title                       | dataDictionary                                                           | size                 | recordCount |
+|:-----------------|:----------------------------|:-------------------------------------------------------------------------|:---------------------|:------------|
+| FimaNfipPolicies | FIMA NFIP Redacted Policies | <https://www.fema.gov/openfema-data-page/fima-nfip-redacted-policies-v1> | x-large (&gt; 10GB)  | 59341663    |
+| FimaNfipClaims   | FIMA NFIP Redacted Claims   | <https://www.fema.gov/openfema-data-page/fima-nfip-redacted-claims-v1>   | large (500MB - 10GB) | 2547311     |
+
+## Example Workflow
+
+First, to see the avaliable datasets currently supported by the package,
+we can run the “fema\_data\_sets()” function which calls the FEMA API
+endpoint: “<https://www.fema.gov/api/open/v1/DataSets>” and by
+default,filters the results by the data sets currently supported in the
+package.
 
 ``` r
 df <- fema_data_sets()
@@ -293,8 +321,7 @@ kable(df)
 
 TODO: add more examples here.
 
-Example: Return the first 100 NFIP claims for Autauga County, AL that
-happened between 2010 and 2020.
+### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 
 ``` r
 df <- openFema(data_set = "fimaNfipClaims",
@@ -302,17 +329,27 @@ df <- openFema(data_set = "fimaNfipClaims",
                  filters = list(countyCode = "= 01001",
                                 yearOfLoss = ">= 2010",
                                 yearOfLoss = "<= 2020"))
-kable(head(df))
 ```
 
-| agricultureStructureIndicator | asOfDate                 | baseFloodElevation | basementEnclosureCrawlspace | reportedCity            | condominiumIndicator | policyCount | countyCode | communityRatingSystemDiscount | dateOfLoss               | elevatedBuildingIndicator | elevationDifference | censusTract | floodZone | houseWorship | latitude | longitude | locationOfContents | lowestAdjacentGrade | lowestFloorElevation | numberOfFloorsInTheInsuredBuilding | nonProfitIndicator | obstructionType | occupancyType | originalConstructionDate | originalNBDate           | amountPaidOnBuildingClaim | postFIRMConstructionIndicator | rateMethod | smallBusinessIndicatorBuilding | state | totalBuildingInsuranceCoverage | totalContentsInsuranceCoverage | yearOfLoss | reportedZipcode | primaryResidence | id                       | amountPaidOnContentsClaim | elevationCertificateIndicator |
-|:------------------------------|:-------------------------|-------------------:|----------------------------:|:------------------------|:---------------------|------------:|:-----------|------------------------------:|:-------------------------|:--------------------------|--------------------:|:------------|:----------|:-------------|:---------|:----------|-------------------:|--------------------:|---------------------:|-----------------------------------:|:-------------------|:----------------|--------------:|:-------------------------|:-------------------------|--------------------------:|:------------------------------|:-----------|:-------------------------------|:------|-------------------------------:|-------------------------------:|-----------:|:----------------|:-----------------|:-------------------------|--------------------------:|------------------------------:|
-| FALSE                         | 2021-09-08T00:26:59.039Z |                164 |                           0 | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2015-12-25T05:00:00.000Z | TRUE                      |                   2 | 01001020700 | A03       | FALSE        | 32.4     | -86.4     |                  6 |               163.7 |                166.4 |                                  5 | FALSE              | 10              |             1 | 1989-01-01T05:00:00.000Z | 2005-09-02T04:00:00.000Z |                   8027.72 | TRUE                          | 1          | FALSE                          | AL    |                          30000 |                          12000 |       2015 | 36067           | TRUE             | 613f4814f2b55a0837e275d2 |                        NA |                            NA |
-| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2016-01-22T05:00:00.000Z | FALSE                     |                  NA | 01001020600 | X         | FALSE        | 32.5     | -86.5     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 1970-01-01T05:00:00.000Z | 2015-10-20T04:00:00.000Z |                        NA | FALSE                         | R          | FALSE                          | AL    |                         250000 |                         100000 |       2016 | 36067           | TRUE             | 613f4838f2b55a0837e4f668 |                        NA |                            NA |
-| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                           1 | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2017-06-22T04:00:00.000Z | TRUE                      |                  NA | 01001020400 | X         | FALSE        | 32.5     | -86.4     |                  7 |                  NA |                  0.0 |                                  2 | FALSE              | NA              |             1 | 1968-01-03T05:00:00.000Z | 2017-02-02T05:00:00.000Z |                  13203.99 | FALSE                         | 7          | FALSE                          | AL    |                          30000 |                          12000 |       2017 | 36066           | TRUE             | 613f4839f2b55a0837e50f69 |                        NA |                            NA |
-| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2012-07-01T04:00:00.000Z | FALSE                     |                  NA | 01001020500 | X         | FALSE        | 32.5     | -86.4     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 2005-01-01T05:00:00.000Z | 2009-06-11T04:00:00.000Z |                        NA | TRUE                          | 7          | FALSE                          | AL    |                          50000 |                          20000 |       2012 | 36066           | FALSE            | 613f484af2b55a0837e6069e |                        NA |                            NA |
-| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                             8 | 2015-06-09T04:00:00.000Z | FALSE                     |                  NA | 01001020400 | X         | FALSE        | 32.5     | -86.4     |                  0 |                  NA |                  0.0 |                                  1 | FALSE              | NA              |             1 | 1978-01-01T05:00:00.000Z | 2011-10-21T04:00:00.000Z |                        NA | FALSE                         | Q          | FALSE                          | AL    |                         250000 |                         100000 |       2015 | 36066           | TRUE             | 613f484af2b55a0837e6104a |                        NA |                            NA |
-| FALSE                         | 2021-07-25T01:39:04.381Z |                 NA |                          NA | Temporarily Unavailable | N                    |           1 | 01001      |                            NA | 2017-06-18T04:00:00.000Z | TRUE                      |                  NA | 01001020600 | C         | FALSE        | 32.4     | -86.5     |                  7 |                  NA |                  0.0 |                                  2 | FALSE              | 60              |             1 | 1962-01-01T05:00:00.000Z | 2014-10-24T04:00:00.000Z |                  27998.88 | FALSE                         | R          | FALSE                          | AL    |                          50000 |                          20000 |       2017 | 36067           | TRUE             | 613f486af2b55a0837e8709d |                        NA |                            NA |
+### Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.
+
+``` r
+#valid_parameters("HazardMitigationGrants") # see which parameter can be used for filtering the Hazard Mitigation Grants data set
+
+#parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") # check example values for "incidentType"
+
+
+#parameter_values(data_set = "HazardMitigationGrants", data_field = "state") # check to see how "state" is formatted
+
+# construct a list containing filters for Hurricane and Florida
+#filter_list <- c(incidentType = c("Hurricane"),
+#                 state = c("Florida")) 
+
+# pass filter_list to the openFema function to retreieve data.
+#df <- openFema(data_set = "HazardMitigationGrants", filters = filter_list, 
+#               ask_before_call = FALSE)
+#kable(head(df))
+```
 
 ## Bulk Downloads
 
@@ -324,4 +361,4 @@ full data file and save it to a specified directory.
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
 
-    ## [1] "Downloading file to /home/dylan/Dropbox/rfema/FemaRegions_2021-09-17 12:12:17.csv"
+    ## [1] "Downloading file to /home/dylan/Dropbox/rfema/FemaRegions_2021-09-19 07:22:40.csv"

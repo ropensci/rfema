@@ -4,11 +4,7 @@
 \alias{fema_data_sets}
 \title{Get a dataframe of avaliable FEMA data sets}
 \usage{
-fema_data_sets(rfema_access = T)
-}
-\arguments{
-\item{rfema_access}{logical indicating whether to return only the datasets that are accessable through the rfema package (default = TRUE).
-Set to FALSE to get information on all data sets FEMA offers.}
+fema_data_sets()
 }
 \value{
 Returns a data frame containing information about each data set avaliable.
@@ -17,6 +13,5 @@ Returns a data frame containing information about each data set avaliable.
 Get a dataframe of avaliable FEMA data sets
 }
 \examples{
-fema_data_sets(rfema_access  = TRUE)
-fema_data_sets(rfema_access  = FALSE)
+fema_data_sets()
 }

@@ -102,6 +102,11 @@ openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_
   
 }
   
+  # remove the html line breaks from returned data frame (if there are any)  
+ fullData <- as.data.frame(lapply(fullData, function(fullData) gsub("\n", "", fullData)))
+  
+  
+  
   if(is.null(file_type)){
     return(fullData)
   } 

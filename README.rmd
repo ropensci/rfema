@@ -36,12 +36,13 @@ library(rfema)
 
 
 ## Avaliable Datasets
-To see the available datasets currently supported by the package, we can run the `fema_data_sets()` function which calls the FEMA API endpoint: https://www.fema.gov/api/open/v1/DataSets
+To see the all of the datasets avaliable through `rfema`, we can run the `fema_data_sets()` function which calls the FEMA API endpoint: https://www.fema.gov/api/open/v1/DataSets
 
-```{r, include = FALSE}
+```{r}
 data_sets <- fema_data_sets() 
 data_sets$description <- paste0(substr(data_sets$description,1,50),"...") # description shortened in this case to make table smaller
-kable(head(data_sets)) # only displaying first 5 data sets
+
+kable(head(data_sets)) # only displaying first few data sets
 ```
 
 
@@ -123,12 +124,14 @@ df <- openFema(data_set = "fimaNfipClaims",
 
 ### Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.
 ```{r}
-valid_parameters("HazardMitigationGrants") # see which parameter can be used for filtering the Hazard Mitigation Grants data set
+# see which parameter can be used for filtering the Hazard Mitigation Grants data set
+valid_parameters("HazardMitigationGrants") 
 
-parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") # check example values for "incidentType"
+# check example values for "incidentType"
+parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") 
 
-
-parameter_values(data_set = "HazardMitigationGrants", data_field = "state") # check to see how "state" is formatted
+# check to see how "state" is formatted
+parameter_values(data_set = "HazardMitigationGrants", data_field = "state") 
 
 # construct a list containing filters for Hurricane and Florida
 filter_list <- c(incidentType = c("Hurricane"),

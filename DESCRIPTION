@@ -6,7 +6,7 @@ Authors@R:
            family = "Turner",
            role = c("aut", "cre"),
            email = "dylan.turner25@uga.edu",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "000-0002-0915-7384"))
 Description: rfema allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -16,5 +16,6 @@ RoxygenNote: 7.1.1
 Imports: 
     dplyr,
     httr,
+    plyr,
     rvest,
     utils

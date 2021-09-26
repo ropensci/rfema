@@ -7,8 +7,8 @@
 openFema(
   data_set,
   top_n = 1000,
-  filters,
-  select,
+  filters = NULL,
+  select = NULL,
   ask_before_call = T,
   file_type = NULL,
   output_dir = NULL
@@ -39,4 +39,7 @@ The function allows users to pull data directly from the FEMA API and have it re
 The FEMA API limits a single query to 1000 records, thus for a query resulting in more than 1000 records, an iterative approach is
 necessary to get all of the records. The function handles this and will, by default, warn the user of how many iterations are needed
 to get all the records matching their query, letting the user decide choose whether to continue.
+}
+\examples{
+data <- openFema(data_set = "fimaNfipClaims",top_n = 100,filters = list(countyCode = "10001"))
 }

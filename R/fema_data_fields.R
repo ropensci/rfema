@@ -13,21 +13,26 @@ fema_data_fields <- function(data_set){
   #' 
   #' @importFrom dplyr %>%
   
+  # convert data_set to fema consistent capitalization
+  data_set <- valid_dataset(data_set)
   
+  # get df of all fema data sets
+  fema_data_sets <- fema_data_sets()
   
+  # determine most recent version of the data set
+  version <- as.character(max(as.numeric(fema_data_sets[which(fema_data_sets$name == data_set),"version"])))
   
-  data_set <- tolower(data_set)
+  # get url for the data dictionary from the fema_data_sets variable using most recent version of data set
+  url <- fema_data_sets$dataDictionary[ which( fema_data_sets$name == data_set & 
+                                                 fema_data_sets$version == version ) ]
   
-  data_set_urls <- data.frame(source = c("FimaNfipClaims","FimaNfipPolicies","HousingAssistanceOwners"),
-                              url = c("https://www.fema.gov/openfema-data-page/fima-nfip-redacted-claims-v1",
-                                      "https://www.fema.gov/openfema-data-page/fima-nfip-redacted-policies-v1",
-                                      "https://www.fema.gov/openfema-data-page/housing-assistance-program-data-owners-v2"))
-  
-  url <- data_set_urls$url[which( tolower(data_set_urls$source) == data_set)]
-  
+  # get page content from the data dictionary url
   page_content <- rvest::read_html(url)
+  
+  # get just the tables
   tables <- page_content %>% rvest::html_table(fill = TRUE)
   
+  # search each table itteratively untill the one holding the data descriptions is found
   found_table <- 0
   table_num <- 0
   while(found_table == 0){

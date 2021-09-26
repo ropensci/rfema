@@ -18,9 +18,9 @@
 #' @export
 #' @importFrom utils write.table
 #' @examples
+#' data <- openFema(data_set = "fimaNfipClaims",top_n = 100,filters = list(countyCode = "10001"))
 
-
-openFema <- function(data_set, top_n = 1000, filters, select, ask_before_call = T, file_type = NULL, output_dir = NULL){
+openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL){
   
   # construct the api query using the gen_api_query() function
   api_query <- gen_api_query(data_set = data_set,
@@ -101,6 +101,11 @@ openFema <- function(data_set, top_n = 1000, filters, select, ask_before_call = 
   }
   
 }
+  
+  # remove the html line breaks from returned data frame (if there are any)  
+ fullData <- as.data.frame(lapply(fullData, function(fullData) gsub("\n", "", fullData)))
+  
+  
   
   if(is.null(file_type)){
     return(fullData)

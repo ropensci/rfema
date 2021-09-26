@@ -11,6 +11,7 @@
 #' valid_parameters("fimaNfipPolicies")
 
 valid_parameters <- function(data_set = NULL){
+  data_set <- valid_dataset(data_set = data_set)
   data_fields <- fema_data_fields(data_set) 
   data_fields <- data_fields[which(data_fields$`Is Searchable` == "yes"),] # remove rows for parameters that aren't searchable
   params <- data_fields$Name

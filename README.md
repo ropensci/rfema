@@ -5,6 +5,15 @@
 -   [Avaliable Datasets](#avaliable-datasets)
 -   [Example Workflow](#example-workflow)
 -   [More Examples](#more-examples)
+    -   [Example: Return the first 100 NFIP claims for Autauga County,
+        AL that happened between 2010
+        and 2020.](#example-return-the-first-100-nfip-claims-for-autauga-county-al-that-happened-between-2010-and-2020)
+    -   [Example: Get data on all Hazard Mitigation Grants associated
+        with Hurricanes in
+        Florida.](#example-get-data-on-all-hazard-mitigation-grants-associated-with-hurricanes-in-florida)
+    -   [Example: Determine how much money was awarded by FEMA for
+        rental assistance following Hurricane
+        Irma.](#example-determine-how-much-money-was-awarded-by-fema-for-rental-assistance-following-hurricane-irma)
 -   [Bulk Downloads](#bulk-downloads)
 
 ## rfema (R FEMA)
@@ -63,7 +72,7 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
     ## 
-    ##      checking for file ‘/tmp/Rtmp2pXSlc/remotes3a0e45af41965/dylan-turner25-rfema-db9d469/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/Rtmp2pXSlc/remotes3a0e45af41965/dylan-turner25-rfema-db9d469/DESCRIPTION’
+    ##      checking for file ‘/tmp/RtmpbEz4zC/remotes3a2ed12b6f03e/dylan-turner25-rfema-145cfca/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmpbEz4zC/remotes3a2ed12b6f03e/dylan-turner25-rfema-145cfca/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -75,6 +84,9 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
 
     ## Installing package into '/home/dylan/R/x86_64-pc-linux-gnu-library/4.1'
     ## (as 'lib' is unspecified)
+
+    ## Warning in i.p(...): installation of package '/tmp/RtmpbEz4zC/file3a2ed5bb59cb0/
+    ## rfema_0.0.0.9000.tar.gz' had non-zero exit status
 
 ``` r
 library(rfema)

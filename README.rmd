@@ -1,5 +1,10 @@
 ---
-output: github_document
+# output: github_document
+
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -56,11 +61,12 @@ df$Description <- paste0(substr(df$Description,1,50),"...") # description shorte
 kable(head(df))
 ```
 
-The returned data frame is a data dictionary for, in this case, the National Flood Insurance Programs's Policies data set and includes the name of each variable in the data set, a "Title" for each variable, the variable type, a description of the variable, and a column indicating if the variable is "Searchable". Searchable variables are those than can be used to filter API queries. If we decide to pull some of this data, we can do so using the `openFema()` function.
 
-The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to itterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `openFema(data_set = "fimaNfipPolicies")` will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
 
-```{r}
+The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `openFema(data_set = "fimaNfipPolicies")` will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
+
+
+```{r,echo=FALSE, r,echo=TRUE}
 "[1] 59341663 matching records found. At 1000 records per call, it will take 59342 individual API calls to get all matching records. Continue?"
 ```
 
@@ -107,7 +113,6 @@ kable(df)
 
 ## More Examples
 
-
 ### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 ```{r}
 df <- openFema(data_set = "fimaNfipClaims",
@@ -140,9 +145,6 @@ kable(head(df))
 ```
 
 
-
-
-
 ### Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.
 
 Get a dataset description for the `HousingAssistanceRenters` data set to see if this is the right data set for the question
@@ -173,7 +175,7 @@ dd <- openFema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
 
 # filter disaster declarations to those with "hurricane" in the name
 hurricanes <- distinct(dd %>% filter(grepl("hurricane",tolower(disasterName))) %>% select(disasterName, disasterNumber))
-print(hurricanes)
+kable(head(hurricanes))
 
 
 ```
@@ -201,11 +203,16 @@ assistance_irma <- openFema(data_set = "HousingAssistanceRenters", filters = fil
 
 ```
 
-Now we can answer our origonal question: How much did FEMA awarded for rental assistance following Hurricane Irma?
+Check out the returned data
 ```{r}
 # check out the returned data
-head(assistance_irma)
+kable(head(assistance_irma))
 
+```
+
+
+Now we can answer our origonal question: How much did FEMA awarded for rental assistance following Hurricane Irma?
+```{r}
 # sum the rentalAmount Column
 rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
 
@@ -217,25 +224,11 @@ print(paste0("$",round(rent_assistance,2)," million was awarded by FEMA for rent
 ```
 
 
-# check example values for "incidentType"
-parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") 
-
-# check to see how "state" is formatted
-parameter_values(data_set = "HazardMitigationGrants", data_field = "state") 
-
-# construct a list containing filters for Hurricane and Florida
-filter_list <- c(incidentType = c("Hurricane"),
-                 state = c("Florida")) 
-
-# pass filter_list to the openFema function to retreieve data.
-df <- openFema(data_set = "HazardMitigationGrants", filters = filter_list, 
-               ask_before_call = FALSE)
-kable(head(df))
-```
 
 ## Bulk Downloads
 In some cases bulk downloading a full data set file may be preferred. In this case, users can use the bulk_dl() command
 to download a csv of the full data file and save it to a specified directory.
+
 ```{r,cache = T}
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```

@@ -22,9 +22,14 @@ fema_data_fields <- function(data_set){
   # determine most recent version of the data set
   version <- as.character(max(as.numeric(fema_data_sets[which(fema_data_sets$name == data_set),"version"])))
   
+<<<<<<< HEAD
   # get url for the data dictionary from the fema_data_sets variable using most recent version of data set
   url <- fema_data_sets$dataDictionary[ which( fema_data_sets$name == data_set & 
                                                  fema_data_sets$version == version ) ]
+=======
+  # get url for the data dictionary from the fema_data_sets variable
+  url <- fema_data_sets$dataDictionary[ which( fema_data_sets$name == data_set ) ]
+>>>>>>> 0d62dda3756309cbb7399f46314b7742f907182d
   
   # get page content from the data dictionary url
   page_content <- rvest::read_html(url)

@@ -1,4 +1,12 @@
 
+-   [rfema (R FEMA)](#rfema-r-fema)
+-   [Introduction](#introduction)
+-   [Installation](#installation)
+-   [Avaliable Datasets](#avaliable-datasets)
+-   [Example Workflow](#example-workflow)
+-   [More Examples](#more-examples)
+-   [Bulk Downloads](#bulk-downloads)
+
 ## rfema (R FEMA)
 
 ![R-CMD-check](https://github.com/ropensci/ijtiff/workflows/R-CMD-check/badge.svg)
@@ -54,13 +62,8 @@ devtools::install_github("dylan-turner25/rfema", force = TRUE)
 
     ## Downloading GitHub repo dylan-turner25/rfema@HEAD
 
-    ## lifecycle (1.0.0 -> 1.0.1) [CRAN]
-
-    ## Installing 1 packages: lifecycle
-    ## Installing package into '/home/dylan/R/x86_64-pc-linux-gnu-library/4.1'
-    ## (as 'lib' is unspecified)
-
-    ##      checking for file ‘/tmp/RtmprwS7Eu/remotes381645ed966bf/dylan-turner25-rfema-0d62dda/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/RtmprwS7Eu/remotes381645ed966bf/dylan-turner25-rfema-0d62dda/DESCRIPTION’
+    ## 
+    ##      checking for file ‘/tmp/Rtmp2pXSlc/remotes3a0e45af41965/dylan-turner25-rfema-db9d469/DESCRIPTION’ ...  ✓  checking for file ‘/tmp/Rtmp2pXSlc/remotes3a0e45af41965/dylan-turner25-rfema-db9d469/DESCRIPTION’
     ##   ─  preparing ‘rfema’:
     ##      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
     ##   ─  checking for LF line-endings in source and make files and shell scripts
@@ -94,7 +97,7 @@ kable(head(data_sets)) # only displaying first few data sets
 |:------------|:----------------------------------------------|:--------------------------------------------------|:----------------------------------------------------|:-------------------------------------------------------------------------------------|:--------------------|:-------------------------|:--------------------------------------------------------------------------------------|:----------------------|:---------------------------|:---------------------------------------------------------------------------------------|:----------------------|:---------------------------|:---------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------|:-------------------------|:------------------------------------|:-------------|:--------------------|:------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|:-----|:--------|:-----------|:------------|:-------------------|:--------|:--------|:---------------------|:------------|:-------------------|:---------|:-----------------------|:-------------------------|:----------------|:-----------|:-----------------------------------------|:-------------------------|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------|:-------------------------|:----------|:-------|:-------------------------|:---------|:--------------------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:----------|:----------|:----------|:----------|:----------|:-----------|
 | openfema-1  | PublicAssistanceFundedProjectsSummaries       | Public Assistance Funded Project Summaries        | FEMA provides supplemental Federal disaster grant … | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv>       | csv                 | small (10MB - 50MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json>       | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona>       | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries>       | <https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1>       | public, assistance, disaster, grant, funding, sub-grantees                                            | 2019-05-30T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/assistance/public>                                                                                                                             | 1980-02-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Public Assistance    | true        | R/P1D              | en-US    |                        | 2010-01-21T05:00:00.000Z |                 | FALSE      | bd507ed0181bba91866372a0a5d3c3e4         | 2021-09-25T16:35:28.371Z | 169879      |                                                                                                                                                                                                     |                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 2021-09-25T16:35:28.371Z | 5dd723598ca22d24d423eb6f | NA        | NA     | NA                       | NA       | NA                  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
 | openfema-1  | PublicAssistanceFundedProjectsSummaries       | Public Assistance Funded Project Summaries        | FEMA provides supplemental Federal disaster grant … | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv>       | csv                 | small (10MB - 50MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json>       | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona>       | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries>       | <https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1>       | public, assistance, disaster, grant, funding, sub-grantees                                            | 2019-05-30T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/assistance/public>                                                                                                                             | 1980-02-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Public Assistance    | true        | R/P1D              | en-US    |                        | 2010-01-21T05:00:00.000Z |                 | FALSE      | bd507ed0181bba91866372a0a5d3c3e4         | 2021-09-25T16:35:28.371Z | 169879      |                                                                                                                                                                                                     |                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 2021-09-25T16:35:28.371Z | 5dd723598ca22d24d423eb6f | NA        | NA     | NA                       | NA       | NA                  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
-| openfema-26 | FemaWebDeclarationAreas                       | FEMA Web Declaration Areas                        | This data set contains general information on decl… | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv>                       | csv                 | medium (50MB - 500MB)    | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json>                       | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona>                       | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas>                       | <https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1>                        | disaster, declaration, fema website                                                                   | 2019-09-26T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/disasters>                                                                                                                                     | 1960-11-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Disaster Information | true        | R/PT20M            | en-US    |                        | NA                       |                 | FALSE      | 89eaca0ba42130ddbd5477ed92fee30b         | 2021-09-26T09:52:46.268Z | 437476      |                                                                                                                                                                                                     |                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 2021-09-26T09:52:46.268Z | 5dd723598ca22d24d423eb73 | NA        | NA     | NA                       | NA       | NA                  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
+| openfema-26 | FemaWebDeclarationAreas                       | FEMA Web Declaration Areas                        | This data set contains general information on decl… | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv>                       | csv                 | medium (50MB - 500MB)    | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json>                       | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona>                       | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas>                       | <https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1>                        | disaster, declaration, fema website                                                                   | 2019-09-26T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/disasters>                                                                                                                                     | 1960-11-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Disaster Information | true        | R/PT20M            | en-US    |                        | NA                       |                 | FALSE      | 89eaca0ba42130ddbd5477ed92fee30b         | 2021-09-26T11:29:27.087Z | 437476      |                                                                                                                                                                                                     |                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 2021-09-26T11:29:27.087Z | 5dd723598ca22d24d423eb73 | NA        | NA     | NA                       | NA       | NA                  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
 | openfema-28 | HazardMitigationAssistanceMitigatedProperties | Hazard Mitigation Assistance Mitigated Properties | This dataset contains the properties that were mit… | <https://www.fema.gov/api/open/v1/HazardMitigationAssistanceMitigatedProperties.csv> | csv                 | small (10MB - 50MB)      | <https://www.fema.gov/api/open/v1/HazardMitigationAssistanceMitigatedProperties.json> | json                  | small (10MB - 50MB)        | <https://www.fema.gov/api/open/v1/HazardMitigationAssistanceMitigatedProperties.jsona> | jsona                 | small (10MB - 50MB)        | <https://www.fema.gov/api/open/v1/HazardMitigationAssistanceMitigatedProperties> | <https://www.fema.gov/openfema-data-page/hazard-mitigation-assistance-mitigated-properties-v1> | hazard, mitigation, disaster, property, project, assistance, hmgp, grant, fma, flood pdm pre-disaster | NA                       | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/grants/mitigation>                                                                                                                             | 1989-01-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Hazard Mitigation    | true        | R/P1D              | en-US    |                        | 2018-03-09T05:00:00.000Z |                 | TRUE       | bccd9bde7f6722a223cd15150cc0f5e9         | 2021-09-25T16:33:55.865Z | 64208       | This dataset has been deprecated and will no longer be available by the date specified. It is recommended that the new endpoint be used. See the OpenFEMA documentation for additional information. | <https://www.fema.gov/openfema-data-page/hazard-mitigation-assistance-mitigated-properties-v2> | A newer version of this OpenFEMA data set has been released. This older dataset version will no longer be updated and will be archived by the end of April 2020. The following page details the latest version of this data set: <https://www.fema.gov/openfema-data-page/hazard-mitigation-assistance-mitigated-properties-v2>. CSV and JSON Files can be downloaded from the ‘Full Data’ section.To access the dataset through an API endpoint, visit the ‘API Endpoint’ section of the above page. Accessing data in this fashion permits data filtering, sorting, and field selection. The OpenFEMA API Documentation page provides information on API usage. | 2021-09-25T16:33:55.865Z | 5dd723598ca22d24d423eb77 |           |        | 2020-04-30T04:00:00.000Z | NA       | NA                  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
 | openfema-36 | FemaRegions                                   | FEMA Regions                                      | Provides the list of FEMA Regions. The dataset in…  | <https://www.fema.gov/api/open/v1/FemaRegions.csv>                                   | csv                 | tiny (&lt; 10 MB)        | <https://www.fema.gov/api/open/v1/FemaRegions.json>                                   | json                  | tiny (&lt; 10 MB)          | <https://www.fema.gov/api/open/v1/FemaRegions.jsona>                                   | jsona                 | tiny (&lt; 10 MB)          | <https://www.fema.gov/api/open/v1/FemaRegions>                                   | <https://www.fema.gov/openfema-data-page/fema-regions-v1>                                      | regions                                                                                               | 2020-06-12T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      |                                                                                                                                                                      |             | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Miscellaneous        | true        | irregular          | en-US    |                        | NA                       |                 | TRUE       | 282c8b7a2bb6e7f54ab43e5b726f7511         | 2021-03-26T17:50:27.502Z | 11          | This dataset has been deprecated and will no longer be available by the date specified. It is recommended that the new endpoint be used. See the OpenFEMA documentation for additional information. | <https://www.fema.gov/openfema-data-page/fema-regions-v2>                                      | A newer version of this OpenFEMA data set has been released. This older dataset version will no longer be updated and will be archived by the date specified. The following page details the latest version of this data set: <https://www.fema.gov/openfema-data-page/fema-regions-v2>. CSV and JSON Files can be downloaded from the ‘Full Data’ section.To access the dataset through an API endpoint, visit the ‘API Endpoint’ section of the above page. Accessing data in this fashion permits data filtering, sorting, and field selection. The OpenFEMA API Documentation page provides information on API usage.                                         | 2021-03-26T17:50:27.502Z | 5dd723598ca22d24d423eb7f | NA        | NA     | 2020-09-12T04:00:00.000Z | NA       | NA                  | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
 | openfema-22 | EmergencyManagementPerformanceGrants          | Emergency Management Performance Grants           | This dataset contains EMPG recipients as reported … | <https://www.fema.gov/api/open/v1/EmergencyManagementPerformanceGrants.csv>          | csv                 | tiny (&lt; 10MB)         | <https://www.fema.gov/api/open/v1/EmergencyManagementPerformanceGrants.json>          | json                  | tiny (&lt; 10MB)           | <https://www.fema.gov/api/open/v1/EmergencyManagementPerformanceGrants.jsona>          | jsona                 | tiny (&lt; 10MB)           | <https://www.fema.gov/api/open/v1/EmergencyManagementPerformanceGrants>          | <https://www.fema.gov/openfema-data-page/emergency-management-performance-grants-v1>           | NA                                                                                                    | 2019-09-26T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://beta.sam.gov/fal/cd60f4b3664041838fd94e1482b5de24/view?keywords=emergency%20management%20performance%20grants&sort=-relevance&index=&is_active=true&page=1> | 2010-10-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Disaster Information | true        | R/P6M              | en-US    |                        | 10/31/2016               |                 | NA         | c70215e88c4aeaa2922798aa69e52e25f6c2ca60 | 2021-09-01T15:01:28.247Z |             |                                                                                                                                                                                                     |                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | NA                       | 5dd723598ca22d24d423eb9f | NA        | NA     | NA                       | grants   | emergencymanagement | empg     | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
@@ -123,28 +126,19 @@ kable(head(df))
 | censusTract                     | Census Tract                            | string  | US Census Bureau defined census Tracts; statistica… | yes           |
 | condominiumIndicator            | Condominium Indicator                   | string  | This is an indicator of what type of condominium p… | yes           |
 
-The returned data frame is a data dictionary for, in this case, the
-National Flood Insurance Programs’s Policies data set and includes the
-name of each variable in the data set, a “Title” for each variable, the
-variable type, a description of the variable, and a column indicating if
-the variable is “Searchable”. Searchable variables are those than can be
-used to filter API queries. If we decide to pull some of this data, we
-can do so using the `openFema()` function.
-
 The FEMA API limits the number of records that can be returned in a
 single query to 1000, meaning if we want more observations than that, a
-loop is necessary to itterate over multiple API calls. The function
+loop is necessary to iterate over multiple API calls. The function
 handles this automatically, but will warn you before iterating by
 letting you know how many records there are and how many individual API
 calls it will take to get all the records. At that point you can enter
 “1” to continue or “0” to abort the operation. As can be seen below,
-running the following code will indicate that there are over 59 million
-records if we don’t apply any filters to the data set which would take
-many iterations (and a long time) to collect the full data set.
+running `openFema(data_set = "fimaNfipPolicies")` will indicate that
+there are over 59 million records if we don’t apply any filters to the
+data set which would take many iterations (and a long time) to collect
+the full data set.
 
 ``` r
-#openFema(data_set = "fimaNfipPolicies")
-
 "[1] 59341663 matching records found. At 1000 records per call, it will take 59342 individual API calls to get all matching records. Continue?"
 ```
 
@@ -301,8 +295,6 @@ kable(df)
 
 ## More Examples
 
-TODO: add more examples here.
-
 ### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 
 ``` r
@@ -392,6 +384,150 @@ kable(head(df))
 | 4      | Florida | 955            | 1992-08-24T00:00:00.000Z | Hurricane    | HURRICANE ANDREW | 0019          | 205.8: Retrofitting Public Structures - Wind               | WIND RETROFIT BLDGS - SHUTTERS                | Install shutters over all openings to public works maintenance building to prevent damage from hurricane winds. This project plans to install 183 SF of shutters at all window openings for an estimated cost of $1,400.                                            | BROWARD         | Closed                | LIGHTHOUSE POINT     | 1140450            | 1500          | 50                  | 55eaf4535a6f0a5264991d722469054a | 2017-12-11T16:09:24.849Z | 5a2eadb4758c6e4347f37af9 |
 | 4      | Florida | 955            | 1992-08-24T00:00:00.000Z | Hurricane    | HURRICANE ANDREW | 0014          | 601.1: Generators                                          | ELEVATE/RELOCATE EMERGENCY GENERATOR          | Construct engine / generator set enclosure at an alternative location above minimum floodplain elevation, together with extension of primary feeders to emergency switch gear, to prevent flooding during a storm event.                                            | BROWARD         | Withdrawn             | DAVIE                | 1116475            | 0             | 0                   | 9986bc5b602bc4b7c2450514d62ce5e2 | 2017-12-11T16:09:24.849Z | 5a2eadb4758c6e4347f37af8 |
 
+### Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.
+
+Get a dataset description for the `HousingAssistanceRenters` data set to
+see if this is the right data set for the question
+
+``` r
+# get meta data for the `HousingAssistanceRenters`
+ds <- fema_data_sets() %>% filter(name == "HousingAssistanceRenters")
+
+# there are two entries corresponding to two versions of the data set, 
+# we want the most recent one
+nrow(ds)
+```
+
+    ## [1] 2
+
+``` r
+ds <- ds %>% filter(version == max(as.numeric(ds$version)))
+
+# now print out the data set description
+print(ds$description)
+```
+
+    ## [1] "The dataset was generated by FEMA's Enterprise Coordination & Information Management (ECIM) Reporting team and is primarily composed of data from Housing Assistance Program reporting authority from FEMA registration renters and owners within the state, county, zip where the registration is valid. This dataset contains aggregated, non-PII data on FEMA's Housing Assistance Program within the state, county, zip where the registration is valid for the declarations, starting with disaster declarations number 4116.  The data is divided into data for renters and data for property owners. Additional core data elements include number of applicants, county, zip code, severity of damage, owner or renter. Data is self-reported and as such is subject to human error. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.This is raw, unedited data from FEMA's National Emergency Management Information System (NEMIS) and as such is subject to a small percentage of human error. For example, when an applicant registers they enter their street and city address.  The system runs a check and suggests a county.  The applicant, if registering online can override that choice.  If they are registering via the call center the Human Services Specialist (HSS) representatives are instructed to ask (not offer) what county they live in.  So even though the system might suggest County A,  an applicant has the right to choose County B.  The financial information is derived from NEMIS and not FEMA's official financial systems.  Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov;  this dataset is not intended to be used for any official federal financial reporting.Citation: The Agency's preferred citation for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page, Citing Data section: https://www.fema.gov/about/openfema/terms-conditions.If you have media inquiries about this dataset, please email the FEMA News Desk FEMA-News-Desk@dhs.gov or call (202) 646-3272.  For inquiries about FEMA's data and Open government program please contact the OpenFEMA team via email OpenFEMA@fema.dhs.gov."
+
+See which columns we can filter on to select just Hurricane Irma related
+grants
+
+``` r
+# see which parameter can be used for filtering the Housing Assistance for Renters 
+valid_parameters("HousingAssistanceRenters") 
+```
+
+    ##  [1] "disasterNumber"               "state"                       
+    ##  [3] "county"                       "city"                        
+    ##  [5] "zipCode"                      "validRegistrations"          
+    ##  [7] "totalInspected"               "totalInspectedWithNoDamage"  
+    ##  [9] "totalWithModerateDamage"      "totalWithMajorDamage"        
+    ## [11] "totalWithSubstantialDamage"   "approvedForFemaAssistance"   
+    ## [13] "totalApprovedIhpAmount"       "repairReplaceAmount"         
+    ## [15] "rentalAmount"                 "otherNeedsAmount"            
+    ## [17] "approvedBetween1And10000"     "approvedBetween10001And25000"
+    ## [19] "approvedBetween25001AndMax"   "totalMaxGrants"              
+    ## [21] "id"
+
+All we have in this data set is the `disasterNumber`. Thus, to filter on
+a specific disaster we have to load the `FemaWebDisasterDeclarations`
+data find the disaster number associated with the event we are
+interested in.
+
+``` r
+# call the disaster declarations
+dd <- openFema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
+```
+
+    ## [1] 1 out of 5 itterations completed
+    ## [1] 2 out of 5 itterations completed
+    ## [1] 3 out of 5 itterations completed
+    ## [1] 4 out of 5 itterations completed
+    ## [1] 5 out of 5 itterations completed
+
+``` r
+# filter disaster declarations to those with "hurricane" in the name
+hurricanes <- distinct(dd %>% filter(grepl("hurricane",tolower(disasterName))) %>% select(disasterName, disasterNumber))
+kable(head(hurricanes))
+```
+
+| disasterName                               | disasterNumber |
+|:-------------------------------------------|:---------------|
+| HURRICANE MARIA                            | 3390           |
+| HURRICANE IRMA                             | 3388           |
+| HURRICANE NATE                             | 3395           |
+| HURRICANE HARVEY                           | 4332           |
+| HURRICANE IRMA                             | 3384           |
+| HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA | 4341           |
+
+As can be seen, disaster numbers do not uniquely ID an event, since
+multiple disaster declarations may be declared for the same event, but
+in different locations. Thus to filter on a particular event, we need to
+collect all the disaster declaration numbers corresponding to that
+event.
+
+``` r
+# get all disaster declarations associated with hurricane irma. 
+# notice the use of grepl() which picked up a disaster declaration name 
+# that was differnt than all the others.
+dd_irma <- hurricanes %>% filter(grepl("irma",tolower(disasterName)))
+
+# get a vector of just the disaster declaration numbers
+dd_nums_irma <- dd_irma$disasterNumber
+```
+
+Now we are read to filter our API call for the
+`HousingAssistanceRenters` data set.
+
+``` r
+# construct filter list
+filter_list <- list(disasterNumber = dd_nums_irma)
+
+
+# make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.
+assistance_irma <- openFema(data_set = "HousingAssistanceRenters", filters = filter_list)
+```
+
+    ## [1] 5353 matching records found. At 1000 records per call, it will take 6 individual API calls to get all matching records. Continue?
+    ##  1 - Yes, get that data!, 0 - No, let me rethink my API call:
+    ## [1] 1 out of 6 itterations completed
+    ## [1] 2 out of 6 itterations completed
+    ## [1] 3 out of 6 itterations completed
+    ## [1] 4 out of 6 itterations completed
+    ## [1] 5 out of 6 itterations completed
+    ## [1] 6 out of 6 itterations completed
+
+Check out the returned data
+
+``` r
+# check out the returned data
+kable(head(assistance_irma))
+```
+
+| state | validRegistrations | totalInspected | totalInspectedWithNoDamage | totalWithModerateDamage | totalWithMajorDamage | totalWithSubstantialDamage | approvedForFemaAssistance | totalApprovedIhpAmount | repairReplaceAmount | rentalAmount | otherNeedsAmount | approvedBetween1And10000 | approvedBetween10001And25000 | approvedBetween25001AndMax | totalMaxGrants | disasterNumber | zipCode | county                                  | city                       | id                       |
+|:------|:-------------------|:---------------|:---------------------------|:------------------------|:---------------------|:---------------------------|:--------------------------|:-----------------------|:--------------------|:-------------|:-----------------|:-------------------------|:-----------------------------|:---------------------------|:---------------|:---------------|:--------|:----------------------------------------|:---------------------------|:-------------------------|
+| VI    | 1                  | 0              | 1                          | 0                       | 0                    | 0                          | 1                         | 500                    | 0                   | 0            | 500              | 1                        | 0                            | 0                          | 0              | 4335           | 00083   | St. John (Island) (County-equivalent)   | ST JOHN                    | 614599ac434e34d5ee601e45 |
+| VI    | 1                  | 0              | 1                          | 0                       | 0                    | 0                          | 0                         | 0                      | 0                   | 0            | 0                | 0                        | 0                            | 0                          | 0              | 4335           | 00801   | St. Thomas (Island) (County-equivalent) | CHALOTTE AMALIE            | 614599ac434e34d5ee601e46 |
+| VI    | 1                  | 1              | 1                          | 0                       | 0                    | 0                          | 0                         | 0                      | 0                   | 0            | 0                | 0                        | 0                            | 0                          | 0              | 4335           | 00801   | St. Thomas (Island) (County-equivalent) | CHARLOTE AMAILE            | 614599ac434e34d5ee601e47 |
+| VI    | 10                 | 8              | 6                          | 3                       | 0                    | 0                          | 5                         | 9687.86                | 0                   | 8062         | 1625.86          | 5                        | 0                            | 0                          | 0              | 4335           | 00801   | St. Thomas (Island) (County-equivalent) | CHARLOTTE AMALIE           | 614599ac434e34d5ee601e48 |
+| VI    | 1                  | 1              | 1                          | 0                       | 0                    | 0                          | 1                         | 2538.06                | 0                   | 848          | 1690.06          | 1                        | 0                            | 0                          | 0              | 4335           | 00801   | St. Thomas (Island) (County-equivalent) | CHARLOTTE AMALIE ST THOMAS | 614599ac434e34d5ee601e49 |
+| VI    | 1                  | 1              | 1                          | 0                       | 0                    | 0                          | 1                         | 500                    | 0                   | 0            | 500              | 1                        | 0                            | 0                          | 0              | 4335           | 00801   | St. Thomas (Island) (County-equivalent) | CHARLOTTE AMARLIE          | 614599ac434e34d5ee601e4a |
+
+Now we can answer our origonal question: How much did FEMA awarded for
+rental assistance following Hurricane Irma?
+
+``` r
+# sum the rentalAmount Column
+rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
+
+# scale to millions
+rent_assistance <- rent_assistance/1000000
+
+print(paste0("$",round(rent_assistance,2)," million was awarded by FEMA for rental assistance following Hurricane Irma"))
+```
+
+    ## [1] "$314.64 million was awarded by FEMA for rental assistance following Hurricane Irma"
+
 ## Bulk Downloads
 
 In some cases bulk downloading a full data set file may be preferred. In
@@ -402,4 +538,4 @@ full data file and save it to a specified directory.
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
 
-    ## [1] "Downloading file to /home/dylan/Dropbox/rfema/FemaRegions_2021-09-19 07:47:15.csv"
+    ## [1] "Downloading file to /home/dylan/Dropbox/rfema/FemaRegions_2021-09-26 07:12:28.csv"

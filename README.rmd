@@ -29,7 +29,66 @@ FEMA data is publicly available at the open FEMA website (https://www.fema.gov/a
 
 In accordance with the openFEMA terms and conditions: This product uses the Federal Emergency Management Agency’s OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preffered citation for openFEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
 
+## Why rfema?
+What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API calls, dealing with API limits, and applying filters. Consider the following code which calls the FEMA API to obtain all of the flood insurance claims in Broward County, FL between 2010 and 2012 using traditional tools and packages available for making rest API calls within R. As you can see it requires many lines of code with significant hardcoding in the url strings. The hardcoding could be avoided, but that would require even more lines of code.
+```{r}
 
+# define the url for the appropriate api end point
+base_url <- "https://www.fema.gov/api/open/v1/FimaNfipClaims"
+
+# append the base_url to apply filters
+filters <- "?$inlinecount=allpages&$top=1000&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
+
+api_query <- paste0(base_url, filters)
+
+# run a query setting the top_n parameter to 1 to check how many records match the filters
+record_check_query <- "https://www.fema.gov/api/open/v1/FimaNfipClaims?$inlinecount=allpages&$top=1&$select=id&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
+
+# run the api call and determine the number of matching records
+result <- httr::GET(record_check_query)
+jsonData <- httr::content(result)        
+n_records <- jsonData$metadata$count # there are 2119 records meaning we will need three seperate API calls to get all the data
+
+
+# calculate number of calls neccesary to get all records using the 
+# 1000 records/ call max limit defined by FEMA
+itterations <- ceiling(n_records / 1000)
+  
+
+for(i in seq(from=1, to=itterations, by=1)){
+  # As above, if you have filters, specific fields, or are sorting, add that to the base URL 
+  #   or make sure it gets concatenated here.
+  result <- httr::GET(paste0(api_query,"&$skip=",(i-1) * 1000))
+  jsonData <- httr::content(result)         
+  
+  if(i == 1){
+    data <- dplyr::bind_rows(jsonData[[2]])
+  } else {
+    data <- dplyr::bind_rows(data, dplyr::bind_rows(jsonData[[2]]))
+  }
+  
+
+
+}
+ 
+  
+# remove the html line breaks from returned data frame (if there are any)  
+data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
+  
+kable(head(data))
+
+
+```
+
+Compare the above block of code to the following code which obtains the same data using the `rfema` package. As you can see, obtaining the same data only took two simple lines of code to obtain the same data. Notably, the `openFema()` function handled checking the number of records and implementation an iterative loop to get around the 1000 records/call limit.
+```{r}
+# define a list of filters to apply
+filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
+
+# make the API call using the `openFema` function.
+data <- rfema::openFema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
+
+```
 ## Installation
 Anyone who stumbles upon this package and wants to use it right now can do so by cloning this GitHub repo or by using the `install_github()` function from the devtools package.
 ```{r}

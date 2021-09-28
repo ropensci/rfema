@@ -22,8 +22,11 @@
 
 openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL){
   
-  if(top_n == 0){
-    stop(paste0("Setting top_n = 0 wont return any records. Set top_n to a value greater than 0"))
+  # return specific errors for edge case top_n arguments
+  if(is.null(top_n) == F){
+    if(top_n == 0){
+      stop(paste0("Setting top_n = 0 wont return any records. Set top_n to a value greater than 0"))
+    }
   }
   
   # construct the api query using the gen_api_query() function

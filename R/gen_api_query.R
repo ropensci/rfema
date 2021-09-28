@@ -14,8 +14,12 @@
 #' url <- gen_api_query(data_set = "fimaNfipPolicies",top_n = 100, 
 #' filters = filter_list, select = vars_to_select)
 
-gen_api_query <- function(data_set = NULL,top_n = 1000, filters = NULL, select = NULL){
+gen_api_query <- function(data_set = NULL,top_n = NULL, filters = NULL, select = NULL){
  
+  # replace top_n with 1000 if no value is supplied
+  if(is.null(top_n)){
+    top_n <- 1000
+  }
   
   # build up the api query starting with the base url for the data set
   base_url <- paste0(fema_api_endpoints(data_set),"?$inlinecount=allpages")

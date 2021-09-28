@@ -4,7 +4,7 @@
 \alias{gen_api_query}
 \title{Helper function to generate the URL string for an API query}
 \usage{
-gen_api_query(data_set = NULL, top_n = 1000, filters = NULL, select = NULL)
+gen_api_query(data_set = NULL, top_n = NULL, filters = NULL, select = NULL)
 }
 \arguments{
 \item{data_set}{character string specifiying the data set to query from}

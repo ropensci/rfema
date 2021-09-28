@@ -20,7 +20,11 @@
 #' @examples
 #' data <- openFema(data_set = "fimaNfipClaims",top_n = 100,filters = list(countyCode = "10001"))
 
-openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL){
+openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL){
+  
+  if(top_n == 0){
+    stop(paste0("Setting top_n = 0 wont return any records. Set top_n to a value greater than 0"))
+  }
   
   # construct the api query using the gen_api_query() function
   api_query <- gen_api_query(data_set = data_set,
@@ -30,7 +34,7 @@ openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_
   
   # if top_n is less than 1000, then call the api without
   # worrying about having to loop to get all matching records
-    if(top_n < 1000){
+    if( top_n < 1000){
       result <- httr::GET(paste0(api_query))
       jsonData <- httr::content(result)         
       fullData <- dplyr::bind_rows(jsonData[[2]])
@@ -39,7 +43,7 @@ openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_
   
   # if top_n is greater than 1000, we will have to loop
   # to make multiple API calls to get all the records
-  if(top_n >= 1000){
+  if(T %in% c(top_n >= 1000, is.null(top_n))){
   
   # construct an api call that will be used to determine the number of 
   # matching records
@@ -53,9 +57,15 @@ openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_
   jsonData <- httr::content(result)        
   n_records <- jsonData$metadata$count
   
-  # calculate number of calls neccesary to get all records using the 
-  # 1000 records/ call max limit defined by FEMA
-  itterations <- ceiling(n_records / 1000)
+  # calculate number of calls necessary to get all records using the 
+  # 1000 records/ call max limit defined by FEMA. If the use supplied a
+  # top_n argument, calculate the number of iterations with respect to 
+  # that value.
+  if(is.null(top_n)){
+    itterations <- ceiling(n_records / 1000)
+  } else {
+    itterations <- ceiling(top_n/1000)
+  }
   
   # if ask_before_call == T and more than 1 itteration will be needed to
   # get the data, inform the user of how many itterations are needed and 
@@ -98,6 +108,14 @@ openFema <- function(data_set, top_n = 1000, filters = NULL, select = NULL, ask_
     result <- httr::GET(paste0(api_query))
     jsonData <- httr::content(result)         
     fullData <- dplyr::bind_rows(jsonData[[2]])
+  }
+  
+  
+  # if top_n is not null, trim the final output to the right number of rows
+  # which may be slightly more than top_n since top_n might not be a multiple
+  # of 1000
+  if(is.null(top_n) == F){
+    fullData <- fullData[1:top_n,]
   }
   
 }

@@ -1,4 +1,9 @@
 valid_dataset <- function(data_set){
+  
+  if(is.character(data_set) == F){
+    stop("The data_set argument needs to be a character. Try putting the data set name in quotes.")
+  }
+  
   # get df with info on fema data sets
   fema_data_sets <- fema_data_sets()
   

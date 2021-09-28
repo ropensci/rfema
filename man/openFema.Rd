@@ -6,7 +6,7 @@
 \usage{
 openFema(
   data_set,
-  top_n = 1000,
+  top_n = NULL,
   filters = NULL,
   select = NULL,
   ask_before_call = T,

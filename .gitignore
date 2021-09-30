@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 ^READEME_cache/
+inst/doc

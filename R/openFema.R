@@ -40,8 +40,8 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   if(is.null(top_n) == F){
     if( top_n < 1000){
       result <- httr::GET(paste0(api_query))
-      jsonData <- httr::content(result)         
-      fullData <- dplyr::bind_rows(jsonData[[2]])
+      jsonData <- httr::content(result)[[2]]         
+      fullData <- dplyr::bind_rows(jsonData)
     }
   }
   

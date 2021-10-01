@@ -41,7 +41,8 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
     if( top_n < 1000){
       result <- httr::GET(paste0(api_query))
       jsonData <- httr::content(result)[[2]]         
-      fullData <- dplyr::bind_rows(jsonData)
+      #fullData <- dplyr::bind_rows(jsonData)
+      fullData <- data.frame(do.call(rbind, jsonData))
     }
   }
   
@@ -96,12 +97,13 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
       # As above, if you have filters, specific fields, or are sorting, add that to the base URL 
       #   or make sure it gets concatenated here.
       result <- httr::GET(paste0(api_query,"&$skip=",(i-1) * 1000))
-      jsonData <- httr::content(result)         # should automatically parse as JSON as that is mime type
+      jsonData <- httr::content(result)[[2]]         # should automatically parse as JSON as that is mime type
       
       if(i == 1){
-        fullData <- dplyr::bind_rows(jsonData[[2]])
+        #fullData <- dplyr::bind_rows(jsonData[[2]])
+        fullData <- data.frame(do.call(rbind, jsonData))
       } else {
-        fullData <- dplyr::bind_rows(fullData, dplyr::bind_rows(jsonData[[2]]))
+        fullData <- dplyr::bind_rows(fullData, data.frame(do.call(rbind, jsonData)))
       }
       
       
@@ -111,8 +113,9 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
     }
   } else {
     result <- httr::GET(paste0(api_query))
-    jsonData <- httr::content(result)         
-    fullData <- dplyr::bind_rows(jsonData[[2]])
+    jsonData <- httr::content(result)[[2]]         
+    fullData <- data.frame(do.call(rbind, jsonData))
+    
   }
   
   

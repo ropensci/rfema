@@ -40,9 +40,19 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   if(is.null(top_n) == F){
     if( top_n < 1000){
       result <- httr::GET(paste0(api_query))
-      jsonData <- httr::content(result)[[2]]         
-      #fullData <- dplyr::bind_rows(jsonData)
+      jsonData <- httr::content(result)[[2]]        
+      
+      # for data returned as a list of lists, correct any discrepencies in the length of the lists by
+      # adding NA values to the shorter lists
+      max_list_length <- max(sapply(jsonData, length)) # calculate longest list
+      
+      # add NA values to lists shorter than the max list length
+      jsonData <- lapply(jsonData, function(x) { c(x, rep(NA, max_list_length-length(x)))})
+      
+      # bind into a single df
       fullData <- data.frame(do.call(rbind, jsonData))
+
+      
     }
   }
   
@@ -55,8 +65,7 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   # matching records
   record_check_query  <- gen_api_query(data_set = data_set,
                                                    top_n = 1,
-                                                   filters = filters,
-                                                   select = "id")
+                                                   filters = filters)
   
   # run the api call and determine the number of matching records
   result <- httr::GET(record_check_query)
@@ -97,10 +106,18 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
       # As above, if you have filters, specific fields, or are sorting, add that to the base URL 
       #   or make sure it gets concatenated here.
       result <- httr::GET(paste0(api_query,"&$skip=",(i-1) * 1000))
-      jsonData <- httr::content(result)[[2]]         # should automatically parse as JSON as that is mime type
+      jsonData <- httr::content(result)[[2]]        
+      
+      # for data returned as a list of lists, correct any discrepencies in the length of the lists by
+      # adding NA values to the shorter lists
+      max_list_length <- max(sapply(jsonData, length)) # calculate longest list
+      
+      # add NA values to lists shorter than the max list length
+      jsonData <- lapply(jsonData, function(x) { c(x, rep(NA, max_list_length-length(x)))})
+      
       
       if(i == 1){
-        #fullData <- dplyr::bind_rows(jsonData[[2]])
+        # bind the data into a single data frame
         fullData <- data.frame(do.call(rbind, jsonData))
       } else {
         fullData <- dplyr::bind_rows(fullData, data.frame(do.call(rbind, jsonData)))
@@ -113,9 +130,16 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
     }
   } else {
     result <- httr::GET(paste0(api_query))
-    jsonData <- httr::content(result)[[2]]         
-    fullData <- data.frame(do.call(rbind, jsonData))
+    jsonData <- httr::content(result)[[2]]        
     
+    # for data returned as a list of lists, correct any discrepencies in the length of the lists by
+    # adding NA values to the shorter lists
+    max_list_length <- max(sapply(jsonData, length)) # calculate longest list
+    
+    # add NA values to lists shorter than the max list length
+    jsonData <- lapply(jsonData, function(x) { c(x, rep(NA, max_list_length-length(x)))})
+    
+
   }
   
   

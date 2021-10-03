@@ -8,12 +8,6 @@ test_that("uncapitalized data set name gets corrected to the FEMA consistent cap
   expect_match(valid_dataset("fimanfipclaims"), "FimaNfipClaims")
   expect_match(valid_dataset("FIMANFIPCLAIMS"), "FimaNfipClaims")
   expect_match(valid_dataset("fImAnfIPCLaiMs"), "FimaNfipClaims")
-  
-  # loop over all data set names and perform the same test
-  for(data_set in data_sets$name){
-    expect_match(valid_dataset(tolower(data_set)), data_set)
-  }
-  
 })
 
 test_that("unrecognized data set name returns an error",{

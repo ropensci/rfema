@@ -146,8 +146,8 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   # if top_n is not null, trim the final output to the right number of rows
   # which may be slightly more than top_n since top_n might not be a multiple
   # of 1000
-  if(is.null(top_n) == F){
-    fullData <- fullData[1:top_n,]
+  if(is.null(top_n) == F & nrow(fullData) > top_n){
+    fullData <- fullData[1:(top_n),]
   }
   
 }

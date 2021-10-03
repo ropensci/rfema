@@ -9,7 +9,7 @@ test_that("top_n argument limits the number of row",{
 data_sets <- fema_data_sets()
 
 # loop over some data sets (this test takes a while so limiting a random data sets)
-for(data_set in data_sets$name[sample(seq(1,nrow(data_sets),1),5,replace = F)]){
+for(data_set in data_sets$name[c(1,4,6,12,16)]){
   test_that(paste0("top_n argument limits the number of row for ",data_set),{
     expect_equal( (nrow(openFema(data_set, top_n = 100)) <= 100), TRUE)
     expect_equal( (nrow(openFema(data_set, top_n = 2000, ask_before_call = F)) <= 2000 ), TRUE)
@@ -17,8 +17,4 @@ for(data_set in data_sets$name[sample(seq(1,nrow(data_sets),1),5,replace = F)]){
   })
 }
 
-# femaregions
-# datasetfields
-# datasets
-# femaregions
 

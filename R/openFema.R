@@ -79,7 +79,7 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   if(is.null(top_n)){
     itterations <- ceiling(n_records / 1000)
   } else {
-    itterations <- ceiling(top_n/1000)
+    itterations <- min(ceiling(top_n/1000),ceiling(n_records/1000))
   }
   
   # if ask_before_call == T and more than 1 itteration will be needed to

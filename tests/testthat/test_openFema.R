@@ -9,9 +9,8 @@ test_that("top_n argument limits the number of row",{
 data_sets <- fema_data_sets()
 
 # loop over some data sets (this test takes a while so limiting a random data sets)
-for(data_set in data_sets$name[1:3]){
-  print(data_set)
-  test_that("top_n argument limits the number of row",{
+for(data_set in data_sets$name[sample(seq(1,nrow(data_sets),1),5,replace = F)]){
+  test_that(paste0("top_n argument limits the number of row for ",data_set),{
     expect_equal( (nrow(openFema(data_set, top_n = 100)) <= 100), TRUE)
     expect_equal( (nrow(openFema(data_set, top_n = 2000, ask_before_call = F)) <= 2000 ), TRUE)
     expect_error(openFema(data_set, top_n = 0), "Setting top_n = 0 wont return any records. Set top_n to a value greater than 0")

@@ -1,3 +1,15 @@
+#' Ensure data_set parameter matches an open FEMA data offering.
+#'
+#' The function corrects any capitalization inconsistencies so that the "data_set" parameter in any of rfema's functions is not case sensative. 
+#'
+#' @param data_set a character string representing the data set.
+#'
+#' @return returns the data with capitalization changed to be consistent with FEMA's naming convention or returns an error if the data set is not one of the valid offerings through the FEMA API.
+#' @export
+#'
+#' @examples 
+#' valid_dataset("fimanfipclaims") 
+#' valid_dataset("fIMANfipclaiMS")
 valid_dataset <- function(data_set){
   
   

@@ -1,17 +1,19 @@
+#' Get data fields and descriptions for a given FEMA data set
+#'
+#'
+#' @param data_set a character string indicating the data set of interest
+#'
+#' @return Returns a data frame consisting of the data field name, the data field title, the data type , a description of the data field, and whether it is searchable within an API query.
+#' @export
+#'
+#' @examples 
+#' fema_data_fields("FimaNfipClaims")
+#' fema_data_fields("FimaNfipPolicies")
+#' 
+#' @importFrom dplyr %>%
 fema_data_fields <- function(data_set){
-  #' Get data fields and descriptions for a given FEMA data set
-  #'
-  #'
-  #' @param data_set a character string indicating the data set of interest
-  #'
-  #' @return Returns a data frame consisting of the data field name, the data field title, the data type , a description of the data field, and whether it is searchable within an API query.
-  #' @export
-  #'
-  #' @examples 
-  #' fema_data_fields("FimaNfipClaims")
-  #' fema_data_fields("FimaNfipPolicies")
-  #' 
-  #' @importFrom dplyr %>%
+
+  
   
   # convert data_set to fema consistent capitalization
   data_set <- valid_dataset(data_set)
@@ -26,6 +28,8 @@ fema_data_fields <- function(data_set){
   url <- fema_data_sets$dataDictionary[ which( fema_data_sets$name == data_set & 
                                                  fema_data_sets$version == version ) ]
 
+  # convert url to a character in case it isn't already
+  url <- as.character(url)
   
   # get page content from the data dictionary url
   page_content <- rvest::read_html(url)

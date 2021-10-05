@@ -18,5 +18,5 @@ returns a data frame with the unique data field values conatained in the first 1
 Returns examples of data field values
 }
 \examples{
-parameter_values(data_set = "fimaNfipPolicies",data_field = "crsClassCode")
+parameter_values(data_set = "fimaNfipPolicies", data_field = "crsClassCode")
 }

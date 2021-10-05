@@ -18,5 +18,4 @@ Get data fields and descriptions for a given FEMA data set
 \examples{
 fema_data_fields("FimaNfipClaims")
 fema_data_fields("FimaNfipPolicies")
-
 }

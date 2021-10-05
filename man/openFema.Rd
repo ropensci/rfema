@@ -41,5 +41,5 @@ necessary to get all of the records. The function handles this and will, by defa
 to get all the records matching their query, letting the user decide choose whether to continue.
 }
 \examples{
-data <- openFema(data_set = "fimaNfipClaims",top_n = 100,filters = list(countyCode = "10001"))
+data <- openFema(data_set = "fimaNfipClaims", top_n = 100, filters = list(countyCode = "10001"))
 }

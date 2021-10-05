@@ -24,6 +24,8 @@
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Codecov test
+coverage](https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg)](https://codecov.io/gh/dylan-turner25/rfema?branch=main)
 
 <!-- badges: start -->
 

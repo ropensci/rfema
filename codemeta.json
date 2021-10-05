@@ -1,5 +1,8 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "rfema",
   "description": "rfema allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.",
@@ -33,7 +36,45 @@
       "@id": "https://orcid.org/000-0002-0915-7384"
     }
   ],
-  "softwareSuggestions": [],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    }
+  ],
   "softwareRequirements": [
     {
       "@type": "SoftwareApplication",
@@ -91,6 +132,7 @@
   ],
   "codeRepository": "https://github.com/dylan-turner25/rfema",
   "readme": "https://github.com/dylan-turner25/rfema/blob/main/README.md",
-  "fileSize": "104.631KB",
-  "developmentStatus": ["https://www.repostatus.org/", "https://lifecycle.r-lib.org/articles/stages.html"]
+  "fileSize": "116.091KB",
+  "developmentStatus": ["https://www.repostatus.org/", "https://lifecycle.r-lib.org/articles/stages.html"],
+  "issueTracker": "https://github.com/dylan-turner25/rfema/issues"
 }

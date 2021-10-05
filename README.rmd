@@ -29,14 +29,14 @@ library(dplyr)
 
 
 ## Introduction
-`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including (but not limited to) the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
+`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through the open FEMA API. The package provides a set of functions to easily navigate and access all data sets provided by FEMA, including (but not limited to) data from the National Flood Insurance Program and FEMA's various disaster aid programs.
 
-FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be intimidating for those not used to working with APIs. This package contains a set of functions that allows users to identify the data they need and query the API to get that data.
+FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA's API without needing any technical knowledge of APIs.
 
 In accordance with the openFEMA terms and conditions: This product uses the Federal Emergency Management Agency’s OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preffered citation for openFEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
 
 ## Why rfema?
-What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters. Consider the following code which calls the FEMA API to obtain all of the flood insurance claims in Broward County, FL between 2010 and 2012 using traditional tools and packages available for making rest API calls within R. As you can see it requires many lines of code with significant hardcoding in the url strings. The hardcoding could be avoided, but that would require even more lines of code.
+What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the `rfema` package. As you can see it requires many lines of code with significant hardcoding in the url strings. The hardcoding could be avoided, but that would require even more lines of code.
 ```{r}
 
 # define the url for the appropriate api end point
@@ -86,7 +86,7 @@ data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
 
 ```
 
-Compare the above block of code to the following code which obtains the same data using the `rfema` package. As you can see, obtaining the same data only took two simple lines of code to obtain the same data. Notably, the `openFema()` function handled checking the number of records and implementation an iterative loop to get around the 1000 records/call limit.
+Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allowed the same request to be made with two lines of code. Notably, the `openFema()` function handled checking the number of records and implementation an iterative loop to get around the 1000 records/call limit.
 ```{r}
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
@@ -95,17 +95,15 @@ filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "
 data <- rfema::openFema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
 
 ```
+
+
 ## Installation
-Anyone who stumbles upon this package and wants to use it right now can do so by cloning this GitHub repo or by using the `install_github()` function from the devtools package.
-```{r}
-install.packages("devtools") # install if not already in library
-devtools::install_github("dylan-turner25/rfema", force = TRUE)
-library(rfema)
-```
+Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `devtools::install_github("dylan-turner25/rfema", force = TRUE)`. The FEMA API does not require and API key, meaning no further steps need be taken to start using the package
+
 
 
 ## Avaliable Datasets
-To see the all of the datasets avaliable through `rfema`, we can run the `fema_data_sets()` function which calls the FEMA API endpoint: https://www.fema.gov/api/open/v1/DataSets
+To see the all of the data sets avaliable through `rfema`, we can run the `fema_data_sets()` function which calls the FEMA API endpoint: https://www.fema.gov/api/open/v1/DataSets. This returns a data frame containing meta data on the data sets provided through the open FEMA API.
 
 ```{r}
 data_sets <- fema_data_sets() 

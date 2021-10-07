@@ -27,6 +27,9 @@ fema_data_fields <- function(data_set) {
   url <- fema_data_sets$dataDictionary[which(fema_data_sets$name == data_set &
     fema_data_sets$version == version)]
 
+  # return a single value in cases where two duplicate entries are in the fema data sets meta data
+  url <- unique(url)
+  
   # convert url to a character in case it isn't already
   url <- as.character(url)
 

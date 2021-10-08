@@ -47,8 +47,9 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
   if (is.null(filters) == F) {
 
     # check to make sure the fields used to filter are in the selected data set
+    params <- trimws(valid_parameters(data_set))
     for (field in names(filters)) {
-      if (field %in% valid_parameters(data_set) == F) {
+      if (field %in% params == F) {
         stop(paste0(field, " is not a valid data field for the ", data_set, " thus cannot be used to construct a filter"))
       }
     }

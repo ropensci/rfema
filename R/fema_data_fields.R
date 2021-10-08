@@ -3,57 +3,27 @@
 #'
 #' @param data_set a character string indicating the data set of interest
 #'
-#' @return Returns a data frame consisting of the data field name, the data field title, the data type , a description of the data field, and whether it is searchable within an API query.
+#' @return Returns a data frame consisting of the data fields name, along with information about each data field including the data type, a description of the data field, and whether the data field is "searchable" (i.e. can it be used to filter the returned data in an API query)
 #' @export
 #'
 #' @examples
 #' fema_data_fields("FimaNfipClaims")
 #' fema_data_fields("FimaNfipPolicies")
-#' @importFrom dplyr %>%
+
 fema_data_fields <- function(data_set) {
 
 
 
   # convert data_set to fema consistent capitalization
   data_set <- valid_dataset(data_set)
-
-  # get df of all fema data sets
-  fema_data_sets <- fema_data_sets()
-
-  # determine most recent version of the data set
-  version <- as.character(max(as.numeric(fema_data_sets[which(fema_data_sets$name == data_set), "version"])))
-
-  # get url for the data dictionary from the fema_data_sets variable using most recent version of data set
-  url <- fema_data_sets$dataDictionary[which(fema_data_sets$name == data_set &
-    fema_data_sets$version == version)]
-
-  # return a single value in cases where two duplicate entries are in the fema data sets meta data
-  url <- unique(url)
   
-  # convert url to a character in case it isn't already
-  url <- as.character(url)
+  # obtain the data fields data set using the openFema function
+  data_fields <- openFema("DataSetFields")
+  
+  # keep only data fields which correspond to the choosen data set
+  data_fields <- data_fields[which(data_fields$openFemaDataSet == data_set),]
+  
 
-  # get page content from the data dictionary url
-  page_content <- rvest::read_html(url)
-
-  # get just the tables
-  tables <- page_content %>% rvest::html_table(fill = TRUE)
-
-  # search each table itteratively untill the one holding the data descriptions is found
-  found_table <- 0
-  table_num <- 0
-  while (found_table == 0) {
-    table_num <- table_num + 1
-    data_table <- tables[[table_num]]
-    if ("Is Searchable" %in% colnames(data_table)) {
-      data_fields <- data_table
-      found_table <- 1
-    }
-
-    if (table_num > length(tables)) {
-      stop(paste0("Unable to find data fields table from: ", url))
-    }
-  }
 
   return(data_fields)
 }

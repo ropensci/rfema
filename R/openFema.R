@@ -39,7 +39,7 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   # if top_n is less than 1000, then call the api without
   # worrying about having to loop to get all matching records
   if (is.null(top_n) == F) {
-    if (top_n < 1000) {
+    if ( top_n < 1000) {
       result <- httr::GET(paste0(api_query))
       jsonData <- httr::content(result)[[2]]
 
@@ -144,14 +144,20 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
       jsonData <- lapply(jsonData, function(x) {
         c(x, rep(NA, max_list_length - length(x)))
       })
+      
+      fullData <- data.frame(do.call(rbind, jsonData))
+      
+      
     }
 
 
     # if top_n is not null, trim the final output to the right number of rows
     # which may be slightly more than top_n since top_n might not be a multiple
     # of 1000
-    if (is.null(top_n) == F & nrow(fullData) > top_n) {
-      fullData <- fullData[1:(top_n), ]
+    if(is.null(top_n) == F){
+      if (nrow(fullData) > top_n) {
+        fullData <- fullData[1:(top_n), ]
+      }
     }
   }
 

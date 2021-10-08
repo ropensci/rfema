@@ -28,5 +28,5 @@ valid_dataset <- function(data_set) {
   } else {
     data_set <- match
   }
-  return(unique(data_set))
+  return(as.character(unique(data_set)))
 }

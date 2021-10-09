@@ -30,5 +30,9 @@ valid_parameters <- function(data_set = NULL) {
       }
     }
   }
+  
+  # make sure params are returned as a character vector
+  params <- as.vector(as.character(params))
+  
   return(params)
 }

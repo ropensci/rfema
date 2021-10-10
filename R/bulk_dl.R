@@ -29,7 +29,7 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
   ds <- ds[which(as.numeric(ds$version) == latest_version), ]
 
   # get url for bulk download of csv file
-  url <- ds$distribution.accessURL
+  url <- as.character(ds$distribution.accessURL)
 
   if (is.null(output_dir)) {
     output_dir <- getwd()
@@ -52,5 +52,15 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
   }
 
   print(paste0("Downloading file to ", paste0(output_dir, "/", file_name)))
-  utils::download.file(url, destfile = paste0(output_dir, "/", file_name))
+  
+  # identify opperating system
+  system <- tolower(Sys.info())
+  if(T %in% grepl("windows",system)){
+    utils::download.file(url, destfile = paste0(output_dir, "/", file_name), mode = "wb")
+  }
+  if(T %in% grepl("linux",system)){
+    utils::download.file(url, destfile = paste0(output_dir, "/", file_name))
+  } else {
+    utils::download.file(url, destfile = paste0(output_dir, "/", file_name))
+  }
 }

@@ -175,11 +175,11 @@ openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_
   }
 
   if (file_type == "rds") {
-    saveRDS(fullData, file = paste0(output_dir, "/", data_set, "_", Sys.time(), ".rds"))
-    print(paste0("Saving data to ", paste0(output_dir, "/", data_set, "_", Sys.time(), ".rds")))
+    saveRDS(fullData, file = paste0(output_dir, "/", data_set, ".rds"))
+    print(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".rds")))
   }
   if (file_type == "csv") {
-    write.table(fullData, file = paste0(output_dir, "/", data_set, "_", Sys.time(), ".csv"), sep = ",")
-    print(paste0("Saving data to ", paste0(output_dir, "/", data_set, "_", Sys.time(), ".csv")))
+    write.table(fullData, file = paste0(output_dir, "/", data_set, ".csv"), sep = ",")
+    print(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".csv")))
   }
 }

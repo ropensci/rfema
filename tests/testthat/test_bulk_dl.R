@@ -36,7 +36,7 @@ bulk_dl("femaregions", output_dir = getwd(), file_name = "test_dl.csv")
 
  # check to see if file is in the folder
  test_that("bulk_dl works without specifying file path or file name", {
-   expect_equal( grepl(paste0(valid_dataset(ds), "_", Sys.Date()), csv_file), T)
+   expect_match(paste0(valid_dataset(ds),".csv"), csv_file)
  })
  
  file.remove(csv_file)

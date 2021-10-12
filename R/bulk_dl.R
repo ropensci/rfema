@@ -35,7 +35,7 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
     output_dir <- getwd()
   }
   if (is.null(file_name)) {
-    file_name <- paste0(data_set, "_", Sys.time(), ".csv")
+    file_name <- paste0(data_set, ".csv")
   }
 
   if (size_warning == T) {

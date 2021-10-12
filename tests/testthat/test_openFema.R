@@ -33,8 +33,8 @@ rds_file <- list.files(getwd(), pattern = ".rds")
 
 # check to see if file is in the folder
 test_that("downloaded file is in the specified location with correct name", {
-  expect_equal( grepl(paste0(ds, "_", Sys.Date()), csv_file), T)
-  expect_equal( grepl(paste0(ds, "_", Sys.Date()), rds_file), T)
+ expect_equal( paste0(ds,".csv"), csv_file)
+  expect_equal( paste0(ds,".rds"), rds_file)
 })
 
 # remove file so directory doesn't get cluttered

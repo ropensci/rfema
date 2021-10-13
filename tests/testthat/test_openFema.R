@@ -21,8 +21,8 @@ for (data_set in data_sets$name[c(1, 4, 6, 12, 16)]) {
 # test that filters actually fiter the API call
 test_that("filters limit the value of the respective column", {
   df <-  openFema(data_set = "fimanfipclaims", top_n = 100, filters = list(state = "VA", yearOfLoss = "< 2015") )
-  expect_match(unique(df$state), "VA")
-  expect_equal(max(as.numeric(df$yearOfLoss)) < 2015, T)
+  expect_match(unique(as.character(df$state)), "VA")
+  expect_equal(max(as.numeric(as.character(df$yearOfLoss))) < 2015, T)
 })
 
 # test that select arguments work property

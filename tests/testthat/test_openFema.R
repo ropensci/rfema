@@ -18,9 +18,20 @@ for (data_set in data_sets$name[c(1, 4, 6, 12, 16)]) {
 }
 
 
+# test that filters actually fiter the API call
+test_that("filters limit the value of the respective column", {
+  df <-  openFema(data_set = "fimanfipclaims", top_n = 100, filters = list(state = "VA", yearOfLoss = "< 2015") )
+  expect_match(unique(df$state), "VA")
+  expect_equal(max(as.numeric(df$yearOfLoss)) < 2015, T)
+})
+
+# test that select arguments work property
+test_that("select limits the columns returned", {
+  df <-  openFema(data_set = "fimanfipclaims", top_n = 1000, select = c("state","yearOfLoss"))
+  expect_equal(F %in% (colnames(df) %in% c("state","yearOfLoss","id")), F  )
+})
 
 # test save to file functionality for csv files
-
 # download file 
 ds <- "femaregions" # using femaregions because it is a small file
 openFema(data_set = ds, file_type = "csv")
@@ -40,5 +51,8 @@ test_that("downloaded file is in the specified location with correct name", {
 # remove file so directory doesn't get cluttered
 file.remove(csv_file)
 file.remove(rds_file)
+
+
+
 
 

@@ -45,7 +45,7 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
 
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No:")
 
-      if (user_response == "0") {
+      if (user_response != "1") {
         stop("Opperation aborted by user.")
       }
     }

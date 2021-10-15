@@ -42,4 +42,8 @@ bulk_dl("femaregions", output_dir = getwd(), file_name = "test_dl.csv")
  file.remove(csv_file)
  
 
+ # make sure warning is issued for large files
+test_that("warning is issued for large files", {
+   expect_error( (bulk_dl("fimanfipclaims")),"Opperation aborted by user.")
+})
  

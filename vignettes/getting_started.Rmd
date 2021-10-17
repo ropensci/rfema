@@ -18,10 +18,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 library(knitr)
 library(dplyr)
-library(devtools)
-load_all()
+devtools::install_github("dylan-turner25/rfema", force = T)
+library(rfema)
 ```
 
 ## Introduction
@@ -29,7 +30,10 @@ load_all()
 This vignette provides a brief overview on using the `rfema` package to obtain data from the Open FEMA API. The rest of this vignette covers how to install the package, followed by examples on using the package to obtain data for various objectives. 
 
 ## Installation
-Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `devtools::install_github("dylan-turner25", force = TRUE)`. The FEMA API does not require and API key, meaning no further steps need be taken to start using the package
+Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `devtools::install_github("dylan-turner25/rfema")`. The FEMA API does not require and API key, meaning no further steps need be taken to start using the package
+
+
+
 
 
 ## Avaliable Datasets

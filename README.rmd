@@ -33,7 +33,7 @@ library(dplyr)
 
 FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA's API without needing any technical knowledge of APIs.
 
-In accordance with the openFEMA terms and conditions: This product uses the Federal Emergency Management Agency’s OpenFEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preffered citation for openFEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
+In accordance with the open_fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preffered citation for Open FEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
 
 ## Why rfema?
 What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the `rfema` package. As you can see it requires many lines of code with significant hardcoding in the url strings. The hardcoding could be avoided, but that would require even more lines of code.
@@ -86,13 +86,13 @@ data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
 
 ```
 
-Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allowed the same request to be made with two lines of code. Notably, the `openFema()` function handled checking the number of records and implementation an iterative loop to get around the 1000 records/call limit.
+Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allowed the same request to be made with two lines of code. Notably, the `open_fema()` function handled checking the number of records and implementation an iterative loop to get around the 1000 records/call limit.
 ```{r}
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
 
-# make the API call using the `openFema` function.
-data <- rfema::openFema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
+# make the API call using the `open_fema` function.
+data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
 
 ```
 
@@ -126,7 +126,7 @@ kable(head(df))
 
 
 
-The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `openFema(data_set = "fimaNfipPolicies")` will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
+The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `open_fema(data_set = "fimaNfipPolicies")` will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
 
 
 ```{r,echo=FALSE, r,echo=TRUE}
@@ -135,13 +135,13 @@ The FEMA API limits the number of records that can be returned in a single query
 
 Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Policies data.
 ```{r}
-df <- openFema(data_set = "fimaNfipPolicies", top_n = 10)
+df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10)
 kable(df)
 ```
 
 If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. Again, the data fields for a given data set can be retrieved using the `fema_data_fields()` function. In this case we will return only the census tract and CRScode columns. As can be seen, an id column is always returned even if the select argument is used. 
 ```{r}
-df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, select = c("censusTract","crsClassCode"))
+df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, select = c("censusTract","crsClassCode"))
 kable(df)
 ```
 
@@ -162,7 +162,7 @@ We can see from the above that crsClassCode is an integer in the data and there 
 ```{r}
 my_filters <- list(crsClassCode = c(5,6))
 
-df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, 
+df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, 
                select = c("censusTract","crsClassCode"), filters = my_filters)
 kable(df)
 
@@ -178,7 +178,7 @@ kable(df)
 
 ### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 ```{r}
-df <- openFema(data_set = "fimaNfipClaims",
+df <- open_fema(data_set = "fimaNfipClaims",
                  top_n = 100,
                  filters = list(countyCode = "= 01001",
                                 yearOfLoss = ">= 2010",
@@ -201,8 +201,8 @@ parameter_values(data_set = "HazardMitigationGrants", data_field = "state")
 filter_list <- c(incidentType = c("Hurricane"),
                  state = c("Florida")) 
 
-# pass filter_list to the openFema function to retreieve data.
-df <- openFema(data_set = "HazardMitigationGrants", filters = filter_list, 
+# pass filter_list to the open_fema function to retreieve data.
+df <- open_fema(data_set = "HazardMitigationGrants", filters = filter_list, 
                ask_before_call = FALSE)
 kable(head(df))
 ```
@@ -234,7 +234,7 @@ valid_parameters("HousingAssistanceRenters")
 All we have in this data set is the `disasterNumber`. Thus, to filter on a specific disaster we have to load the `FemaWebDisasterDeclarations` data find the disaster number associated with the event we are interested in.
 ```{r}
 # call the disaster declarations
-dd <- rfema::openFema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
+dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
 
 # filter disaster declarations to those with "hurricane" in the name
 hurricanes <- distinct(dd %>% filter(grepl("hurricane",tolower(disasterName))) %>% select(disasterName, disasterNumber))
@@ -262,7 +262,7 @@ filter_list <- list(disasterNumber = dd_nums_irma)
 
 
 # make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.
-assistance_irma <- openFema(data_set = "HousingAssistanceRenters", filters = filter_list)
+assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list)
 
 ```
 

@@ -18,8 +18,8 @@
 #' @export
 #' @importFrom utils write.table
 #' @examples
-#' data <- openFema(data_set = "fimaNfipClaims", top_n = 100, filters = list(countyCode = "10001"))
-openFema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL) {
+#' data <- open_fema(data_set = "fimaNfipClaims", top_n = 100, filters = list(countyCode = "10001"))
+open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL) {
 
   # return specific errors for edge case top_n arguments
   if (is.null(top_n) == F) {

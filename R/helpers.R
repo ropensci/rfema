@@ -128,7 +128,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
 
 
 
-#' Helper function that returns the API endpoint associated with a openFEMA data set
+#' Helper function that returns the API endpoint associated with a open FEMA data set
 #'
 #' @param data_set A character string with the name of the data set to get the API endpoint for.
 #'

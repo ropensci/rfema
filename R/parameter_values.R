@@ -9,7 +9,7 @@
 #' @examples
 #' parameter_values(data_set = "fimaNfipPolicies", data_field = "crsClassCode")
 parameter_values <- function(data_set = NULL, data_field = NULL) {
-  data <- openFema(data_set = data_set, top_n = 999, select = data_field, ask_before_call = F)
+  data <- open_fema(data_set = data_set, top_n = 999, select = data_field, ask_before_call = F)
   values <- unique(data[, data_field])
   
   # convert everything to a character to avoid returning factors

@@ -51,12 +51,12 @@ without prior API experience. This package contains a set of functions
 that allows users to easily identify and retrieve data from FEMA’s API
 without needing any technical knowledge of APIs.
 
-In accordance with the openFEMA terms and conditions: This product uses
-the Federal Emergency Management Agency’s OpenFEMA API, but is not
+In accordance with the open\_fema terms and conditions: This product
+uses the Federal Emergency Management Agency’s Open FEMA API, but is not
 endorsed by FEMA. The Federal Government or FEMA cannot vouch for the
 data or analyses derived from these data after the data have been
 retrieved from the Agency’s website(s). Guidance on FEMA’s preffered
-citation for openFEMA data can be found at:
+citation for Open FEMA data can be found at:
 <https://www.fema.gov/about/openfema/terms-conditions>
 
 ## Why rfema?
@@ -119,7 +119,7 @@ data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
 Compare the above block of code to the following code which obtains the
 same data using the `rfema` package. The `rfema` package allowed the
 same request to be made with two lines of code. Notably, the
-`openFema()` function handled checking the number of records and
+`open_fema()` function handled checking the number of records and
 implementation an iterative loop to get around the 1000 records/call
 limit.
 
@@ -127,8 +127,8 @@ limit.
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
 
-# make the API call using the `openFema` function.
-data <- rfema::openFema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
+# make the API call using the `open_fema` function.
+data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
 ```
 
     ## [1] 1 out of 3 itterations completed
@@ -198,7 +198,7 @@ handles this automatically, but will warn you before iterating by
 letting you know how many records there are and how many individual API
 calls it will take to get all the records. At that point you can enter
 “1” to continue or “0” to abort the operation. As can be seen below,
-running `openFema(data_set = "fimaNfipPolicies")` will indicate that
+running `open_fema(data_set = "fimaNfipPolicies")` will indicate that
 there are over 59 million records if we don’t apply any filters to the
 data set which would take many iterations (and a long time) to collect
 the full data set.
@@ -217,7 +217,7 @@ automatically be carried out. In the case below, we will return the
 first 10 records from the NFIP Policies data.
 
 ``` r
-df <- openFema(data_set = "fimaNfipPolicies", top_n = 10)
+df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10)
 kable(df)
 ```
 
@@ -242,7 +242,7 @@ only the census tract and CRScode columns. As can be seen, an id column
 is always returned even if the select argument is used.
 
 ``` r
-df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, select = c("censusTract","crsClassCode"))
+df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, select = c("censusTract","crsClassCode"))
 kable(df)
 ```
 
@@ -340,7 +340,7 @@ records with a crsClassCode that is either 5 or 6.
 ``` r
 my_filters <- list(crsClassCode = c(5,6))
 
-df <- openFema(data_set = "fimaNfipPolicies", top_n = 10, 
+df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, 
                select = c("censusTract","crsClassCode"), filters = my_filters)
 kable(df)
 ```
@@ -363,7 +363,7 @@ kable(df)
 ### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
 
 ``` r
-df <- openFema(data_set = "fimaNfipClaims",
+df <- open_fema(data_set = "fimaNfipClaims",
                  top_n = 100,
                  filters = list(countyCode = "= 01001",
                                 yearOfLoss = ">= 2010",
@@ -377,12 +377,12 @@ df <- openFema(data_set = "fimaNfipClaims",
 valid_parameters("HazardMitigationGrants") 
 ```
 
-    ##  [1] "region"              "state"               "disasterNumber"     
-    ##  [4] "declarationDate"     "incidentType"        "disasterTitle"      
-    ##  [7] "projectNumber"       "projectType"         "projectTitle"       
-    ## [10] "projectDescription"  "projectCounties"     "status"             
-    ## [13] "subgrantee"          "subgranteeFIPSCode"  "projectAmount"      
-    ## [16] "costSharePercentage" "id"                  "lastRefresh"        
+    ##  [1] "id"                  "projectType"         "projectCounties"    
+    ##  [4] "status"              "subgrantee"          "disasterNumber"     
+    ##  [7] "state"               "projectAmount"       "region"             
+    ## [10] "declarationDate"     "projectNumber"       "disasterTitle"      
+    ## [13] "projectDescription"  "lastRefresh"         "costSharePercentage"
+    ## [16] "subgranteeFIPSCode"  "projectTitle"        "incidentType"       
     ## [19] "hash"
 
 ``` r
@@ -428,8 +428,8 @@ parameter_values(data_set = "HazardMitigationGrants", data_field = "state")
 filter_list <- c(incidentType = c("Hurricane"),
                  state = c("Florida")) 
 
-# pass filter_list to the openFema function to retreieve data.
-df <- openFema(data_set = "HazardMitigationGrants", filters = filter_list, 
+# pass filter_list to the open_fema function to retreieve data.
+df <- open_fema(data_set = "HazardMitigationGrants", filters = filter_list, 
                ask_before_call = FALSE)
 ```
 
@@ -501,7 +501,7 @@ interested in.
 
 ``` r
 # call the disaster declarations
-dd <- rfema::openFema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
+dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
 ```
 
     ## [1] 1 out of 5 itterations completed
@@ -550,7 +550,7 @@ filter_list <- list(disasterNumber = dd_nums_irma)
 
 
 # make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.
-assistance_irma <- openFema(data_set = "HousingAssistanceRenters", filters = filter_list)
+assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list)
 ```
 
     ## [1] 5353 matching records found. At  records per call, it will take 6 individual API calls to get all matching records. Continue?

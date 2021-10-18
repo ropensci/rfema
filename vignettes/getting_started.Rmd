@@ -21,7 +21,6 @@ knitr::opts_chunk$set(
 
 library(knitr)
 library(dplyr)
-devtools::install_github("dylan-turner25/rfema", force = T)
 library(rfema)
 ```
 
@@ -229,3 +228,6 @@ to download a csv of the full data file and save it to a specified directory.
 ```{r,cache = T}
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
+
+```{r,cache = F, include = F}
+file.remove("FemaRegions.csv")```

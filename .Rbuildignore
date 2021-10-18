@@ -6,3 +6,5 @@
 ^codemeta\.json$
 ^\.github$
 ^codecov\.yml$
+vignettes/getting_started.Rmd
+vignettes/getting_started_cache

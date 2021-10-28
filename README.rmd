@@ -104,5 +104,25 @@ Right now, the best way to install and use the `rfema` package is by installing 
 
 
 
-## Getting Started
+## Basic Usage
+Use the `fema_data_sets()` function to obtain a data frame of available data sets along with associated meta data. 
+```{r}
+data_sets <- fema_data_sets()
+
+# truncate the description field for purposes of displaying the table
+data_sets$description <- paste0(substr(data_sets$description,1,50),"...")
+
+# view just the first three datasets
+kable(head(data_sets,3))
+```
+
+
+Once you have the name of the data set you want, simply pass it as an argument to the `open_fema()` function which will return the data set as a data frame. By default, `open_fema()` will warn you if the number of records is greater than 1000 and will ask you to confirm that you want to retrieve all of the available records. To turn off this feature, set the parameter `ask_before_call` equal to FALSE. To limit the number of records returned, specify the `top_n` argument. This is useful for exploring a data set without retrieving all records. 
+```{r}
+retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
+
+kable(head(retrieved_data))
+```
+
+There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the getting_started vignette.
 

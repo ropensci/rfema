@@ -39,8 +39,12 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
   # if top_n is less than 1000, then call the api without
   # worrying about having to loop to get all matching records
   if (is.null(top_n) == F) {
-    if ( top_n < 1000) {
+    if (top_n < 1000) {
       result <- httr::GET(paste0(api_query))
+      if (result$status_code != 200) {
+        status <- httr::http_status(result)
+        stop(status$message)
+      }
       jsonData <- httr::content(result)[[2]]
 
       # for data returned as a list of lists, correct any discrepencies in the length of the lists by
@@ -72,6 +76,10 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
 
     # run the api call and determine the number of matching records
     result <- httr::GET(record_check_query)
+    if (result$status_code != 200) {
+      status <- httr::http_status(result)
+      stop(status$message)
+    }
     jsonData <- httr::content(result)
     n_records <- jsonData$metadata$count
 
@@ -92,9 +100,9 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
       # send some logging info to the console so we know what is happening
       print(paste0(n_records, " matching records found. At ", top_n, " records per call, it will take ", itterations, " individual API calls to get all matching records. Continue?"), quote = FALSE)
 
-      user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No, let me rethink my API call:")
+      user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No, let me rethink my API call: ")
 
-      if (user_response == "0") {
+      if (user_response != "1") {
         stop("Opperation aborted by user.")
       }
     }
@@ -109,6 +117,10 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
         # As above, if you have filters, specific fields, or are sorting, add that to the base URL
         #   or make sure it gets concatenated here.
         result <- httr::GET(paste0(api_query, "&$skip=", (i - 1) * 1000))
+        if (result$status_code != 200) {
+          status <- httr::http_status(result)
+          stop(status$message)
+        }
         jsonData <- httr::content(result)[[2]]
 
         # for data returned as a list of lists, correct any discrepencies in the length of the lists by
@@ -130,10 +142,14 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
 
 
 
-        print(paste0(i, " out of ", itterations, " itterations completed"), quote = FALSE)
+        message(paste0(i, " out of ", itterations, " itterations completed"), quote = FALSE)
       }
     } else {
       result <- httr::GET(paste0(api_query))
+      if (result$status_code != 200) {
+        status <- httr::http_status(result)
+        stop(status$message)
+      }
       jsonData <- httr::content(result)[[2]]
 
       # for data returned as a list of lists, correct any discrepencies in the length of the lists by
@@ -144,17 +160,15 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
       jsonData <- lapply(jsonData, function(x) {
         c(x, rep(NA, max_list_length - length(x)))
       })
-      
+
       fullData <- data.frame(do.call(rbind, jsonData))
-      
-      
     }
 
 
     # if top_n is not null, trim the final output to the right number of rows
     # which may be slightly more than top_n since top_n might not be a multiple
     # of 1000
-    if(is.null(top_n) == F){
+    if (is.null(top_n) == F) {
       if (nrow(fullData) > top_n) {
         fullData <- fullData[1:(top_n), ]
       }
@@ -176,10 +190,10 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
 
   if (file_type == "rds") {
     saveRDS(fullData, file = paste0(output_dir, "/", data_set, ".rds"))
-    print(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".rds")))
+    message(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".rds")))
   }
   if (file_type == "csv") {
     write.table(fullData, file = paste0(output_dir, "/", data_set, ".csv"), sep = ",")
-    print(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".csv")))
+    message(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".csv")))
   }
 }

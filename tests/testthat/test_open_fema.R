@@ -20,19 +20,19 @@ for (data_set in data_sets$name[c(1, 4, 6, 12, 16)]) {
 
 # test that filters actually fiter the API call
 test_that("filters limit the value of the respective column", {
-  df <-  open_fema(data_set = "fimanfipclaims", top_n = 100, filters = list(state = "VA", yearOfLoss = "< 2015") )
+  df <- open_fema(data_set = "fimanfipclaims", top_n = 100, filters = list(state = "VA", yearOfLoss = "< 2015"))
   expect_match(unique(as.character(df$state)), "VA")
   expect_equal(max(as.numeric(as.character(df$yearOfLoss))) < 2015, T)
 })
 
 # test that select arguments work property
 test_that("select limits the columns returned", {
-  df <-  open_fema(data_set = "fimanfipclaims", top_n = 1000, select = c("state","yearOfLoss"))
-  expect_equal(F %in% (colnames(df) %in% c("state","yearOfLoss","id")), F  )
+  df <- open_fema(data_set = "fimanfipclaims", top_n = 1000, select = c("state", "yearOfLoss"))
+  expect_equal(F %in% (colnames(df) %in% c("state", "yearOfLoss", "id")), F)
 })
 
 # test save to file functionality for csv files
-# download file 
+# download file
 ds <- "femaregions" # using femaregions because it is a small file
 open_fema(data_set = ds, file_type = "csv")
 open_fema(data_set = ds, file_type = "rds")
@@ -44,15 +44,10 @@ rds_file <- list.files(getwd(), pattern = ".rds")
 
 # check to see if file is in the folder
 test_that("downloaded file is in the specified location with correct name", {
- expect_equal( paste0(ds,".csv"), csv_file)
-  expect_equal( paste0(ds,".rds"), rds_file)
+  expect_equal(paste0(ds, ".csv"), csv_file)
+  expect_equal(paste0(ds, ".rds"), rds_file)
 })
 
 # remove file so directory doesn't get cluttered
 file.remove(csv_file)
 file.remove(rds_file)
-
-
-
-
-

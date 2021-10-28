@@ -11,14 +11,14 @@
 #' valid_dataset("fimanfipclaims")
 #' valid_dataset("fIMANfipclaiMS")
 valid_dataset <- function(data_set) {
-  
-  
+
+
   # get df with info on fema data sets
   fema_data_sets <- fema_data_sets()
-  
+
   # convert user specified data set to lower case
   data_set <- tolower(data_set)
-  
+
   # match up user specified data set to data sets in "fema_data_sets"
   # and redefine the "data_set" object to make sure its consistent with the
   # capitalization fema uses
@@ -54,36 +54,36 @@ valid_dataset <- function(data_set) {
 #'   filters = filter_list, select = vars_to_select
 #' )
 gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select = NULL) {
-  
+
   # replace top_n with 1000 if no value is supplied
   if (is.null(top_n)) {
     top_n <- 1000
   }
-  
+
   # build up the api query starting with the base url for the data set
   base_url <- paste0(fema_api_endpoints(data_set), "?$inlinecount=allpages")
-  
+
   # append the querty to represent the top parameter
   api_query <- paste0(base_url, "&$top=", top_n)
-  
+
   # if select is not NULL then append the api query to
   # limit the api call to the field specified in select
   if (is.null(select) == F) {
-    
+
     # check to make sure the selected fields are in the selected data set
     for (field in select) {
       if (field %in% valid_parameters(data_set) == F) {
         stop(paste0(field, " is not a valid data field for the ", data_set, " data set use the valid_parameters() function to view all valid parameters for a data set."))
       }
     }
-    
+
     api_query <- paste0(api_query, "&$select=", paste(select, collapse = ","))
   }
-  
+
   # if filters is not NULL, then append the api query to
   # apply those filters
   if (is.null(filters) == F) {
-    
+
     # check to make sure the fields used to filter are in the selected data set
     params <- trimws(valid_parameters(data_set))
     for (field in names(filters)) {
@@ -95,7 +95,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
     filters_vector <- c()
     for (k in 1:filters_n) {
       operators <- data.frame(sym = c("=", ">", "<", "!=", ">=", "<="), char = c("eq", "gt", "lt", "ne", "ge", "le"))
-      
+
       op_temp <- NULL
       for (op in operators$sym) {
         if (T %in% grepl(op, filters[[k]])) {
@@ -105,9 +105,9 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
           op_temp <- "eq"
         }
       }
-      
+
       filter_temp <- trimws(gsub(paste(operators$sym, collapse = "|"), "", filters[[k]]))
-      
+
       if (is.character(filter_temp)) {
         filter_temp <- paste0("(", names(filters)[k], " ", op_temp, " ", noquote(paste0("'", filter_temp, "'", collapse = paste0(" or ", names(filters)[k], " ", op_temp, " "))), ")")
       } else {
@@ -117,10 +117,10 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
     }
     api_query <- paste0(api_query, "&$filter=", paste0(filters_vector, collapse = " and "))
   }
-  
+
   # fill spaces in with %20
   api_query <- gsub(" ", "%20", api_query)
-  
+
   return(api_query)
 }
 
@@ -140,25 +140,19 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
 #' fema_api_endpoints("fImAnfiPclaims")
 #' fema_api_endpoints("fimanfippolicies")
 fema_api_endpoints <- function(data_set) {
-  
+
   # convert dataset to fema consistent capitalization
   data_set <- unique(valid_dataset(data_set))
-  
+
   # get df of all fema data sets
   fema_data_sets <- fema_data_sets()
-  
+
   # get the most current version
-  
+
   version <- max(as.numeric(fema_data_sets$version[which(data_set == fema_data_sets$name)]))
-  
-  
+
+
   endpoint <- paste0("https://www.fema.gov/api/open/v", version, "/", data_set)
-  
+
   return(endpoint)
 }
-
-
-
-
-
-

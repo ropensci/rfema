@@ -41,7 +41,7 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
   if (size_warning == T) {
     file_size <- ds$distribution.datasetSize
     if (grepl("large", file_size)) {
-      print(paste0("FEMA indicates this file is: ", ds[which(ds$name == data_set), "distribution.datasetSize"], ". Continue with download?"))
+      message(paste0("FEMA indicates this file is: ", ds[which(ds$name == data_set), "distribution.datasetSize"], ". Continue with download?"))
 
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No:")
 
@@ -51,14 +51,14 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
     }
   }
 
-  print(paste0("Downloading file to ", paste0(output_dir, "/", file_name)))
-  
+  message(paste0("Downloading file to ", paste0(output_dir, "/", file_name)))
+
   # identify opperating system
   system <- tolower(Sys.info())
-  if(T %in% grepl("windows",system)){
+  if (T %in% grepl("windows", system)) {
     utils::download.file(url, destfile = paste0(output_dir, "/", file_name), mode = "wb")
   }
-  if(T %in% grepl("linux",system)){
+  if (T %in% grepl("linux", system)) {
     utils::download.file(url, destfile = paste0(output_dir, "/", file_name))
   } else {
     utils::download.file(url, destfile = paste0(output_dir, "/", file_name))

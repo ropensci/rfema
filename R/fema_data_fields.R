@@ -9,20 +9,19 @@
 #' @examples
 #' fema_data_fields("FimaNfipClaims")
 #' fema_data_fields("FimaNfipPolicies")
-
 fema_data_fields <- function(data_set) {
 
 
 
   # convert data_set to fema consistent capitalization
   data_set <- valid_dataset(data_set)
-  
+
   # obtain the data fields data set using the open_fema function
   data_fields <- open_fema("DataSetFields")
-  
+
   # keep only data fields which correspond to the choosen data set
-  data_fields <- data_fields[which(data_fields$openFemaDataSet == data_set),]
-  
+  data_fields <- data_fields[which(data_fields$openFemaDataSet == data_set), ]
+
 
 
   return(data_fields)

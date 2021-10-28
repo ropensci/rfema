@@ -3,4 +3,7 @@
 .RData
 .Ruserdata
 READEME_cache/**
+READEME_cache/gfm/**
+vignettes/getting_started_cache/**
 inst/doc
+README.rmd

@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 
 library(knitr)
 library(dplyr)
+devtools::install_github("dylan-turner25/rfema", force = T) # make sure package is most recent version
 library(rfema)
 ```
 

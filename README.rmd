@@ -35,10 +35,10 @@ load_all()
 
 FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA's API without needing any technical knowledge of APIs.
 
-In accordance with the open_fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preffered citation for Open FEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
+In accordance with the Open Fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preferred citation for Open FEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
 
 ## Why rfema?
-What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the `rfema` package. As you can see it requires many lines of code with significant hardcoding in the url strings. The hardcoding could be avoided, but that would require even more lines of code.
+What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the `rfema` package. As can be seen it requires quite a few lines of code, in part due to the API limiting calls to 1000 records per call which can make obtaining a full data set cumbersome.
 ```{r}
 
 # define the url for the appropriate api end point
@@ -88,7 +88,7 @@ data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
 
 ```
 
-Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allowed the same request to be made with two lines of code. Notably, the `open_fema()` function handled checking the number of records and implementation an iterative loop to get around the 1000 records/call limit.
+Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allows the same request to be made with two lines of code. Notably, the `open_fema()` function handles checking the number of records and implements an iterative loop to deal with the 1000 records/call limit.
 ```{r}
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
@@ -117,12 +117,12 @@ kable(head(data_sets,3))
 ```
 
 
-Once you have the name of the data set you want, simply pass it as an argument to the `open_fema()` function which will return the data set as a data frame. By default, `open_fema()` will warn you if the number of records is greater than 1000 and will ask you to confirm that you want to retrieve all of the available records. To turn off this feature, set the parameter `ask_before_call` equal to FALSE. To limit the number of records returned, specify the `top_n` argument. This is useful for exploring a data set without retrieving all records. 
+Once you have the name of the data set you want, simply pass it as an argument to the `open_fema()` function which will return the data set as a data frame. By default, `open_fema()` will warn you if the number of records is greater than 1000 and will ask you to confirm that you want to retrieve all of the available records (for many data sets the total records is quite large). To turn off this feature, set the parameter `ask_before_call` equal to FALSE. To limit the number of records returned, specify the `top_n` argument. This is useful for exploring a data set without retrieving all records. 
 ```{r}
 retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 
 kable(head(retrieved_data))
 ```
 
-There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the getting_started vignette.
+There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](vignettes/getting_started.html) vignette.
 

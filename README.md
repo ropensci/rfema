@@ -39,11 +39,11 @@ without prior API experience. This package contains a set of functions
 that allows users to easily identify and retrieve data from FEMA’s API
 without needing any technical knowledge of APIs.
 
-In accordance with the open\_fema terms and conditions: This product
-uses the Federal Emergency Management Agency’s Open FEMA API, but is not
+In accordance with the Open Fema terms and conditions: This product uses
+the Federal Emergency Management Agency’s Open FEMA API, but is not
 endorsed by FEMA. The Federal Government or FEMA cannot vouch for the
 data or analyses derived from these data after the data have been
-retrieved from the Agency’s website(s). Guidance on FEMA’s preffered
+retrieved from the Agency’s website(s). Guidance on FEMA’s preferred
 citation for Open FEMA data can be found at:
 <https://www.fema.gov/about/openfema/terms-conditions>
 
@@ -56,9 +56,9 @@ queries, dealing with API limits, and applying filters or other
 parameters. Suppose one wants to obtain data on all of the flood
 insurance claims in Broward County, FL between 2010 and 2012. The
 following code obtains that data without the use of the `rfema` package.
-As you can see it requires many lines of code with significant
-hardcoding in the url strings. The hardcoding could be avoided, but that
-would require even more lines of code.
+As can be seen it requires quite a few lines of code, in part due to the
+API limiting calls to 1000 records per call which can make obtaining a
+full data set cumbersome.
 
 ``` r
 # define the url for the appropriate api end point
@@ -105,11 +105,10 @@ data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
 ```
 
 Compare the above block of code to the following code which obtains the
-same data using the `rfema` package. The `rfema` package allowed the
-same request to be made with two lines of code. Notably, the
-`open_fema()` function handled checking the number of records and
-implementation an iterative loop to get around the 1000 records/call
-limit.
+same data using the `rfema` package. The `rfema` package allows the same
+request to be made with two lines of code. Notably, the `open_fema()`
+function handles checking the number of records and implements an
+iterative loop to deal with the 1000 records/call limit.
 
 ``` r
 # define a list of filters to apply
@@ -119,9 +118,11 @@ filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "
 data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
 ```
 
-    ## [1] 1 out of 3 itterations completed
-    ## [1] 2 out of 3 itterations completed
-    ## [1] 3 out of 3 itterations completed
+    ## 1 out of 3 itterations completedFALSE
+
+    ## 2 out of 3 itterations completedFALSE
+
+    ## 3 out of 3 itterations completedFALSE
 
 ## Installation
 
@@ -150,16 +151,17 @@ kable(head(data_sets,3))
 |:------------|:----------------------------------------|:-------------------------------------------|:----------------------------------------------------|:-------------------------------------------------------------------------------|:--------------------|:-------------------------|:--------------------------------------------------------------------------------|:----------------------|:---------------------------|:---------------------------------------------------------------------------------|:----------------------|:---------------------------|:---------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------|:-----------------------------------------------------------|:-------------------------|:------------------------------------|:-------------|:--------------------|:------------|:-----------------------------------------|:------------|:-----|:--------|:-----------|:------------|:-------------------|:--------|:--------|:---------------------|:------------|:-------------------|:---------|:-----------------------|:-------------------------|:----------------|:-----------|:---------------------------------|:-------------------------|:------------|:--------------|:----------|:--------------|:-------------------------|:-------------------------|:----------|:-------|:--------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:---------|:----------|:----------|:----------|:----------|:----------|:-----------|
 | openfema-1  | PublicAssistanceFundedProjectsSummaries | Public Assistance Funded Project Summaries | FEMA provides supplemental Federal disaster grant … | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv> | csv                 | small (10MB - 50MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json> | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona> | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries> | <https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1> | public, assistance, disaster, grant, funding, sub-grantees | 2019-05-30T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/assistance/public> | 1980-02-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Public Assistance    | true        | R/P1D              | en-US    |                        | 2010-01-21T05:00:00.000Z |                 | FALSE      | bd507ed0181bba91866372a0a5d3c3e4 | 2021-10-28T16:35:23.985Z | 171040      |               |           |               | 2021-10-28T16:35:23.985Z | 5dd723598ca22d24d423eb6f | NA        | NA     | NA      | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
 | openfema-1  | PublicAssistanceFundedProjectsSummaries | Public Assistance Funded Project Summaries | FEMA provides supplemental Federal disaster grant … | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv> | csv                 | small (10MB - 50MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json> | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona> | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries> | <https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1> | public, assistance, disaster, grant, funding, sub-grantees | 2019-05-30T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/assistance/public> | 1980-02-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Public Assistance    | true        | R/P1D              | en-US    |                        | 2010-01-21T05:00:00.000Z |                 | FALSE      | bd507ed0181bba91866372a0a5d3c3e4 | 2021-10-28T16:35:23.985Z | 171040      |               |           |               | 2021-10-28T16:35:23.985Z | 5dd723598ca22d24d423eb6f | NA        | NA     | NA      | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
-| openfema-26 | FemaWebDeclarationAreas                 | FEMA Web Declaration Areas                 | This data set contains general information on decl… | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv>                 | csv                 | medium (50MB - 500MB)    | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json>                 | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona>                 | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas>                 | <https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1>                  | disaster, declaration, fema website                        | 2019-09-26T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/disasters>         | 1960-11-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Disaster Information | true        | R/PT20M            | en-US    |                        | NA                       |                 | FALSE      | 89eaca0ba42130ddbd5477ed92fee30b | 2021-10-28T18:07:31.829Z | 438069      |               |           |               | 2021-10-28T18:07:31.829Z | 5dd723598ca22d24d423eb73 | NA        | NA     | NA      | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
+| openfema-26 | FemaWebDeclarationAreas                 | FEMA Web Declaration Areas                 | This data set contains general information on decl… | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv>                 | csv                 | medium (50MB - 500MB)    | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json>                 | json                  | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona>                 | jsona                 | medium (50MB - 500MB)      | <https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas>                 | <https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1>                  | disaster, declaration, fema website                        | 2019-09-26T04:00:00.000Z | Federal Emergency Management Agency | OpenFEMA     | <openfema@fema.gov> | public      | <https://www.fema.gov/disasters>         | 1960-11-01/ | TRUE | 1       | 024:70     | 024:039     |                    |         |         | Disaster Information | true        | R/PT20M            | en-US    |                        | NA                       |                 | FALSE      | 89eaca0ba42130ddbd5477ed92fee30b | 2021-10-28T21:27:35.643Z | 438069      |               |           |               | 2021-10-28T21:27:35.643Z | 5dd723598ca22d24d423eb73 | NA        | NA     | NA      | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA       | NA        | NA        | NA        | NA        | NA        | NA         |
 
 Once you have the name of the data set you want, simply pass it as an
 argument to the `open_fema()` function which will return the data set as
 a data frame. By default, `open_fema()` will warn you if the number of
 records is greater than 1000 and will ask you to confirm that you want
-to retrieve all of the available records. To turn off this feature, set
-the parameter `ask_before_call` equal to FALSE. To limit the number of
-records returned, specify the `top_n` argument. This is useful for
-exploring a data set without retrieving all records.
+to retrieve all of the available records (for many data sets the total
+records is quite large). To turn off this feature, set the parameter
+`ask_before_call` equal to FALSE. To limit the number of records
+returned, specify the `top_n` argument. This is useful for exploring a
+data set without retrieving all records.
 
 ``` r
 retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
@@ -180,4 +182,5 @@ There are a variety of other ways to more precisely target the data you
 want to retrieve by specifying how many records you want returned,
 specifying which columns in a data set to return, and applying filters
 to any of the columns in a data set. For more information and examples
-of use cases, see the getting\_started vignette.
+of use cases, see the [Getting Started](vignettes/getting_started.html)
+vignette.

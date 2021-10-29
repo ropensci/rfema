@@ -206,7 +206,7 @@ filter_list <- list(disasterNumber = dd_nums_irma)
 
 
 # make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.
-assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list)
+assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list, ask_before_call = F)
 
 ```
 
@@ -241,4 +241,5 @@ bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
 
 ```{r,cache = F, include = F}
-file.remove("FemaRegions.csv")```
+file.remove("FemaRegions.csv")
+```

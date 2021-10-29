@@ -60,44 +60,54 @@ kable(head(df))
 
 
 
-The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `open_fema(data_set = "fimaNfipPolicies")` will indicate that there are over 59 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
+The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `open_fema(data_set = "fimaNfipClaims")` will indicate that there are over 2.5 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
 
 
 ```{r,echo=FALSE, r,echo=TRUE}
-"[1] 59341663 matching records found. At 1000 records per call, it will take 59342 individual API calls to get all matching records. Continue?"
+"[1] 2556847 matching records found. At  records per call, it will take 2557 individual API calls to get all matching records. Continue?"
+
+ "1 - Yes, get that data!, 0 - No, let me rethink my API call:" 
 ```
 
-Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Policies data.
+Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
 ```{r}
-df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10)
+df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
 kable(df)
 ```
 
-If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. Again, the data fields for a given data set can be retrieved using the `fema_data_fields()` function. In this case we will return only the census tract and CRScode columns. As can be seen, an id column is always returned even if the select argument is used. 
+If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the `fema_data_fields()` function.
+
 ```{r}
-df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, select = c("censusTract","crsClassCode"))
+data_fields <- fema_data_fields("fimanfipclaims")
+head(data_fields)
+```
+
+
+In this case we will return only the `policyCount` and `floodZone` columns. As can be seen, an id column is always returned even if the select argument is used. 
+```{r}
+df <- open_fema(data_set = "fimaNfipClaims", top_n = 10, select = c("policyCount","floodZone"))
 kable(df)
 ```
 
 If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the valid_parameters() function to return a vector containing the variables that are "searchable" for a particular data set. 
 ```{r}
-params <- valid_parameters(data_set = "fimaNfipPolicies")
-kable(params)
+params <- valid_parameters(data_set = "fimaNfipClaims")
+paste(params, collapse = ", ")
 ```
 
-We can see from the above that both censusTract and crsClassCode are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to see unique values of those variables in the data set. We can do this by using the parameter_values() function. This function returns the unique values of a variable contained in the first 1000 observations of a data set. Notably, it does not return all unique values, as that would require access to the entire data set, which as we saw above is almost 59 million records. 
+We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to see unique values of those variables in the data set. We can do this by using the `parameter_values()` function. This function returns the unique values of a variable contained in the first 1000 observations of a data set. Notably, it does not return all unique values, as that would require access to the entire data set, which as we saw above is over 2.5 million records. 
 
 ```{r}
-parameter_values(data_set = "fimaNfipPolicies",data_field = "crsClassCode")
+parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
 ```
 
 
-We can see from the above that crsClassCode is an integer in the data and there are 9 unique values in the first 1000 observations of the full dataset. Lets go a head a define a filter to limit our results to records with a crsClassCode that is either 5 or 6.
+We can see from the above that `floodZone` is a character in the data and there are 32 unique values in the first 1000 observations of the full data set. Lets go a head a define a filter to limit our results to records with "AE" or "X" flood zones.
 ```{r}
-my_filters <- list(crsClassCode = c(5,6))
+my_filters <- list(floodZone = c("AE","X"))
 
 df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, 
-               select = c("censusTract","crsClassCode"), filters = my_filters)
+               select = c("policyCount","floodZone"), filters = my_filters)
 kable(df)
 
 

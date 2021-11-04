@@ -3,10 +3,11 @@
 #'
 #' @return Returns a data frame containing information about each data set avaliable.
 #' @export
+#' @importFrom memoise memoise
 #'
 #' @examples
 #' fema_data_sets()
-fema_data_sets <- function() {
+fema_data_sets <- memoise(function() {
   result <- httr::GET("https://www.fema.gov/api/open/v1/DataSets")
   jsonData <- httr::content(result)
   df <- data.frame(t(unlist(jsonData$DataSets[1])))
@@ -19,4 +20,4 @@ fema_data_sets <- function() {
 
 
   return(df)
-}
+})

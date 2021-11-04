@@ -5,10 +5,11 @@
 #'
 #' @return returns a data frame with the unique data field values conatained in the first 1000 records of the full data set
 #' @export
+#' @importFrom memoise memoise
 #'
 #' @examples
 #' parameter_values(data_set = "fimaNfipClaims", data_field = "totalBuildingInsuranceCoverage")
-parameter_values <- function(data_set = NULL, data_field = NULL) {
+parameter_values <- memoise(function(data_set = NULL, data_field = NULL) {
   data <- open_fema(data_set = data_set, top_n = 999, select = data_field, ask_before_call = F)
   values <- unique(data[, data_field])
 
@@ -16,4 +17,4 @@ parameter_values <- function(data_set = NULL, data_field = NULL) {
   values <- as.character(values)
 
   return(values)
-}
+})

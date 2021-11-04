@@ -10,7 +10,7 @@
 #' @examples
 #' valid_dataset("fimanfipclaims")
 #' valid_dataset("fIMANfipclaiMS")
-valid_dataset <- function(data_set) {
+valid_dataset <- memoise(function(data_set) {
 
 
   # get df with info on fema data sets
@@ -29,7 +29,7 @@ valid_dataset <- function(data_set) {
     data_set <- match
   }
   return(as.character(unique(data_set)))
-}
+})
 
 
 
@@ -53,7 +53,7 @@ valid_dataset <- function(data_set) {
 #'   data_set = "fimaNfipPolicies", top_n = 100,
 #'   filters = filter_list, select = vars_to_select
 #' )
-gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select = NULL) {
+gen_api_query <- memoise(function(data_set = NULL, top_n = NULL, filters = NULL, select = NULL) {
 
   # replace top_n with 1000 if no value is supplied
   if (is.null(top_n)) {
@@ -122,7 +122,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
   api_query <- gsub(" ", "%20", api_query)
 
   return(api_query)
-}
+})
 
 
 
@@ -139,7 +139,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL, select 
 #' fema_api_endpoints("FimaNfipClaims")
 #' fema_api_endpoints("fImAnfiPclaims")
 #' fema_api_endpoints("fimanfippolicies")
-fema_api_endpoints <- function(data_set) {
+fema_api_endpoints <- memoise(function(data_set) {
 
   # convert dataset to fema consistent capitalization
   data_set <- unique(valid_dataset(data_set))
@@ -155,4 +155,4 @@ fema_api_endpoints <- function(data_set) {
   endpoint <- paste0("https://www.fema.gov/api/open/v", version, "/", data_set)
 
   return(endpoint)
-}
+})

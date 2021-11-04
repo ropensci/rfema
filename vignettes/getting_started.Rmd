@@ -39,11 +39,11 @@ Right now, the best way to install and use the `rfema` package is by installing 
 ## Avaliable Datasets
 To see the all of the data sets avaliable through `rfema`, we can run the `fema_data_sets()` function which calls the FEMA API endpoint: https://www.fema.gov/api/open/v1/DataSets. This returns a data frame containing meta data on the data sets provided through the open FEMA API.
 
-```{r}
+```{r, cache = T}
 data_sets <- fema_data_sets() 
 data_sets$description <- paste0(substr(data_sets$description,1,50),"...") # description shortened in this case to make table smaller
 
-kable(head(data_sets)) # only displaying first few data sets
+kable(head(data_sets,3)) # only displaying first few data sets
 ```
 
 
@@ -52,10 +52,10 @@ kable(head(data_sets)) # only displaying first few data sets
 ## Example Workflow
 Once we know what data set we want to access, or perhaps if we want to know more about what data is avaliable in a given data set, we can use the `fema_data_fields()` function to get a look at the available data fields in a given data set by setting the "data_set" parameter to one of the "name" columns in the data frame returned by the `fema_data_sets()` function.
 
-```{r}
+```{r,cache=T}
 df <- fema_data_fields(data_set = "fimaNfipPolicies")
 df$Description <- paste0(substr(df$Description,1,50),"...") # description shortened in this case to make table smaller
-kable(head(df))
+kable(head(df,3))
 ```
 
 
@@ -63,47 +63,47 @@ kable(head(df))
 The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `open_fema(data_set = "fimaNfipClaims")` will indicate that there are over 2.5 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
 
 
-```{r,echo=FALSE, r,echo=TRUE}
+```{r,echo=FALSE, cache = T}
 "[1] 2556847 matching records found. At  records per call, it will take 2557 individual API calls to get all matching records. Continue?"
 
  "1 - Yes, get that data!, 0 - No, let me rethink my API call:" 
 ```
 
 Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
-```{r}
+```{r, cache = T}
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
 kable(df)
 ```
 
 If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the `fema_data_fields()` function.
 
-```{r}
+```{r, cache = T}
 data_fields <- fema_data_fields("fimanfipclaims")
-head(data_fields)
+kable(head(data_fields,3))
 ```
 
 
 In this case we will return only the `policyCount` and `floodZone` columns. As can be seen, an id column is always returned even if the select argument is used. 
-```{r}
+```{r, cache = T}
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10, select = c("policyCount","floodZone"))
 kable(df)
 ```
 
 If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the valid_parameters() function to return a vector containing the variables that are "searchable" for a particular data set. 
-```{r}
+```{r, cache = T}
 params <- valid_parameters(data_set = "fimaNfipClaims")
 paste(params, collapse = ", ")
 ```
 
 We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to see unique values of those variables in the data set. We can do this by using the `parameter_values()` function. This function returns the unique values of a variable contained in the first 1000 observations of a data set. Notably, it does not return all unique values, as that would require access to the entire data set, which as we saw above is over 2.5 million records. 
 
-```{r}
+```{r, cache = T}
 parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
 ```
 
 
 We can see from the above that `floodZone` is a character in the data and there are 32 unique values in the first 1000 observations of the full data set. Lets go a head a define a filter to limit our results to records with "AE" or "X" flood zones.
-```{r}
+```{r, cache = T}
 my_filters <- list(floodZone = c("AE","X"))
 
 df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, 
@@ -121,7 +121,7 @@ kable(df)
 ## More Examples
 
 ### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
-```{r}
+```{r, cache = T}
 df <- open_fema(data_set = "fimaNfipClaims",
                  top_n = 100,
                  filters = list(countyCode = "= 01001",
@@ -131,7 +131,7 @@ df <- open_fema(data_set = "fimaNfipClaims",
 
 
 ### Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.
-```{r}
+```{r, cache = T}
 # see which parameter can be used for filtering the Hazard Mitigation Grants data set
 valid_parameters("HazardMitigationGrants") 
 
@@ -155,7 +155,7 @@ kable(head(df))
 ### Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.
 
 Get a dataset description for the `HousingAssistanceRenters` data set to see if this is the right data set for the question
-```{r}
+```{r, cache = T}
 # get meta data for the `HousingAssistanceRenters`
 ds <- fema_data_sets() %>% filter(name == "HousingAssistanceRenters")
 
@@ -170,13 +170,13 @@ print(ds$description)
 ```
 
 See which columns we can filter on to select just Hurricane Irma related grants
-```{r}
+```{r, cache = T}
 # see which parameter can be used for filtering the Housing Assistance for Renters 
 valid_parameters("HousingAssistanceRenters") 
 ```
 
 All we have in this data set is the `disasterNumber`. Thus, to filter on a specific disaster we have to load the `FemaWebDisasterDeclarations` data find the disaster number associated with the event we are interested in.
-```{r}
+```{r, cache = T}
 # call the disaster declarations
 dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
 
@@ -188,7 +188,7 @@ kable(head(hurricanes))
 ```
 
 As can be seen, disaster numbers do not uniquely ID an event, since multiple disaster declarations may be declared for the same event, but in different locations. Thus to filter on a particular event, we need to collect all the disaster declaration numbers corresponding to that event. 
-```{r}
+```{r, cache = T}
 # get all disaster declarations associated with hurricane irma. 
 # notice the use of grepl() which picked up a disaster declaration name 
 # that was differnt than all the others.
@@ -200,7 +200,7 @@ dd_nums_irma <- dd_irma$disasterNumber
 ```
 
 Now we are read to filter our API call for the `HousingAssistanceRenters` data set.
-```{r}
+```{r, cache = T}
 # construct filter list
 filter_list <- list(disasterNumber = dd_nums_irma)
 
@@ -211,7 +211,7 @@ assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = fi
 ```
 
 Check out the returned data
-```{r}
+```{r, cache = T}
 # check out the returned data
 kable(head(assistance_irma))
 
@@ -219,7 +219,7 @@ kable(head(assistance_irma))
 
 
 Now we can answer our origonal question: How much did FEMA awarded for rental assistance following Hurricane Irma?
-```{r}
+```{r, cache = T}
 # sum the rentalAmount Column
 rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
 

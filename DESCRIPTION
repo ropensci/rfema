@@ -16,6 +16,7 @@ RoxygenNote: 7.1.2
 Imports: 
     dplyr,
     httr,
+    memoise,
     plyr,
     rvest,
     utils

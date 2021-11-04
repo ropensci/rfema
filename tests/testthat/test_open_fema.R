@@ -31,23 +31,26 @@ test_that("select limits the columns returned", {
   expect_equal(F %in% (colnames(df) %in% c("state", "yearOfLoss", "id")), F)
 })
 
-# test save to file functionality for csv files
-# download file
-ds <- "femaregions" # using femaregions because it is a small file
-open_fema(data_set = ds, file_type = "csv")
-open_fema(data_set = ds, file_type = "rds")
-
-# get name of csv files/rds files in wd
-csv_file <- list.files(getwd(), pattern = ".csv")
-rds_file <- list.files(getwd(), pattern = ".rds")
-
 
 # check to see if file is in the folder
 test_that("downloaded file is in the specified location with correct name", {
+  skip_if_offline(host = "www.fema.gov") 
+  # test save to file functionality for csv files
+  # download file
+  ds <- "femaregions" # using femaregions because it is a small file
+  open_fema(data_set = ds, file_type = "csv")
+  open_fema(data_set = ds, file_type = "rds")
+  
+  # get name of csv files/rds files in wd
+  csv_file <- list.files(getwd(), pattern = ".csv")
+  rds_file <- list.files(getwd(), pattern = ".rds")
+  
   expect_equal(paste0(ds, ".csv"), csv_file)
   expect_equal(paste0(ds, ".rds"), rds_file)
+  
+  # remove file so directory doesn't get cluttered
+  file.remove(csv_file)
+  file.remove(rds_file)
 })
 
-# remove file so directory doesn't get cluttered
-file.remove(csv_file)
-file.remove(rds_file)
+

@@ -17,9 +17,10 @@
 #' @return Returns a data frame containing the data from the FEMA API.
 #' @export
 #' @importFrom utils write.table
+#' @importFrom memoise memoise
 #' @examples
 #' data <- open_fema(data_set = "fimaNfipClaims", top_n = 100, filters = list(countyCode = "10001"))
-open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL) {
+open_fema <- memoise(function(data_set, top_n = NULL, filters = NULL, select = NULL, ask_before_call = T, file_type = NULL, output_dir = NULL) {
 
   # return specific errors for edge case top_n arguments
   if (is.null(top_n) == F) {
@@ -196,4 +197,4 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL, select = NULL, ask
     write.table(fullData, file = paste0(output_dir, "/", data_set, ".csv"), sep = ",")
     message(paste0("Saving data to ", paste0(output_dir, "/", data_set, ".csv")))
   }
-}
+})

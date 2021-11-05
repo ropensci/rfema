@@ -1,0 +1,39 @@
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/dylan-turner25/rfema/
+    articles:
+      text: Articles
+      menu:
+      - text: 'rfema: Getting Started'
+        href: articles/getting_started.html
+
+reference:
+- title: All functions
+  contents:
+  - '`bulk_dl`'
+  - '`fema_api_endpoints`'
+  - '`fema_data_fields`'
+  - '`fema_data_sets`'
+  - '`gen_api_query`'
+  - '`open_fema`'
+  - '`parameter_values`'
+  - '`valid_dataset`'
+  - '`valid_parameters`'
+

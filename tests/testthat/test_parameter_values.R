@@ -2,7 +2,7 @@
 
 test_that("Error is returned when data field is not in the data set", {
   vcr::use_cassette("non_existing_dataset", {
-  expect_error(parameter_values(data_set = "fimanfipclaims", data_field = "asdfasdf"))
+    expect_error(parameter_values(data_set = "fimanfipclaims", data_field = "asdfasdf"))
   })
 })
 
@@ -12,4 +12,3 @@ test_that(paste0("returned object is a character vector of dimensions 1 x N"), {
   })
   expect_equal(is.vector(returned_obj), TRUE)
 })
-

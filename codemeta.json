@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "rfema",
-  "description": "rfema allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.",
+  "description": "`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.",
   "name": "rfema: Access the openFEMA API",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.0.0.9000",
@@ -20,7 +20,7 @@
       "@type": "Person",
       "givenName": "Dylan",
       "familyName": "Turner",
-      "email": "dylan.turner25@uga.edu",
+      "email": "dylan.turner3@outlook.com",
       "@id": "https://orcid.org/000-0002-0915-7384"
     }
   ],
@@ -32,7 +32,7 @@
       "@type": "Person",
       "givenName": "Dylan",
       "familyName": "Turner",
-      "email": "dylan.turner25@uga.edu",
+      "email": "dylan.turner3@outlook.com",
       "@id": "https://orcid.org/000-0002-0915-7384"
     }
   ],
@@ -73,6 +73,31 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "vcr",
+      "name": "vcr",
+      "version": ">= 0.6.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=vcr"
     }
   ],
   "softwareRequirements": [
@@ -99,6 +124,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=httr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "memoise",
+      "name": "memoise",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=memoise"
     },
     {
       "@type": "SoftwareApplication",
@@ -132,7 +169,8 @@
   ],
   "codeRepository": "https://github.com/dylan-turner25/rfema",
   "readme": "https://github.com/dylan-turner25/rfema/blob/main/README.md",
-  "fileSize": "116.091KB",
+  "fileSize": "1259.038KB",
   "developmentStatus": ["https://www.repostatus.org/", "https://lifecycle.r-lib.org/articles/stages.html"],
-  "issueTracker": "https://github.com/dylan-turner25/rfema/issues"
+  "issueTracker": "https://github.com/dylan-turner25/rfema/issues",
+  "contIntegration": "https://codecov.io/gh/dylan-turner25/rfema?branch=main"
 }

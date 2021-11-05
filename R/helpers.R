@@ -24,7 +24,7 @@ valid_dataset <- memoise(function(data_set) {
   # capitalization fema uses
   match <- fema_data_sets$name[tolower(fema_data_sets$name) == data_set]
   if (length(match) == 0) {
-    stop(paste0(data_set, " is not a valid data set. Use fema_data_sets() to return avaliable data sets and associated meta data." ))
+    stop(paste0(data_set, " is not a valid data set. Use fema_data_sets() to return avaliable data sets and associated meta data."))
   } else {
     data_set <- match
   }

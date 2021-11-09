@@ -104,7 +104,7 @@ Right now, the best way to install and use the `rfema` package is by installing 
 
 
 
-## Basic Usage
+## Usage
 Use the `fema_data_sets()` function to obtain a data frame of available data sets along with associated meta data. 
 ```{r}
 data_sets <- fema_data_sets()
@@ -124,5 +124,5 @@ retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 kable(head(retrieved_data))
 ```
 
-There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](vignettes/getting_started.html) vignette.
+There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](docs/articles/getting_started.html) vignette.
 

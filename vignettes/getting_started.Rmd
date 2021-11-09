@@ -2,11 +2,11 @@
 title: "rfema: Getting Started"
 author: "Dylan Turner"
 date: "`r Sys.Date()`"
-#output: rmarkdown::html_vignette
+# output: rmarkdown::html_vignette
 output:
-  github_document:
-    toc: true
-    toc_depth: 3
+ github_document:
+   toc: true
+   toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{rfema: Getting Started}
   %\VignetteEngine{knitr::rmarkdown}

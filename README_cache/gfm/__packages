@@ -1,0 +1,7 @@
+base
+knitr
+dplyr
+usethis
+devtools
+testthat
+rfema

@@ -8,3 +8,5 @@
 ^codecov\.yml$
 vignettes/getting_started.Rmd
 vignettes/getting_started_cache
+_pkgdown.yml
+^docs/

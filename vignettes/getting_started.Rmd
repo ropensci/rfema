@@ -2,11 +2,11 @@
 title: "rfema: Getting Started"
 author: "Dylan Turner"
 date: "`r Sys.Date()`"
-# output: rmarkdown::html_vignette
-output:
- github_document:
-   toc: true
-   toc_depth: 3
+output: rmarkdown::html_vignette
+# output:
+#  github_document:
+#    toc: true
+#    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{rfema: Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
@@ -148,7 +148,7 @@ filter_list <- c(incidentType = c("Hurricane"),
 # pass filter_list to the open_fema function to retreieve data.
 df <- open_fema(data_set = "HazardMitigationGrants", filters = filter_list, 
                ask_before_call = FALSE)
-kable(head(df))
+kable(df[1:3,1:4])
 ```
 
 

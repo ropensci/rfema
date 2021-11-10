@@ -8,7 +8,7 @@
 #' @param size_warning A logical indicating whether to issue a warning before proceeding with downloading a large file (default is TRUE)
 #' @return Returns a downloaded csv file of the data set to the specified output directory.
 #' @export
-#'
+#' @example  bulk_dl("femaregions")
 #'
 bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning = T) {
 

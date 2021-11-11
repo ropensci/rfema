@@ -21,3 +21,8 @@ Returns a downloaded csv file of the data set to the specified output directory.
 \description{
 For large files, the function
 }
+\examples{
+bulk_dl("femaregions") # download the file
+file.remove("FemaRegions.csv") # clean up directory by removing file
+
+}

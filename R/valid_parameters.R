@@ -4,13 +4,15 @@
 #'
 #' @param data_set A character string indicating the data set to return valid parameters for
 #'
-#' @return Returns a vector of parameter names that can be used to filter an API call for a given open FEMA dataset
-#' @export
+#' @return Returns a vector of parameter names that can be used to filter an API call for a given open FEMA data set
+#' 
 #' @importFrom memoise memoise
+#' 
+#' @export
 #'
 #' @examples
 #' valid_parameters("fimaNfipPolicies")
-valid_parameters <- memoise(function(data_set = NULL) {
+valid_parameters <- memoise::memoise(function(data_set = NULL) {
   data_set <- valid_dataset(data_set = data_set)
   data_fields <- fema_data_fields(data_set)
   data_fields <- data_fields[which(data_fields$isSearchable != "no"), ] # remove rows for parameters that aren't searchable

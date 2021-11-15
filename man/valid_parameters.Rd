@@ -10,7 +10,7 @@ valid_parameters(data_set = NULL)
 \item{data_set}{A character string indicating the data set to return valid parameters for}
 }
 \value{
-Returns a vector of parameter names that can be used to filter an API call for a given open FEMA dataset
+Returns a vector of parameter names that can be used to filter an API call for a given open FEMA data set
 }
 \description{
 Get all valid API parameters for a given FEMA data set

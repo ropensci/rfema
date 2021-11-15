@@ -82,7 +82,7 @@
       <h1 data-toc-skip>rfema: Getting Started</h1>
                         <h4 class="author">Dylan Turner</h4>
             
-            <h4 class="date">2021-11-09</h4>
+            <h4 class="date">2021-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/dylan-turner25/rfema/blob/master/vignettes/getting_started.Rmd"><code>vignettes/getting_started.Rmd</code></a></small>
       <div class="hidden name"><code>getting_started.Rmd</code></div>
@@ -284,12 +284,12 @@
 <td align="left"></td>
 <td align="left">FALSE</td>
 <td align="left">bd507ed0181bba91866372a0a5d3c3e4</td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
-<td align="left">171463</td>
+<td align="left">2021-11-14T17:35:14.013Z</td>
+<td align="left">171531</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
+<td align="left">2021-11-14T17:35:14.013Z</td>
 <td align="left">5dd723598ca22d24d423eb6f</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -350,12 +350,12 @@
 <td align="left"></td>
 <td align="left">FALSE</td>
 <td align="left">bd507ed0181bba91866372a0a5d3c3e4</td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
-<td align="left">171463</td>
+<td align="left">2021-11-14T17:35:14.013Z</td>
+<td align="left">171531</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
+<td align="left">2021-11-14T17:35:14.013Z</td>
 <td align="left">5dd723598ca22d24d423eb6f</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -416,12 +416,12 @@
 <td align="left"></td>
 <td align="left">FALSE</td>
 <td align="left">89eaca0ba42130ddbd5477ed92fee30b</td>
-<td align="left">2021-11-09T19:31:35.318Z</td>
-<td align="left">438102</td>
+<td align="left">2021-11-15T11:47:40.361Z</td>
+<td align="left">438189</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">2021-11-09T19:31:35.318Z</td>
+<td align="left">2021-11-15T11:47:40.361Z</td>
 <td align="left">5dd723598ca22d24d423eb73</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -1375,49 +1375,13 @@
                ask_before_call <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; 1 out of 2 itterations completedFALSE</span>
 <span class="co">#&gt; 2 out of 2 itterations completedFALSE</span>
-<span class="fu">kable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">kable</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <table class="table">
-<colgroup>
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="3%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="8%">
-<col width="6%">
-<col width="40%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="4%">
-<col width="3%">
-<col width="3%">
-</colgroup>
 <thead><tr class="header">
 <th align="left">region</th>
 <th align="left">state</th>
 <th align="left">disasterNumber</th>
 <th align="left">declarationDate</th>
-<th align="left">incidentType</th>
-<th align="left">disasterTitle</th>
-<th align="left">projectNumber</th>
-<th align="left">projectType</th>
-<th align="left">projectTitle</th>
-<th align="left">projectDescription</th>
-<th align="left">projectCounties</th>
-<th align="left">status</th>
-<th align="left">subgrantee</th>
-<th align="left">subgranteeFIPSCode</th>
-<th align="left">projectAmount</th>
-<th align="left">costSharePercentage</th>
-<th align="left">hash</th>
-<th align="left">lastRefresh</th>
-<th align="left">id</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1425,46 +1389,21 @@
 <td align="left">Florida</td>
 <td align="left">955</td>
 <td align="left">1992-08-24T00:00:00.000Z</td>
-<td align="left">Hurricane</td>
-<td align="left">HURRICANE ANDREW</td>
-<td align="left">0004</td>
-<td align="left">401.1: Water and Sanitary Sewer System Protective Measures</td>
-<td align="left">GIS UTILITY RESPONSE DATA FILES</td>
-<td align="left">Load all water and sewer lines onto a GIS and field locate essential facilities to shorten repair crew response time.</td>
-<td align="left">BROWARD</td>
-<td align="left">Not Approved / Denied</td>
-<td align="left">BROWARD COUNTY</td>
-<td align="left">1100000</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">bd8da6fb6e52916e3c822f4aca8b7f82</td>
-<td align="left">2017-12-11T16:09:24.558Z</td>
-<td align="left">5a2eadb4758c6e4347f37aa1</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
 <td align="left">Florida</td>
 <td align="left">955</td>
 <td align="left">1992-08-24T00:00:00.000Z</td>
-<td align="left">Hurricane</td>
-<td align="left">HURRICANE ANDREW</td>
-<td align="left">0002</td>
-<td align="left">205.8: Retrofitting Public Structures - Wind</td>
-<td align="left">WIND RETROFIT BLDG - REINFORCE GLASS WALLS</td>
-<td align="left">Protect building with laminated glass, shuttering, bracing, rollup doors, and skylight retrofit .</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">Florida</td>
+<td align="left">955</td>
+<td align="left">1992-08-24T00:00:00.000Z</td>
 </tr>
 </tbody>
 </table>
-<p>See Comments section for further description. |BROWARD |Closed |PERFORMING ARTS CENT |1190704 |1687412 |50 |7662a07458802ded73f1e5555c16d06e |2017-12-11T16:12:06.413Z |5a2eadb4758c6e4347f37ac1 | |4 |Florida |955 |1992-08-24T00:00:00.000Z |Hurricane |HURRICANE ANDREW |0003 |501.1: Other Major Structural Projects |REPLACE TRAFFIC SIGNALS/ELEVATE CONTROL BOXES |Replace span wire traffic signals with mast arm installations. Raise control cabinets to prevent water intrusion and flooding. |BROWARD |Withdrawn |BROWARD COUNTY |1100000 |0 |0 |cbe2884b62ee5a92052adcd72b7548ad |2017-12-11T16:09:24.575Z |5a2eadb4758c6e4347f37ad4 | |4 |Florida |955 |1992-08-24T00:00:00.000Z |Hurricane |HURRICANE ANDREW |0001 |602.1: Other Equipment Purchase and Installation |RECOVERY MANAGEMENT PROJECT |Proposed system funding levels: Hardware: $670,000, Software: $55,000, Training: $60,000; system customization: $200,000; maintenance: $110,000; data acquistion: $325,000; Miami DFO and four county disaster area support: $180,000, for a total of : $1,600,000. |STATEWIDE |Closed |DEPARTMENT OF COMMUN |92040 |1600000 |50 |2a1e5ea264fb4ec92c8244db0829e09a |2017-12-11T16:09:24.586Z |5a2eadb4758c6e4347f37af5 | |4 |Florida |955 |1992-08-24T00:00:00.000Z |Hurricane |HURRICANE ANDREW |0019 |205.8: Retrofitting Public Structures - Wind |WIND RETROFIT BLDGS - SHUTTERS |Install shutters over all openings to public works maintenance building to prevent damage from hurricane winds. This project plans to install 183 SF of shutters at all window openings for an estimated cost of $1,400. |BROWARD |Closed |LIGHTHOUSE POINT |1140450 |1500 |50 |55eaf4535a6f0a5264991d722469054a |2017-12-11T16:09:24.849Z |5a2eadb4758c6e4347f37af9 | |4 |Florida |955 |1992-08-24T00:00:00.000Z |Hurricane |HURRICANE ANDREW |0014 |601.1: Generators |ELEVATE/RELOCATE EMERGENCY GENERATOR |Construct engine / generator set enclosure at an alternative location above minimum floodplain elevation, together with extension of primary feeders to emergency switch gear, to prevent flooding during a storm event. |BROWARD |Withdrawn |DAVIE |1116475 |0 |0 |9986bc5b602bc4b7c2450514d62ce5e2 |2017-12-11T16:09:24.849Z |5a2eadb4758c6e4347f37af8 |</p>
 </div>
 <div id="example-determine-how-much-money-was-awarded-by-fema-for-rental-assistance-following-hurricane-irma-" class="section level3">
 <h3 class="hasAnchor">
@@ -1601,8 +1540,8 @@
 <col width="3%">
 <col width="3%">
 <col width="1%">
-<col width="9%">
-<col width="4%">
+<col width="8%">
+<col width="6%">
 <col width="5%">
 </colgroup>
 <thead><tr class="header">
@@ -1633,6 +1572,29 @@
 <td align="left">VI</td>
 <td align="left">1</td>
 <td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">9349.96</td>
+<td align="left">0</td>
+<td align="left">2660</td>
+<td align="left">6689.96</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">4335</td>
+<td align="left">00801</td>
+<td align="left">St. Thomas (Island) (County-equivalent)</td>
+<td align="left">ST. THOMAS</td>
+<td align="left">618f8b380e7a7c6db4ec4821</td>
+</tr>
+<tr class="even">
+<td align="left">VI</td>
+<td align="left">1</td>
+<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -1649,31 +1611,8 @@
 <td align="left">4335</td>
 <td align="left">00801</td>
 <td align="left">St. Thomas (Island) (County-equivalent)</td>
-<td align="left">CHARLOTE AMAILE</td>
-<td align="left">61863d8a0e7a7c6db469190a</td>
-</tr>
-<tr class="even">
-<td align="left">VI</td>
-<td align="left">10</td>
-<td align="left">8</td>
-<td align="left">6</td>
-<td align="left">3</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
-<td align="left">9687.86</td>
-<td align="left">0</td>
-<td align="left">8062</td>
-<td align="left">1625.86</td>
-<td align="left">5</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">4335</td>
-<td align="left">00801</td>
-<td align="left">St. Thomas (Island) (County-equivalent)</td>
-<td align="left">CHARLOTTE AMALIE</td>
-<td align="left">61863d8a0e7a7c6db469190b</td>
+<td align="left">STT</td>
+<td align="left">618f8b380e7a7c6db4ec4822</td>
 </tr>
 <tr class="odd">
 <td align="left">VI</td>
@@ -1696,53 +1635,53 @@
 <td align="left">00801</td>
 <td align="left">St. Thomas (Island) (County-equivalent)</td>
 <td align="left">STTHOMAS</td>
-<td align="left">61863d8a0e7a7c6db4691914</td>
+<td align="left">618f8b380e7a7c6db4ec4823</td>
 </tr>
 <tr class="even">
 <td align="left">VI</td>
+<td align="left">4</td>
+<td align="left">4</td>
+<td align="left">2</td>
 <td align="left">1</td>
-<td align="left">1</td>
-<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left">4</td>
+<td align="left">6360</td>
 <td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
+<td align="left">5860</td>
+<td align="left">500</td>
+<td align="left">4</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">4335</td>
 <td align="left">00802</td>
 <td align="left">St. Thomas (Island) (County-equivalent)</td>
-<td align="left">BOVONI</td>
-<td align="left">61863d8a0e7a7c6db4691918</td>
+<td align="left">CHARLOTTE AMALIE ST THOMAS</td>
+<td align="left">618f8b380e7a7c6db4ec482b</td>
 </tr>
 <tr class="odd">
 <td align="left">VI</td>
 <td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
 <td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1696</td>
 <td align="left">0</td>
-<td align="left">1696</td>
 <td align="left">0</td>
-<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">4335</td>
 <td align="left">00802</td>
 <td align="left">St. Thomas (Island) (County-equivalent)</td>
-<td align="left">CHAROLETTE AMALIE</td>
-<td align="left">61863d8a0e7a7c6db4691920</td>
+<td align="left">ESTATE SMITH BAY</td>
+<td align="left">618f8b380e7a7c6db4ec4831</td>
 </tr>
 <tr class="even">
 <td align="left">VI</td>
@@ -1752,20 +1691,20 @@
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">1</td>
-<td align="left">500</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">500</td>
-<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">4335</td>
 <td align="left">00802</td>
 <td align="left">St. Thomas (Island) (County-equivalent)</td>
-<td align="left">ST THOMAD</td>
-<td align="left">61863d8a0e7a7c6db469192d</td>
+<td align="left">ISLAND OF SAINT THOMAS</td>
+<td align="left">618f8b380e7a7c6db4ec4834</td>
 </tr>
 </tbody>
 </table>

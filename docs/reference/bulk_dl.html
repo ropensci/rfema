@@ -136,26 +136,37 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data_set</th>
-      <td><p>A character string indicating the name of the data set to download</p></td>
+      <td><p>A character string indicating the name of the data set
+to download</p></td>
     </tr>
     <tr>
       <th>output_dir</th>
-      <td><p>An optional character string indicating the directory (defaults to working directory)</p></td>
+      <td><p>An optional character string indicating the
+directory (defaults to working directory)</p></td>
     </tr>
     <tr>
       <th>file_name</th>
-      <td><p>An optional character string indicating the file name (defaults to data set name with time stamp)</p></td>
+      <td><p>An optional character string indicating the file
+name (defaults to data set name with time stamp)</p></td>
     </tr>
     <tr>
       <th>size_warning</th>
-      <td><p>A logical indicating whether to issue a warning before proceeding with downloading a large file (default is TRUE)</p></td>
+      <td><p>A logical indicating whether to issue a warning
+before proceeding with downloading a large file (default is TRUE)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a downloaded csv file of the data set to the specified output directory.</p>
+    <p>Returns a downloaded csv file of the data set to the
+specified output directory.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='fu'>bulk_dl</span><span class='op'>(</span><span class='st'>"femaregions"</span><span class='op'>)</span> <span class='co'># download the file</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Downloading file to /home/dylan/Dropbox/rfema/docs/reference/FemaRegions.csv</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>"FemaRegions.csv"</span><span class='op'>)</span> <span class='co'># clean up directory after file downloads</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

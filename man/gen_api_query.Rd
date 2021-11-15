@@ -9,14 +9,19 @@ gen_api_query(data_set = NULL, top_n = NULL, filters = NULL, select = NULL)
 \arguments{
 \item{data_set}{character string specifiying the data set to query from}
 
-\item{top_n}{numeric value indicating how many records to retun (default is 1000 which is the maximum number of records the API will return in a single query )}
+\item{top_n}{numeric value indicating how many records to retun
+(default is 1000 which is the maximum number of records the API will return
+in a single query )}
 
-\item{filters}{a list containing values of data fields that should be used to construct filters.}
+\item{filters}{a list containing values of data fields that should be used
+to construct filters.}
 
-\item{select}{a character vector of data fields to return (default is to return all data fields for the data set)}
+\item{select}{a character vector of data fields to return
+(default is to return all data fields for the data set)}
 }
 \value{
-The function returns a string containing a url that can be used to query the API.
+The function returns a string containing a url that can be used to
+query the API.
 }
 \description{
 Helper function to generate the URL string for an API query

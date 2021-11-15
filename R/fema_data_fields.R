@@ -3,14 +3,16 @@
 #'
 #' @param data_set a character string indicating the data set of interest
 #'
-#' @return Returns a data frame consisting of the data fields name, along with information about each data field including the data type, a description of the data field, and whether the data field is "searchable" (i.e. can it be used to filter the returned data in an API query)
+#' @return Returns a data frame consisting of the data fields name,
+#' along with information about each data field including the data type,
+#' a description of the data field, and whether the data field is "searchable"
+#'  (i.e. can it be used to filter the returned data in an API query)
 #' @export
-#' @importFrom memoise memoise
 #'
 #' @examples
 #' fema_data_fields("FimaNfipClaims")
 #' fema_data_fields("FimaNfipPolicies")
-fema_data_fields <- memoise(function(data_set) {
+fema_data_fields <- memoise::memoise(function(data_set) {
 
 
 

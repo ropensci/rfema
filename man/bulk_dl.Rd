@@ -7,22 +7,26 @@
 bulk_dl(data_set, output_dir = NULL, file_name = NULL, size_warning = T)
 }
 \arguments{
-\item{data_set}{A character string indicating the name of the data set to download}
+\item{data_set}{A character string indicating the name of the data set
+to download}
 
-\item{output_dir}{An optional character string indicating the directory (defaults to working directory)}
+\item{output_dir}{An optional character string indicating the
+directory (defaults to working directory)}
 
-\item{file_name}{An optional character string indicating the file name (defaults to data set name with time stamp)}
+\item{file_name}{An optional character string indicating the file
+name (defaults to data set name with time stamp)}
 
-\item{size_warning}{A logical indicating whether to issue a warning before proceeding with downloading a large file (default is TRUE)}
+\item{size_warning}{A logical indicating whether to issue a warning
+before proceeding with downloading a large file (default is TRUE)}
 }
 \value{
-Returns a downloaded csv file of the data set to the specified output directory.
+Returns a downloaded csv file of the data set to the
+specified output directory.
 }
 \description{
 For large files, the function
 }
 \examples{
 bulk_dl("femaregions") # download the file
-file.remove("FemaRegions.csv") # clean up directory by removing file
-
+file.remove("FemaRegions.csv") # clean up directory after file downloads
 }

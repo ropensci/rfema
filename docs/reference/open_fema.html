@@ -40,10 +40,13 @@
 
 
 <meta property="og:title" content="Get data from the FEMA API — open_fema" />
-<meta property="og:description" content="The function allows users to pull data directly from the FEMA API and have it returned as a data frame natively within R.
-The FEMA API limits a single query to 1000 records, thus for a query resulting in more than 1000 records, an iterative approach is
-necessary to get all of the records. The function handles this and will, by default, warn the user of how many iterations are needed
-to get all the records matching their query, letting the user decide choose whether to continue." />
+<meta property="og:description" content="The function allows users to pull data directly from the FEMA API and have it
+returned as a data frame natively within R.The FEMA API limits a single
+query to 1000 records, thus for a query resulting in more than 1000 records,
+an iterative approach is necessary to get all of the records. The function
+handles this and will, by default, warn the user of how many iterations are
+needed to get all the records matching their query, letting the user decide
+choose whether to continue." />
 
 
 
@@ -129,10 +132,13 @@ to get all the records matching their query, letting the user decide choose whet
     </div>
 
     <div class="ref-description">
-    <p>The function allows users to pull data directly from the FEMA API and have it returned as a data frame natively within R.
-The FEMA API limits a single query to 1000 records, thus for a query resulting in more than 1000 records, an iterative approach is
-necessary to get all of the records. The function handles this and will, by default, warn the user of how many iterations are needed
-to get all the records matching their query, letting the user decide choose whether to continue.</p>
+    <p>The function allows users to pull data directly from the FEMA API and have it
+returned as a data frame natively within R.The FEMA API limits a single
+query to 1000 records, thus for a query resulting in more than 1000 records,
+an iterative approach is necessary to get all of the records. The function
+handles this and will, by default, warn the user of how many iterations are
+needed to get all the records matching their query, letting the user decide
+choose whether to continue.</p>
     </div>
 
     <pre class="usage"><span class='fu'>open_fema</span><span class='op'>(</span>
@@ -154,29 +160,36 @@ to get all the records matching their query, letting the user decide choose whet
     </tr>
     <tr>
       <th>top_n</th>
-      <td><p>an optional integer value to specify the maximum number of matching records to return</p></td>
+      <td><p>an optional integer value to specify the maximum number of
+matching records to return</p></td>
     </tr>
     <tr>
       <th>filters</th>
-      <td><p>an optional list containing values of the data fields contained in the data set to construct filters from</p></td>
+      <td><p>an optional list containing values of the data fields
+contained in the data set to construct filters from</p></td>
     </tr>
     <tr>
       <th>select</th>
-      <td><p>an optional character vector to specify which data fields to return (default is to return all data fields)</p></td>
+      <td><p>an optional character vector to specify which data fields to
+return (default is to return all data fields)</p></td>
     </tr>
     <tr>
       <th>ask_before_call</th>
-      <td><p>a logical indicating if users should be asked if they would like to proceed when an API call results in
+      <td><p>a logical indicating if users should be asked if they
+would like to proceed when an API call results in
 a large number of records (default is T).</p></td>
     </tr>
     <tr>
       <th>file_type</th>
-      <td><p>an optional character string that specifies a file type to save the data as (options are "csv" and "rds"). If a file
+      <td><p>an optional character string that specifies a file type to
+save the data as (options are "csv" and "rds"). If a file
 is specified, the function will not return the api call as a data frame</p></td>
     </tr>
     <tr>
       <th>output_dir</th>
-      <td><p>an optional character string specifying the directory to save the exported file if the file_type is specified (defaults to working directory).</p></td>
+      <td><p>an optional character string specifying the directory to
+save the exported file if the file_type is specified
+(defaults to working directory).</p></td>
     </tr>
     </table>
 
@@ -185,7 +198,10 @@ is specified, the function will not return the api call as a data frame</p></td>
     <p>Returns a data frame containing the data from the FEMA API.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>open_fema</span><span class='op'>(</span>data_set <span class='op'>=</span> <span class='st'>"fimaNfipClaims"</span>, top_n <span class='op'>=</span> <span class='fl'>100</span>, filters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>countyCode <span class='op'>=</span> <span class='st'>"10001"</span><span class='op'>)</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>open_fema</span><span class='op'>(</span></span>
+<span class='r-in'>  data_set <span class='op'>=</span> <span class='st'>"fimaNfipClaims"</span>, top_n <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>  filters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>countyCode <span class='op'>=</span> <span class='st'>"10001"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

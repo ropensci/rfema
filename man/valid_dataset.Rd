@@ -2,7 +2,8 @@
 % Please edit documentation in R/helpers.R
 \name{valid_dataset}
 \alias{valid_dataset}
-\title{Helper function to insure data_set parameter matches an open FEMA data offering.}
+\title{Helper function to insure data_set parameter matches an open FEMA data
+offering.}
 \usage{
 valid_dataset(data_set)
 }
@@ -10,10 +11,13 @@ valid_dataset(data_set)
 \item{data_set}{a character string representing the data set.}
 }
 \value{
-returns the data with capitalization changed to be consistent with FEMA's naming convention or returns an error if the data set is not one of the valid offerings through the FEMA API.
+returns the data with capitalization changed to be consistent with
+FEMA's naming convention or returns an error if the data set is not one of
+the valid offerings through the FEMA API.
 }
 \description{
-The function corrects any capitalization inconsistencies so that the "data_set" parameter in any of rfema's functions is not case sensative.
+The function corrects any capitalization inconsistencies so that the
+"data_set" parameter in any of rfema's functions is not case sensative.
 }
 \examples{
 valid_dataset("fimanfipclaims")

@@ -2,18 +2,22 @@
 % Please edit documentation in R/helpers.R
 \name{fema_api_endpoints}
 \alias{fema_api_endpoints}
-\title{Helper function that returns the API endpoint associated with a open FEMA data set}
+\title{Helper function that returns the API endpoint associated with an open FEMA
+data set}
 \usage{
 fema_api_endpoints(data_set)
 }
 \arguments{
-\item{data_set}{A character string with the name of the data set to get the API endpoint for.}
+\item{data_set}{A character string with the name of the data set to get the
+API endpoint for.}
 }
 \value{
-Returns a character string containing the API endpoint url associated with the data set.
+Returns a character string containing the API endpoint URL associated
+with the data set.
 }
 \description{
-Helper function that returns the API endpoint associated with a open FEMA data set
+Helper function that returns the API endpoint associated with an open FEMA
+data set
 }
 \examples{
 fema_api_endpoints("FimaNfipClaims")

@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper function that returns the API endpoint associated with an open FEMA
-data set — fema_api_endpoints • rfema</title>
+<title>Contributing • rfema</title>
 
 
 <!-- jquery -->
@@ -19,8 +18,8 @@ data set — fema_api_endpoints • rfema</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -34,16 +33,13 @@ data set — fema_api_endpoints • rfema</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Helper function that returns the API endpoint associated with an open FEMA
-data set — fema_api_endpoints" />
-<meta property="og:description" content="Helper function that returns the API endpoint associated with an open FEMA
-data set" />
+<meta property="og:title" content="Contributing" />
 
 
 
@@ -62,7 +58,7 @@ data set" />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -74,7 +70,7 @@ data set" />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">rfema</a>
+        <a class="navbar-link" href="index.html">rfema</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -82,13 +78,13 @@ data set" />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -98,7 +94,7 @@ data set" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/getting_started.html">rfema: Getting Started</a>
+      <a href="articles/getting_started.html">rfema: Getting Started</a>
     </li>
   </ul>
 </li>
@@ -121,51 +117,34 @@ data set" />
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Helper function that returns the API endpoint associated with an open FEMA
-data set</h1>
-    <small class="dont-index">Source: <a href='https://github.com/dylan-turner25/rfema/blob/master/R/helpers.R'><code>R/helpers.R</code></a></small>
-    <div class="hidden name"><code>fema_api_endpoints.Rd</code></div>
+      <h1>Contributing</h1>
     </div>
 
-    <div class="ref-description">
-    <p>Helper function that returns the API endpoint associated with an open FEMA
-data set</p>
-    </div>
 
-    <pre class="usage"><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='va'>data_set</span><span class='op'>)</span></pre>
+<div id="contributing" class="section level1">
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data_set</th>
-      <td><p>A character string with the name of the data set to get the
-API endpoint for.</p></td>
-    </tr>
-    </table>
+<p>If you plan to contribute code that would amount to a substantial change in the package, please first outline the planned change as an <a href="https://github.com/dylan-turner25/rfema/issues">issue</a> so that it can be discussed to get community feedback.</p>
+<p>Contributors are asked to comply with the <a href="https://github.com/dylan-turner25/rfema/CONDUCT.md">code of conduct</a> if they wish to remain associated with the project.</p>
+</div>
+<div id="pull-requests" class="section level1">
+<h1 class="hasAnchor">
+<a href="#pull-requests" class="anchor"></a>Pull Requests</h1>
+<p>Pull requests are more than welcome. <code>rfema</code> generally follows the style laid out in Hadley Wickham and Jennifer Bryan’s <a href="https://r-pkgs.org/">R Packages</a>. Conforming to the same development practices will mean review of your pull request will be faster and smoother.</p>
+</div>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a character string containing the API endpoint URL associated
-with the data set.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"FimaNfipClaims"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.fema.gov/api/open/v1/FimaNfipClaims"</span>
-<span class='r-in'><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"fImAnfiPclaims"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.fema.gov/api/open/v1/FimaNfipClaims"</span>
-<span class='r-in'><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"fimanfippolicies"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.fema.gov/api/open/v1/FimaNfipPolicies"</span>
-</pre>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
+
 
 
       <footer>

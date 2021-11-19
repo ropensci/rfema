@@ -14,6 +14,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Codecov test
 coverage](https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg)](https://codecov.io/gh/dylan-turner25/rfema?branch=main)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/484_status.svg)](https://github.com/ropensci/software-review/issues/484)
 
 <!-- badges: start -->
 

@@ -172,9 +172,7 @@ open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
 
 
 
-        message(paste0(i, " out of ", itterations, " itterations completed"),
-          quote = FALSE
-        )
+        message(paste0(i, " out of ", itterations, " iterations completed"))
       }
     } else {
       result <- httr::GET(paste0(api_query))

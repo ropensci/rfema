@@ -59,8 +59,3 @@ test_that("bulk_dl works without specifying file path or file name", {
 
 
 
-# make sure warning is issued for large files
-test_that("warning is issued for large files", {
-  skip_if_offline(host = "www.fema.gov")
-  expect_error((bulk_dl("fimanfipclaims")), "Opperation aborted by user.")
-})

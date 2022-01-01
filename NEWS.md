@@ -30,6 +30,7 @@ rfema 0.0.1.9000 (2021-12-28)
 * TODO: update DESCRIPTION file to include reviewers (who want to be acknowledged)
 
 * TODO: clarify that the first block of code in the readme is without the package (pull request)
+  - DONE:
 
 * TODO: pre-compile vignette and make available from R console https://ropensci.org/blog/2019/12/08/precompute-vignettes/
 
@@ -52,6 +53,7 @@ rfema 0.0.1.9000 (2021-12-28)
   - DONE: changed scope of the function to just report the description and several examples of the data set
  
 * TODO: using remotes instead of devtools for installation (pull request)
+  - DONE:
 
 * TODO: memoization in .onLoad function (https://memoise.r-lib.org/reference/memoise.html#details)
   - DONE:

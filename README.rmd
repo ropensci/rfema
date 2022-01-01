@@ -42,6 +42,7 @@ In accordance with the Open Fema terms and conditions: This product uses the Fed
 ## Why rfema?
 What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the `rfema` package. As can be seen it requires quite a few lines of code, in part due to the API limiting calls to 1000 records per call which can make obtaining a full data set cumbersome.
 ```{r}
+# Code needed to obtain data on flood insurance claims in Broward County, FL without the rfema package ------------------
 
 # define the url for the appropriate api end point
 base_url <- "https://www.fema.gov/api/open/v1/FimaNfipClaims"

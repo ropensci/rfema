@@ -29,8 +29,7 @@ Helper function to generate the URL string for an API query
 \examples{
 filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
 vars_to_select <- c("countyCode", "baseFloodElevation")
-url <- gen_api_query(
+url <- rfema:::gen_api_query(
   data_set = "fimaNfipPolicies", top_n = 100,
-  filters = filter_list, select = vars_to_select
-)
+  filters = filter_list, select = vars_to_select)
 }

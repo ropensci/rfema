@@ -1,3 +1,54 @@
+
+#' Helper function to convert date columns
+#'
+#' @param data a tibble returned from open_fema()
+#'
+#' @return returns a tibble with the columns representing dates converted to 
+#' POSIXct format
+#'
+#' @examples
+#' data <- open_fema("fimanfipclaims",top_n = 10)
+#' data_with_dates <- rfema:::convert_dates(data)
+convert_dates <- function(data){
+  
+  # identify columns to convert to date objects based on if "date" is 
+  # in the column name
+  cols_to_convert <- colnames(data)[grepl("date",tolower(colnames(data)))]
+
+  # loop over each column identified above  
+  for(c in cols_to_convert){
+    
+    # initialize an object to store the converted column
+    converted_col <- NULL
+    
+    # wrap the following in a tryCatch in case a column was identified above
+    # that really shouldn't be converted to a date object
+    tryCatch({
+      # convert the tibble to a data frame
+      to_convert <- data.frame(data)[,c]
+      
+      # replace NULL values with NA
+      to_convert <- replace(to_convert, to_convert == "NULL", NA)
+      
+      # convert to a POSIXct object
+      converted_col <- as.POSIXct(to_convert, Sys.timezone())
+      
+    }, error = function(e){cat("ERROR :",conditionMessage(e), "\n")})
+    
+    # if the converted_col is not empty, go ahead and overwrite the 
+    # corresponding column in the data
+    if(is.null(converted_col) == F){
+      data[,c] <- converted_col
+    }
+    
+  }
+  
+  return(data)
+
+}
+
+
+
 #' Helper function to insure data_set parameter matches an open FEMA data
 #'  offering.
 #'
@@ -9,14 +60,12 @@
 #' @return returns the data with capitalization changed to be consistent with
 #' FEMA's naming convention or returns an error if the data set is not one of
 #' the valid offerings through the FEMA API.
-#' @export
 #' 
-#' @importFrom memoise memoise
 #'
 #' @examples
-#' valid_dataset("fimanfipclaims")
-#' valid_dataset("fIMANfipclaiMS")
-valid_dataset <- memoise::memoise(function(data_set) {
+#' rfema:::valid_dataset("fimanfipclaims")
+#' rfema:::valid_dataset("fIMANfipclaiMS")
+valid_dataset <- function(data_set) {
 
 
   # get df with info on fema data sets
@@ -38,7 +87,7 @@ valid_dataset <- memoise::memoise(function(data_set) {
     data_set <- match
   }
   return(as.character(unique(data_set)))
-})
+}
 
 
 
@@ -59,18 +108,15 @@ valid_dataset <- memoise::memoise(function(data_set) {
 #' @return The function returns a string containing a url that can be used to
 #'  query the API.
 #'  
-#' @importFrom memoise memoise
 #' 
-#' @export
 #'
 #' @examples
 #' filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
 #' vars_to_select <- c("countyCode", "baseFloodElevation")
-#' url <- gen_api_query(
+#' url <- rfema:::gen_api_query(
 #'   data_set = "fimaNfipPolicies", top_n = 100,
-#'   filters = filter_list, select = vars_to_select
-#' )
-gen_api_query <- memoise::memoise(function(data_set = NULL, top_n = NULL, filters = NULL,
+#'   filters = filter_list, select = vars_to_select)
+gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
                                   select = NULL) {
 
   # replace top_n with 1000 if no value is supplied
@@ -90,7 +136,7 @@ gen_api_query <- memoise::memoise(function(data_set = NULL, top_n = NULL, filter
 
     # check to make sure the selected fields are in the selected data set
     for (field in select) {
-      if (field %in% valid_parameters(data_set) == F) {
+      if (!( T %in% (field == valid_parameters(data_set)))) {
         stop(paste0(
           field, " is not a valid data field for the ", data_set,
           " data set use the valid_parameters() function to view all valid parameters for a data set."
@@ -106,9 +152,9 @@ gen_api_query <- memoise::memoise(function(data_set = NULL, top_n = NULL, filter
   if (is.null(filters) == F) {
 
     # check to make sure the fields used to filter are in the selected data set
-    params <- trimws(valid_parameters(data_set))
+    params <- valid_parameters(data_set)
     for (field in names(filters)) {
-      if (field %in% params == F) {
+      if ( !(T %in% (field == params))) {
         stop(paste0(
           field, " is not a valid data field for the ", data_set,
           " thus cannot be used to construct a filter"
@@ -154,7 +200,7 @@ gen_api_query <- memoise::memoise(function(data_set = NULL, top_n = NULL, filter
   api_query <- gsub(" ", "%20", api_query)
 
   return(api_query)
-})
+}
 
 
 
@@ -169,15 +215,13 @@ gen_api_query <- memoise::memoise(function(data_set = NULL, top_n = NULL, filter
 #' @return Returns a character string containing the API endpoint URL associated
 #'  with the data set.
 #'  
-#' @importFrom memoise memoise
 #'  
-#' @export
 #'
 #' @examples
-#' fema_api_endpoints("FimaNfipClaims")
-#' fema_api_endpoints("fImAnfiPclaims")
-#' fema_api_endpoints("fimanfippolicies")
-fema_api_endpoints <- memoise::memoise(function(data_set) {
+#' rfema:::fema_api_endpoints("FimaNfipClaims")
+#' rfema:::fema_api_endpoints("fImAnfiPclaims")
+#' rfema:::fema_api_endpoints("fimanfippolicies")
+fema_api_endpoints <- function(data_set) {
 
   # convert dataset to fema consistent capitalization
   data_set <- unique(valid_dataset(data_set))
@@ -193,4 +237,71 @@ fema_api_endpoints <- memoise::memoise(function(data_set) {
   endpoint <- paste0("https://www.fema.gov/api/open/v", version, "/", data_set)
 
   return(endpoint)
-})
+}
+
+
+#' Helper function to estimate time per API call
+#' 
+#'
+#' @param data_set the name of the open FEMA data set to time API calls for
+#' @param iterations the number of iterations that need to be performed
+#'
+#' @return returns a character string detailing the estimated time needed to
+#' perform the specified number of API call iterations on the specified data set
+#'
+#' @examples
+#' rfema:::time_iterations("fimanfipclaims",25)
+time_iterations <- function(data_set,iterations){
+
+  # number of API calls to make
+  api_calls <- 5
+
+  # clear the memoise cache for the given open fema arguments so the function
+  # contacts the API rather than returning cached results.
+  cache_exists <- memoise::drop_cache(open_fema)(data_set, top_n = api_calls*1000, ask_before_call = F)
+
+  # get system start time
+  start_time <- Sys.time()
+
+  # print message on estimated code time
+  message("Calculating estimated API call time...")
+  
+  # execute an api call for "data_set" for 5000 records
+  data <- suppressMessages(open_fema(data_set, top_n = api_calls*1000, ask_before_call = F))
+
+  # get system end time
+  end_time <- Sys.time()
+
+  # get time difference in seconds
+  diff <- as.numeric(end_time - start_time)
+
+  # estimated seconds per iteration
+  time_per_itt <- diff/api_calls
+  
+  # establish total estimated time given the iterations that need to be run
+  total_seconds <- time_per_itt*iterations
+  
+  # establish units and convert second to that unit
+  units <- "seconds"
+  time <- total_seconds
+  total_minutes <- 0  
+  total_hours <- 0
+  total_years <- 0
+  if(time > 60 & units == "seconds"){
+    time <- total_seconds/60
+    units <- "minutes"
+  }
+  if(time > 60 & units == "minutes"){
+    time <- time/60
+    units <- "hours"
+  }
+  if(time > 24 & units == "hours"){
+    time <- time/24
+    units <- "days"
+  }
+  
+  return(paste( round(time,2) , units))
+}
+
+
+

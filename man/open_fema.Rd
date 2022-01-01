@@ -39,7 +39,7 @@ save the exported file if the file_type is specified
 (defaults to working directory).}
 }
 \value{
-Returns a data frame containing the data from the FEMA API.
+Returns a tibble containing the data from the FEMA API.
 }
 \description{
 The function allows users to pull data directly from the FEMA API and have it

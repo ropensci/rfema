@@ -10,7 +10,7 @@ fema_data_fields(data_set)
 \item{data_set}{a character string indicating the data set of interest}
 }
 \value{
-Returns a data frame consisting of the data fields name,
+Returns a tibble consisting of the data fields name,
 along with information about each data field including the data type,
 a description of the data field, and whether the data field is "searchable"
 (i.e. can it be used to filter the returned data in an API query)

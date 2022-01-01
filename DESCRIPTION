@@ -18,7 +18,8 @@ Imports:
     memoise,
     utils,
     httr,
-    plyr
+    plyr,
+    tibble
 Suggests: 
     rmarkdown,
     knitr,

@@ -7,12 +7,9 @@ test_that(paste0("check returned object is in the right format:", data_set), {
     returned_obj <- valid_parameters(data_set)
   })
 
-  # returned object is a character
-  expect_equal(is.character(returned_obj), TRUE)
+  # returned object is a tibble
+  expect_equal(tibble::is_tibble(returned_obj), TRUE)
 
-  # returned object is a vector
-  expect_equal(is.vector(returned_obj), TRUE)
-
-  # returned object has length greater than 1
-  expect_equal(length(returned_obj) > 1, TRUE)
+  # returned object has more than one row
+  expect_equal(nrow(returned_obj) > 1, TRUE)
 })

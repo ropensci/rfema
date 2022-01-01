@@ -7,7 +7,7 @@
 fema_data_sets()
 }
 \value{
-Returns a data frame containing information about each data
+Returns a tibble containing information about each data
 set avaliable.
 }
 \description{

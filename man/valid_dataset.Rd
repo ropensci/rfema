@@ -20,6 +20,6 @@ The function corrects any capitalization inconsistencies so that the
 "data_set" parameter in any of rfema's functions is not case sensative.
 }
 \examples{
-valid_dataset("fimanfipclaims")
-valid_dataset("fIMANfipclaiMS")
+rfema:::valid_dataset("fimanfipclaims")
+rfema:::valid_dataset("fIMANfipclaiMS")
 }

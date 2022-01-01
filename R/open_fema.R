@@ -24,17 +24,17 @@
 #' @param output_dir  an optional character string specifying the directory to
 #' save the exported file if the file_type is specified
 #' (defaults to working directory).
-#' @return Returns a data frame containing the data from the FEMA API.
-#' @importFrom  memoise memoise
+#' @return Returns a tibble containing the data from the FEMA API.
 #' @import  httr
 #' @importFrom dplyr bind_rows
+#' @importFrom tibble as_tibble
 #' @export
 #' @examples
 #' data <- open_fema(
 #'   data_set = "fimaNfipClaims", top_n = 100,
 #'   filters = list(countyCode = "10001")
 #' )
-open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
+open_fema <- function(data_set, top_n = NULL, filters = NULL,
                               select = NULL, ask_before_call = T,
                               file_type = NULL, output_dir = NULL) {
 
@@ -105,25 +105,43 @@ open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
     # top_n argument, calculate the number of iterations with respect to
     # that value.
     if (is.null(top_n)) {
-      itterations <- ceiling(n_records / 1000)
+      iterations <- ceiling(n_records / 1000)
     } else {
-      itterations <- min(ceiling(top_n / 1000), ceiling(n_records / 1000))
+      iterations <- min(ceiling(top_n / 1000), ceiling(n_records / 1000))
     }
 
-    # if ask_before_call == T and more than 1 itteration will be needed to
-    # get the data, inform the user of how many itterations are needed and
+    # if ask_before_call == T and more than 1 iteration will be needed to
+    # get the data, inform the user of how many iterations are needed and
     # ask if they want to proceed with the loop
-    if (ask_before_call == T & itterations > 1) {
+    if (ask_before_call == T & iterations > 1) {
+      
+      # call the estimate_time function to get an estimated time per API call
+      estimated_time <- time_iterations(data_set, iterations)
+      
+      
+      
+      # calculate several message for various scenarios
+      
+      # top_n is less than the matching records 
+      message1 <- paste0(n_records, " matching records found. At ",
+                                 1000, " records per call, it will take ",iterations,
+                                 " individual API calls to get the top ", top_n ," matching records. ",
+                                 "It's estimated that this will take approximately ", estimated_time ,". Continue?")
+      
+      # top_n is not specified or greater than the number of matching records
+      message2 <-paste0(n_records, " matching records found. At ",
+                       1000, " records per call, it will take ",iterations,
+                       " individual API calls to get all matching records. ",
+                       "It's estimated that this will take approximately ", estimated_time ,". Continue?")
+      
       # send some logging info to the console so we know what is happening
-      print(paste0(
-        n_records, " matching records found. At ",
-        top_n, " records per call, it will take ",
-        itterations,
-        "individual API calls to get all matching records. Continue?"
-      ),
-      quote = FALSE
-      )
-
+      if(is.null(top_n) == F){
+        if(n_records < top_n){
+          message(message2)
+        } else message(message1)
+      } else message(message2)  
+        
+  
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No, let me rethink my API call: ")
 
       if (user_response != "1") {
@@ -132,13 +150,13 @@ open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
     }
 
     # if the number of iterations is greater than 1, start the loop. If only one
-    # itteration is needed, do it without entering the loop
-    if (itterations > 1) {
+    # iteration is needed, do it without entering the loop
+    if (iterations > 1) {
       # Loop and call the API endpoint changing the record start each iteration.
       # Each call will return results in a JSON format. The metadata has been
       # suppressed as we no longer need it.
       skip <- 0
-      for (i in seq(from = 1, to = itterations, by = 1)) {
+      for (i in seq(from = 1, to = iterations, by = 1)) {
         # As above, if you have filters, specific fields, or are sorting, add
         # that to the base URL or make sure it gets concatenated here.
         result <- httr::GET(paste0(api_query, "&$skip=", (i - 1) * 1000))
@@ -171,10 +189,9 @@ open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
         }
 
 
-
-        message(paste0(i, " out of ", itterations, " itterations completed"),
-          quote = FALSE
-        )
+        progress <- paste0("Obtaining Data: ", i, " out of ", iterations, " iterations (" ,round(i/iterations*100,2), "% complete)")
+        message('\r', progress, appendLF = FALSE)
+        
       }
     } else {
       result <- httr::GET(paste0(api_query))
@@ -212,6 +229,13 @@ open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
     full_data,
     function(full_data) gsub("\n", "", full_data)
   ))
+  
+  # convert full_data to a tibble
+  full_data <- as_tibble(full_data)
+  
+  
+  # convert dates to POSIXct format before returning the full data
+  full_data <- convert_dates(full_data)
 
 
 
@@ -240,4 +264,4 @@ open_fema <- memoise::memoise(function(data_set, top_n = NULL, filters = NULL,
       paste0(output_dir, "/", data_set, ".csv")
     ))
   }
-})
+}

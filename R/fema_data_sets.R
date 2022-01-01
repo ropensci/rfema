@@ -1,18 +1,18 @@
 #' Get a dataframe of avaliable FEMA data sets
 #'
 #'
-#' @return Returns a data frame containing information about each data
+#' @return Returns a tibble containing information about each data
 #' set avaliable.
 #' 
-#' @importFrom memoise memoise
 #' @import httr
 #' @importFrom plyr rbind.fill
+#' @importFrom tibble as_tibble
 #' 
 #' @export
 #'
 #' @examples
 #' fema_data_sets()
-fema_data_sets <- memoise::memoise(function() {
+fema_data_sets <- function(){
   result <- httr::GET("https://www.fema.gov/api/open/v1/DataSets")
   jsonData <- httr::content(result)
   df <- data.frame(t(unlist(jsonData$DataSets[1])))
@@ -24,5 +24,5 @@ fema_data_sets <- memoise::memoise(function() {
   df <- as.data.frame(lapply(df, function(df) gsub("\n", "", df)))
 
 
-  return(df)
-})
+  return(as_tibble(df))
+}

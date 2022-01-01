@@ -46,7 +46,7 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
     file_name <- paste0(data_set, ".csv")
   }
 
-  if (size_warning == T) {
+  if (size_warning) {
     file_size <- ds$distribution.datasetSize
     if (grepl("large", file_size)) {
       message(paste0(
@@ -58,24 +58,15 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No:")
 
       if (user_response != "1") {
-        stop("Opperation aborted by user.")
+        stop("Operation aborted by user.")
       }
     }
   }
 
   message(paste0("Downloading file to ", paste0(output_dir, "/", file_name)))
-
-  # identify opperating system
-  system <- tolower(Sys.info())
-  if (T %in% grepl("windows", system)) {
-    utils::download.file(url,
+  
+  utils::download.file(url,
       destfile = paste0(output_dir, "/", file_name),
       mode = "wb"
     )
-  }
-  if (T %in% grepl("linux", system)) {
-    utils::download.file(url, destfile = paste0(output_dir, "/", file_name))
-  } else {
-    utils::download.file(url, destfile = paste0(output_dir, "/", file_name))
-  }
 }

@@ -102,7 +102,7 @@ data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filter
 
 
 ## Installation
-Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `devtools::install_github("dylan-turner25/rfema")`. The FEMA API does not require an API key, meaning no further steps need be taken to start using the package
+Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `remotes::install_github("dylan-turner25/rfema")`. The FEMA API does not require an API key, meaning no further steps need be taken to start using the package
 
 
 

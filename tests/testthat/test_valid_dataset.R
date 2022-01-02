@@ -12,3 +12,10 @@ test_that("characters of input and output match", {
   })
   expect_match(tolower(returned_obj), tolower("fimanfipclaims"))
 })
+
+
+test_that("error is returned when invalid data set argument is used",{
+ err <- expect_error(valid_dataset(data_set = "asdfasdfa"))
+ expect_true(grepl("is not a valid data set", err$message))
+})
+

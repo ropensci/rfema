@@ -1,3 +1,51 @@
+#' Helper function to construct status message for `open_fema()` function
+#'
+#' @param n_records a numeric value indicating the number of matching records 
+#' in the API call
+#' @param iterations numeric value indicating the  number of iterations 
+#' necessary to retrieve all the data 
+#' @param top_n numeric value indicating the number of matching records to return
+#' @param estimated_time character string indicating the estimated time to 
+#' complete the API call.
+#'
+#' @return a character string 
+#' 
+#'
+#' @examples rfema:::get_status_message(2000,2,1000,"2 minutes")
+get_status_message <- function(n_records, iterations, top_n, estimated_time){
+  
+  # top_n argument is specified and top_n is less than the number of matching 
+  # records
+  if(is.null(top_n) == F){
+    if(n_records < top_n){
+      message <-paste0(n_records, " matching records found. At ",
+                        1000, " records per call, it will take ",iterations,
+                        " individual API calls to get all matching records. ",
+                        "It's estimated that this will take approximately ", 
+                       estimated_time ,". Continue?")
+    } else {
+      # top_n is less than the matching records 
+      message <- paste0(n_records, " matching records found. At ",
+                         1000, " records per call, it will take ",iterations,
+                         " individual API calls to get the top ", top_n ," matching records. ",
+                         "It's estimated that this will take approximately ", estimated_time ,". Continue?")
+    
+    }
+  }
+  
+  # top_n argument is not specified
+  if(is.null(top_n)){
+    message <-paste0(n_records, " matching records found. At ",
+                     1000, " records per call, it will take ",iterations,
+                     " individual API calls to get all matching records. ",
+                     "It's estimated that this will take approximately ", 
+                     estimated_time ,". Continue?")
+  }
+    
+  return(message)
+}
+
+
 
 #' Helper function to convert date columns
 #'
@@ -81,7 +129,7 @@ valid_dataset <- function(data_set) {
   if (length(match) == 0) {
     stop(paste0(
       data_set,
-      "is not a valid data set. Use fema_data_sets() to return avaliable data sets and associated meta data."
+      " is not a valid data set. Use fema_data_sets() to return avaliable data sets and associated meta data."
     ))
   } else {
     data_set <- match

@@ -120,26 +120,8 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
       
       
       
-      # calculate several message for various scenarios
-      
-      # top_n is less than the matching records 
-      message1 <- paste0(n_records, " matching records found. At ",
-                                 1000, " records per call, it will take ",iterations,
-                                 " individual API calls to get the top ", top_n ," matching records. ",
-                                 "It's estimated that this will take approximately ", estimated_time ,". Continue?")
-      
-      # top_n is not specified or greater than the number of matching records
-      message2 <-paste0(n_records, " matching records found. At ",
-                       1000, " records per call, it will take ",iterations,
-                       " individual API calls to get all matching records. ",
-                       "It's estimated that this will take approximately ", estimated_time ,". Continue?")
-      
-      # send some logging info to the console so we know what is happening
-      if(is.null(top_n) == F){
-        if(n_records < top_n){
-          message(message2)
-        } else message(message1)
-      } else message(message2)  
+      # send some logging info to the console to inform the user
+      message(get_status_update(n_records, iterations, top_n, estimated_time))
         
   
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No, let me rethink my API call: ")

@@ -30,10 +30,11 @@
 #' @importFrom tibble as_tibble
 #' @export
 #' @examples
+#' \dontrun{
 #' data <- open_fema(
 #'   data_set = "fimaNfipClaims", top_n = 100,
 #'   filters = list(countyCode = "10001")
-#' )
+#' )}
 open_fema <- function(data_set, top_n = NULL, filters = NULL,
                               select = NULL, ask_before_call = T,
                               file_type = NULL, output_dir = NULL) {

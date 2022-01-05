@@ -51,8 +51,9 @@ needed to get all the records matching their query, letting the user decide
 choose whether to continue.
 }
 \examples{
+\dontrun{
 data <- open_fema(
   data_set = "fimaNfipClaims", top_n = 100,
   filters = list(countyCode = "10001")
-)
+)}
 }

@@ -19,5 +19,5 @@ perform the specified number of API call iterations on the specified data set
 Helper function to estimate time per API call
 }
 \examples{
-rfema:::time_iterations("fimanfipclaims",25)
+\dontrun{rfema:::time_iterations("fimanfipclaims",25)}
 }

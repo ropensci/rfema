@@ -11,7 +11,7 @@
 #' @return a character string 
 #' 
 #'
-#' @examples rfema:::get_status_message(2000,2,1000,"2 minutes")
+#' @examples \dontrun{rfema:::get_status_message(2000,2,1000,"2 minutes")}
 get_status_message <- function(n_records, iterations, top_n, estimated_time){
   
   # top_n argument is specified and top_n is less than the number of matching 
@@ -55,8 +55,8 @@ get_status_message <- function(n_records, iterations, top_n, estimated_time){
 #' POSIXct format
 #'
 #' @examples
-#' data <- open_fema("fimanfipclaims",top_n = 10)
-#' data_with_dates <- rfema:::convert_dates(data)
+#' \dontrun{data <- open_fema("fimanfipclaims",top_n = 10)}
+#' \dontrun{data_with_dates <- rfema:::convert_dates(data)}
 convert_dates <- function(data){
   
   # identify columns to convert to date objects based on if "date" is 
@@ -111,8 +111,8 @@ convert_dates <- function(data){
 #' 
 #'
 #' @examples
-#' rfema:::valid_dataset("fimanfipclaims")
-#' rfema:::valid_dataset("fIMANfipclaiMS")
+#' \dontrun{rfema:::valid_dataset("fimanfipclaims")}
+#' \dontrun{rfema:::valid_dataset("fIMANfipclaiMS")}
 valid_dataset <- function(data_set) {
 
 
@@ -159,11 +159,11 @@ valid_dataset <- function(data_set) {
 #' 
 #'
 #' @examples
-#' filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
+#' \dontrun{filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
 #' vars_to_select <- c("countyCode", "baseFloodElevation")
 #' url <- rfema:::gen_api_query(
 #'   data_set = "fimaNfipPolicies", top_n = 100,
-#'   filters = filter_list, select = vars_to_select)
+#'   filters = filter_list, select = vars_to_select)}
 gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
                                   select = NULL) {
 
@@ -266,9 +266,9 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
 #'  
 #'
 #' @examples
-#' rfema:::fema_api_endpoints("FimaNfipClaims")
+#' \dontrun{rfema:::fema_api_endpoints("FimaNfipClaims")
 #' rfema:::fema_api_endpoints("fImAnfiPclaims")
-#' rfema:::fema_api_endpoints("fimanfippolicies")
+#' rfema:::fema_api_endpoints("fimanfippolicies")}
 fema_api_endpoints <- function(data_set) {
 
   # convert dataset to fema consistent capitalization
@@ -298,7 +298,7 @@ fema_api_endpoints <- function(data_set) {
 #' perform the specified number of API call iterations on the specified data set
 #'
 #' @examples
-#' rfema:::time_iterations("fimanfipclaims",25)
+#' \dontrun{rfema:::time_iterations("fimanfipclaims",25)}
 time_iterations <- function(data_set,iterations){
 
   # number of API calls to make

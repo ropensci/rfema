@@ -25,5 +25,5 @@ a character string
 Helper function to construct status message for \code{open_fema()} function
 }
 \examples{
-rfema:::get_status_message(2000,2,1000,"2 minutes")
+\dontrun{rfema:::get_status_message(2000,2,1000,"2 minutes")}
 }

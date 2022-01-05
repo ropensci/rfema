@@ -11,8 +11,7 @@ rfema 1.0.0 (2021-12-28)
 * TODO: link FEMA data sets webpage in README when talking about fema_data_sets()
   - also add link in vignette and helpfile
   
-* TODO: remove the use of kable() in the readme and vignettes
-
+* TODO: remove the use of kable() in the readme and vignettes (removed from readme but not vignette yet)
 * TODO: fix link to R-CMD-check badge
   - DONE
   

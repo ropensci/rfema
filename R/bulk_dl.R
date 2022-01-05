@@ -15,8 +15,8 @@
 #' @importFrom utils download.file
 #' @export
 #' @examples
-#' bulk_dl("femaregions") # download the file
-#' file.remove("FemaRegions.csv") # clean up directory after file downloads
+#' \dontrun{bulk_dl("femaregions")} # download the file
+#' \dontrun{file.remove("FemaRegions.csv")} # clean up directory after file downloads
 bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning = T) {
 
   # get info on all data sets fema offers

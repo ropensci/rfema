@@ -17,6 +17,6 @@ POSIXct format
 Helper function to convert date columns
 }
 \examples{
-data <- open_fema("fimanfipclaims",top_n = 10)
-data_with_dates <- rfema:::convert_dates(data)
+\dontrun{data <- open_fema("fimanfipclaims",top_n = 10)}
+\dontrun{data_with_dates <- rfema:::convert_dates(data)}
 }

@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' fema_data_sets()
+#' \dontrun{fema_data_sets()}
 fema_data_sets <- function(){
   result <- httr::GET("https://www.fema.gov/api/open/v1/DataSets")
   jsonData <- httr::content(result)

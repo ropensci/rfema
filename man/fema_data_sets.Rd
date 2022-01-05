@@ -14,5 +14,5 @@ set avaliable.
 Get a dataframe of avaliable FEMA data sets
 }
 \examples{
-fema_data_sets()
+\dontrun{fema_data_sets()}
 }

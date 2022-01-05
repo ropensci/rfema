@@ -13,7 +13,8 @@
 #' @importFrom tibble tibble
 #'
 #' @examples
-#' parameter_values(data_set = "fimaNfipClaims", data_field = "totalBuildingInsuranceCoverage")
+#' \dontrun{parameter_values(data_set = "fimaNfipClaims", 
+#' data_field = "totalBuildingInsuranceCoverage")}
 parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE) {
   
   # get some example values of the data field

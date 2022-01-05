@@ -20,7 +20,7 @@ Helper function that returns the API endpoint associated with an open FEMA
 data set
 }
 \examples{
-rfema:::fema_api_endpoints("FimaNfipClaims")
+\dontrun{rfema:::fema_api_endpoints("FimaNfipClaims")
 rfema:::fema_api_endpoints("fImAnfiPclaims")
-rfema:::fema_api_endpoints("fimanfippolicies")
+rfema:::fema_api_endpoints("fimanfippolicies")}
 }

@@ -27,6 +27,6 @@ specified output directory.
 For large files, the function
 }
 \examples{
-bulk_dl("femaregions") # download the file
-file.remove("FemaRegions.csv") # clean up directory after file downloads
+\dontrun{bulk_dl("femaregions")} # download the file
+\dontrun{file.remove("FemaRegions.csv")} # clean up directory after file downloads
 }

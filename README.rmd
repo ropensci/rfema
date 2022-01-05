@@ -58,7 +58,7 @@ record_check_query <- "https://www.fema.gov/api/open/v1/FimaNfipClaims?$inlineco
 # run the api call and determine the number of matching records
 result <- httr::GET(record_check_query)
 jsonData <- httr::content(result)        
-n_records <- jsonData$metadata$count # there are 2119 records meaning we will need three seperate API calls to get all the data
+n_records <- jsonData$metadata$count 
 
 
 # calculate number of calls neccesary to get all records using the 
@@ -84,8 +84,10 @@ for(i in seq(from=1, to=itterations, by=1)){
  
   
 # remove the html line breaks from returned data frame (if there are any)  
-data <- as.data.frame(lapply(data, function(data) gsub("\n", "", data)))
-  
+data <- as_tibble(lapply(data, function(data) gsub("\n", "", data)))
+
+# view the retrieved data
+data
 
 
 
@@ -97,7 +99,10 @@ Compare the above block of code to the following code which obtains the same dat
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
 
 # make the API call using the `open_fema` function.
-data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList )
+data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
+
+# view data
+data
 
 ```
 
@@ -108,23 +113,24 @@ Right now, the best way to install and use the `rfema` package is by installing 
 
 
 ## Usage
-Use the `fema_data_sets()` function to obtain a data frame of available data sets along with associated meta data. 
+Use the `fema_data_sets()` function to obtain a tibble of available data sets along with associated meta data. 
 ```{r}
 data_sets <- fema_data_sets()
 
-# truncate the description field for purposes of displaying the table
-data_sets$description <- paste0(substr(data_sets$description,1,50),"...")
-
-# view just the first three datasets
-kable(head(data_sets,3))
+# view the just retrieved data
+data_sets
 ```
 
 
-Once you have the name of the data set you want, simply pass it as an argument to the `open_fema()` function which will return the data set as a data frame. By default, `open_fema()` will warn you if the number of records is greater than 1000 and will ask you to confirm that you want to retrieve all of the available records (for many data sets the total records is quite large). To turn off this feature, set the parameter `ask_before_call` equal to FALSE. To limit the number of records returned, specify the `top_n` argument. This is useful for exploring a data set without retrieving all records. 
+Once you have the name of the data set you want, simply pass it as an argument to the `open_fema()` function which will return the data set as a tibble. By default, `open_fema()` will warn you if the number of records is greater than 1000 and present an estimated time required to complete the records request. As the user, you will the be asked to confirm that you want to retrieve all of the available records (for many data sets the total records is quite large). To turn off this feature, set the parameter `ask_before_call` equal to FALSE. To limit the number of records returned, specify the `top_n` argument. This is useful for exploring a data set without retrieving all records. 
 ```{r}
+
+# obtain the first 10 records from the fimaNfipClaims data set.
+# Note: the data_set argument is not case sensative
 retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 
-kable(head(retrieved_data))
+# view the data
+retrieved_data
 ```
 
 There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](docs/articles/getting_started.html) vignette.

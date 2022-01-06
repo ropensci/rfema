@@ -29,9 +29,12 @@ Review](https://badges.ropensci.org/484_status.svg)](https://github.com/ropensci
 provides a set of functions to easily navigate and access all data sets
 provided by FEMA, including (but not limited to) data from the National
 Flood Insurance Program and FEMA’s various disaster aid programs.
+Notably, the FEMA API does not require an API key meaning the package is
+extremely accessible regardless of if the user has ever interacted with
+an API.
 
 FEMA data is publicly available at the open FEMA website
-(<https://www.fema.gov/about/openfema/data-sets>) and is avaliable for
+(<https://www.fema.gov/about/openfema/data-sets>) and is available for
 bulk download, however, the files are sometimes very large (multiple
 gigabytes) and many times users do not need all records for a data
 series (for example: many users may only want records for a single state

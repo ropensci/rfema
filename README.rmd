@@ -33,9 +33,9 @@ load_all()
 
 
 ## Introduction
-`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through the open FEMA API. The package provides a set of functions to easily navigate and access all data sets provided by FEMA, including (but not limited to) data from the National Flood Insurance Program and FEMA's various disaster aid programs.
+`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through the open FEMA API. The package provides a set of functions to easily navigate and access all data sets provided by FEMA, including (but not limited to) data from the National Flood Insurance Program and FEMA's various disaster aid programs. Notably, the FEMA API does not require an API key meaning the package is extremely accessible regardless of if the user has ever interacted with an API. 
 
-FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA's API without needing any technical knowledge of APIs.
+FEMA data is publicly available at the open FEMA website (https://www.fema.gov/about/openfema/data-sets) and is available for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA's API without needing any technical knowledge of APIs.
 
 In accordance with the Open Fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preferred citation for Open FEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions
 
@@ -93,7 +93,7 @@ data
 
 ```
 
-Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allows the same request to be made with two lines of code. Notably, the `open_fema()` function handles checking the number of records and implements an iterative loop to deal with the 1000 records/call limit.
+Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allows the same request to be made with two lines of code. Notably, the `open_fema()` function handles checking the number of records and implements an iterative loop to deal with the 1000 records/call limit. 
 ```{r}
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")

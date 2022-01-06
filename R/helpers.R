@@ -101,7 +101,7 @@ convert_dates <- function(data){
 #'  offering.
 #'
 #' The function corrects any capitalization inconsistencies so that the
-#' "data_set" parameter in any of rfema's functions is not case sensative.
+#' "data_set" parameter in any of rfema's functions is not case sensitive.
 #'
 #' @param data_set a character string representing the data set.
 #'
@@ -145,7 +145,7 @@ valid_dataset <- function(data_set) {
 #' Helper function to generate the URL string for an API query
 #'
 #' @param data_set character string specifiying the data set to query from
-#' @param top_n numeric value indicating how many records to retun
+#' @param top_n numeric value indicating how many records to return
 #' (default is 1000 which is the maximum number of records the API will return
 #' in a single query )
 #' @param filters a list containing values of data fields that should be used

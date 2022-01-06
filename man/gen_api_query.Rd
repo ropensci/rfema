@@ -9,7 +9,7 @@ gen_api_query(data_set = NULL, top_n = NULL, filters = NULL, select = NULL)
 \arguments{
 \item{data_set}{character string specifiying the data set to query from}
 
-\item{top_n}{numeric value indicating how many records to retun
+\item{top_n}{numeric value indicating how many records to return
 (default is 1000 which is the maximum number of records the API will return
 in a single query )}
 

@@ -2,9 +2,9 @@
 % Please edit documentation in R/bulk_dl.R
 \name{bulk_dl}
 \alias{bulk_dl}
-\title{Bulk download full openFEMA data sets as .csv files}
+\title{Bulk download full open FEMA data sets as .csv files}
 \usage{
-bulk_dl(data_set, output_dir = NULL, file_name = NULL, size_warning = T)
+bulk_dl(data_set, output_dir = NULL, file_name = NULL, size_warning = TRUE)
 }
 \arguments{
 \item{data_set}{A character string indicating the name of the data set
@@ -24,7 +24,10 @@ Returns a downloaded csv file of the data set to the
 specified output directory.
 }
 \description{
-For large files, the function
+For large data requests, it can sometimes be more practical (and quicker)
+to download and work with the entire data set. This function provides an
+easy way to download any of FEMA's data sets in its entirety and save it
+locally as a csv file.
 }
 \examples{
 \dontrun{bulk_dl("femaregions")} # download the file

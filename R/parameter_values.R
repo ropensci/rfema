@@ -40,7 +40,7 @@ parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE)
     message("Data Set: ", data_set, "\nData Field: ", data_field,
             "\nData Field Description: ", data$type, 
             "\nData Field Example Values: ", head(values),
-            "\nMore Information Avaliable at: https://www.fema.gov/about/openfema/data-sets")
+            "\nMore Information Available at: https://www.fema.gov/about/openfema/data-sets")
   } else (
     return(tibble("Data Set" = data_set,"Data Field" = data_field,
                   "Data Field Description" = data$type,

@@ -9,7 +9,7 @@ open_fema(
   top_n = NULL,
   filters = NULL,
   select = NULL,
-  ask_before_call = T,
+  ask_before_call = TRUE,
   file_type = NULL,
   output_dir = NULL
 )

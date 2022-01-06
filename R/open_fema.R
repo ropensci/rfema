@@ -36,7 +36,7 @@
 #'   filters = list(countyCode = "10001")
 #' )}
 open_fema <- function(data_set, top_n = NULL, filters = NULL,
-                              select = NULL, ask_before_call = T,
+                              select = NULL, ask_before_call = TRUE,
                               file_type = NULL, output_dir = NULL) {
 
   # return specific errors for edge case top_n arguments
@@ -111,10 +111,10 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
       iterations <- min(ceiling(top_n / 1000), ceiling(n_records / 1000))
     }
 
-    # if ask_before_call == T and more than 1 iteration will be needed to
+    # if ask_before_call == TRUE and more than 1 iteration will be needed to
     # get the data, inform the user of how many iterations are needed and
     # ask if they want to proceed with the loop
-    if (ask_before_call == T & iterations > 1) {
+    if (ask_before_call == TRUE & iterations > 1) {
       
       # call the estimate_time function to get an estimated time per API call
       estimated_time <- time_iterations(data_set, iterations)
@@ -122,7 +122,7 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
       
       
       # send some logging info to the console to inform the user
-      message(get_status_update(n_records, iterations, top_n, estimated_time))
+      message(get_status_message(n_records, iterations, top_n, estimated_time))
         
   
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No, let me rethink my API call: ")

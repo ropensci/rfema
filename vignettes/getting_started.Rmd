@@ -1,7 +1,7 @@
 ---
 title: "rfema: Getting Started"
 author: "Dylan Turner"
-date: "`r Sys.Date()`"
+date: "2022-01-05"
 output: rmarkdown::html_vignette
 # output:
 #  github_document:
@@ -13,17 +13,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
 
-library(knitr)
-library(dplyr)
-devtools::install_github("dylan-turner25/rfema", force = T) # make sure package is most recent version
-library(rfema)
-```
 
 ## Introduction
 
@@ -39,7 +29,8 @@ Right now, the best way to install and use the `rfema` package is by installing 
 ## Avaliable Datasets
 To see the all of the data sets avaliable through `rfema`, we can run the `fema_data_sets()` function which calls the FEMA API endpoint: https://www.fema.gov/api/open/v1/DataSets. This returns a data frame containing meta data on the data sets provided through the open FEMA API.
 
-```{r, cache = T}
+
+```r
 data_sets <- fema_data_sets() 
 data_sets$description <- paste0(substr(data_sets$description,1,50),"...") # description shortened in this case to make table smaller
 
@@ -48,11 +39,20 @@ kable(head(data_sets,3)) # only displaying first few data sets
 
 
 
+|identifier  |name                                    |title                                      |description                                           |distribution.accessURL                                                       |distribution.format |distribution.datasetSize |distribution.accessURL.1                                                      |distribution.format.1 |distribution.datasetSize.1 |distribution.accessURL.2                                                       |distribution.format.2 |distribution.datasetSize.2 |webService                                                               |dataDictionary                                                                         |keyword                                                    |modified                 |publisher                           |contactPoint |mbox              |accessLevel |landingPage                            |temporal    |api  |version |bureauCode |programCode |accessLevelComment |license |spatial |theme                |dataQuality |accrualPeriodicity |language |primaryITInvestmentUII |issued                   |systemOfRecords |deprecated |hash                             |lastRefresh              |recordCount |depApiMessage |depNewURL |depWebMessage |lastDataSetRefresh       |id                       |accessUrl |format |depDate |keyword1 |keyword2 |keyword3 |keyword4 |keyword5 |keyword6 |keyword7 |keyword8 |keyword9 |keyword10 |keyword11 |keyword12 |keyword13 |keyword14 |references |
+|:-----------|:---------------------------------------|:------------------------------------------|:-----------------------------------------------------|:----------------------------------------------------------------------------|:-------------------|:------------------------|:-----------------------------------------------------------------------------|:---------------------|:--------------------------|:------------------------------------------------------------------------------|:---------------------|:--------------------------|:------------------------------------------------------------------------|:--------------------------------------------------------------------------------------|:----------------------------------------------------------|:------------------------|:-----------------------------------|:------------|:-----------------|:-----------|:--------------------------------------|:-----------|:----|:-------|:----------|:-----------|:------------------|:-------|:-------|:--------------------|:-----------|:------------------|:--------|:----------------------|:------------------------|:---------------|:----------|:--------------------------------|:------------------------|:-----------|:-------------|:---------|:-------------|:------------------------|:------------------------|:---------|:------|:-------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:---------|:---------|:---------|:---------|:---------|:----------|
+|openfema-1  |PublicAssistanceFundedProjectsSummaries |Public Assistance Funded Project Summaries |FEMA provides supplemental Federal disaster grant ... |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv |csv                 |small (10MB - 50MB)      |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json |json                  |medium (50MB - 500MB)      |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona |jsona                 |medium (50MB - 500MB)      |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries |https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1 |public, assistance, disaster, grant, funding, sub-grantees |2019-05-30T04:00:00.000Z |Federal Emergency Management Agency |OpenFEMA     |openfema@fema.gov |public      |https://www.fema.gov/assistance/public |1980-02-01/ |TRUE |1       |024:70     |024:039     |                   |        |        |Public Assistance    |true        |R/P1D              |en-US    |                       |2010-01-21T05:00:00.000Z |                |FALSE      |bd507ed0181bba91866372a0a5d3c3e4 |2022-01-05T17:35:09.680Z |172622      |              |          |              |2022-01-05T17:35:09.680Z |5dd723598ca22d24d423eb6f |NA        |NA     |NA      |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA        |NA        |NA        |NA        |NA        |NA         |
+|openfema-1  |PublicAssistanceFundedProjectsSummaries |Public Assistance Funded Project Summaries |FEMA provides supplemental Federal disaster grant ... |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv |csv                 |small (10MB - 50MB)      |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json |json                  |medium (50MB - 500MB)      |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona |jsona                 |medium (50MB - 500MB)      |https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries |https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1 |public, assistance, disaster, grant, funding, sub-grantees |2019-05-30T04:00:00.000Z |Federal Emergency Management Agency |OpenFEMA     |openfema@fema.gov |public      |https://www.fema.gov/assistance/public |1980-02-01/ |TRUE |1       |024:70     |024:039     |                   |        |        |Public Assistance    |true        |R/P1D              |en-US    |                       |2010-01-21T05:00:00.000Z |                |FALSE      |bd507ed0181bba91866372a0a5d3c3e4 |2022-01-05T17:35:09.680Z |172622      |              |          |              |2022-01-05T17:35:09.680Z |5dd723598ca22d24d423eb6f |NA        |NA     |NA      |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA        |NA        |NA        |NA        |NA        |NA         |
+|openfema-26 |FemaWebDeclarationAreas                 |FEMA Web Declaration Areas                 |This data set contains general information on decl... |https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv                 |csv                 |medium (50MB - 500MB)    |https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json                 |json                  |medium (50MB - 500MB)      |https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona                 |jsona                 |medium (50MB - 500MB)      |https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas                 |https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1                  |disaster, declaration, fema website                        |2019-09-26T04:00:00.000Z |Federal Emergency Management Agency |OpenFEMA     |openfema@fema.gov |public      |https://www.fema.gov/disasters         |1960-11-01/ |TRUE |1       |024:70     |024:039     |                   |        |        |Disaster Information |true        |R/PT20M            |en-US    |                       |NA                       |                |FALSE      |89eaca0ba42130ddbd5477ed92fee30b |2022-01-05T22:46:56.937Z |438694      |              |          |              |2022-01-05T22:46:56.937Z |5dd723598ca22d24d423eb73 |NA        |NA     |NA      |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA       |NA        |NA        |NA        |NA        |NA        |NA         |
+
+
+
 
 ## Example Workflow
 Once we know what data set we want to access, or perhaps if we want to know more about what data is avaliable in a given data set, we can use the `fema_data_fields()` function to get a look at the available data fields in a given data set by setting the "data_set" parameter to one of the "name" columns in the data frame returned by the `fema_data_sets()` function.
 
-```{r,cache=T}
+
+```r
 df <- fema_data_fields(data_set = "fimaNfipPolicies")
 df$Description <- paste0(substr(df$Description,1,50),"...") # description shortened in this case to make table smaller
 kable(head(df,3))
@@ -60,58 +60,127 @@ kable(head(df,3))
 
 
 
+|    |datasetId   |openFemaDataSet  |name |title                           |description                             |type                                                                                                                                                                                                                                                                                                                                                                                                 |sortOrder |datasetVersion |hash  |lastRefresh |isNestedObject |isNullable |isSearchable                             |primaryKey               |id                       |Description |
+|:---|:-----------|:----------------|:----|:-------------------------------|:---------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:--------------|:-----|:-----------|:--------------|:----------|:----------------------------------------|:------------------------|:------------------------|:-----------|
+|697 |openfema-32 |FimaNfipPolicies |1    |agricultureStructureIndicator   |Agriculture Structure Indicator         |Yes (Y) or No (N) indicator of whether or not a building is reported as being an agricultural structure in the policy application. Yes is indicated with either a 'true' or '1'. No is indicated with either a 'false' or '0'                                                                                                                                                                        |boolean   |1              |FALSE |FALSE       |FALSE          |           |aecf8b7e731e842e2e23d83bdd2ac8929f0ce74c |2021-09-01T15:01:27.188Z |5f086f3e1dbf327060c5c0c4 |...         |
+|699 |openfema-32 |FimaNfipPolicies |1    |baseFloodElevation              |Base Flood Elevation                    |Base Flood Elevation (BFE) is the elevation, in feet, at which there is a 1% chance per year of flooding in feet from the elevation certificate                                                                                                                                                                                                                                                      |number    |2              |TRUE  |FALSE       |TRUE           |NULL       |e715e5e9ef77868f999a80ef932df0a99a9f8002 |2021-11-26T14:41:05.469Z |5f086f3e1dbf327060c5c0c6 |...         |
+|700 |openfema-32 |FimaNfipPolicies |1    |basementEnclosureCrawlspaceType |Basement Enclosure Crawlspace Type Code |Basement is defined for purposes of the NFIP as any level or story which has its floor subgrade on all sides.  Basement structure value are as follow:                                                                                                                       0  - None;    1 - Finished Basement/Enclosure;2 - Unfinished Basement/Enclosure;3 - Crawlspace;4 - Subgrade Crawlspace; |number    |3              |TRUE  |FALSE       |FALSE          |           |7b8e36bb14688e9df9005e82bebedfcef0992f4a |2021-09-01T15:01:27.189Z |5f086f3e1dbf327060c5c0c7 |...         |
+
+
+
 The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The function handles this automatically, but will warn you before iterating by letting you know how many records there are and how many individual API calls it will take to get all the records. At that point you can enter "1" to continue or "0" to abort the operation. As can be seen below, running `open_fema(data_set = "fimaNfipClaims")` will indicate that there are over 2.5 million records if we don't apply any filters to the data set which would take many iterations (and a long time) to collect the full data set. 
 
 
-```{r,echo=FALSE, cache = T}
-"[1] 2556847 matching records found. At  records per call, it will take 2557 individual API calls to get all matching records. Continue?"
 
- "1 - Yes, get that data!, 0 - No, let me rethink my API call:" 
+```
+#> [1] "[1] 2556847 matching records found. At  records per call, it will take 2557 individual API calls to get all matching records. Continue?"
+#> [1] "1 - Yes, get that data!, 0 - No, let me rethink my API call:"
 ```
 
 Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
-```{r, cache = T}
+
+```r
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
 kable(df)
 ```
 
+
+
+|agricultureStructureIndicator |asOfDate                 |baseFloodElevation |basementEnclosureCrawlspace |reportedCity            |condominiumIndicator |policyCount |countyCode |communityRatingSystemDiscount |dateOfLoss               |elevatedBuildingIndicator |elevationCertificateIndicator |elevationDifference |censusTract |floodZone |houseWorship |latitude |longitude |locationOfContents |lowestAdjacentGrade |lowestFloorElevation |numberOfFloorsInTheInsuredBuilding |nonProfitIndicator |obstructionType |occupancyType |originalConstructionDate |originalNBDate           |amountPaidOnBuildingClaim |amountPaidOnContentsClaim |amountPaidOnIncreasedCostOfComplianceClaim |postFIRMConstructionIndicator |rateMethod |smallBusinessIndicatorBuilding |state |totalBuildingInsuranceCoverage |totalContentsInsuranceCoverage |yearOfLoss |reportedZipcode |primaryResidence |id                       |
+|:-----------------------------|:------------------------|:------------------|:---------------------------|:-----------------------|:--------------------|:-----------|:----------|:-----------------------------|:------------------------|:-------------------------|:-----------------------------|:-------------------|:-----------|:---------|:------------|:--------|:---------|:------------------|:-------------------|:--------------------|:----------------------------------|:------------------|:---------------|:-------------|:------------------------|:------------------------|:-------------------------|:-------------------------|:------------------------------------------|:-----------------------------|:----------|:------------------------------|:-----|:------------------------------|:------------------------------|:----------|:---------------|:----------------|:------------------------|
+|FALSE                         |2021-07-25T01:39:04.381Z |7                  |NULL                        |Temporarily Unavailable |N                    |1           |51199      |7                             |2009-11-12T05:00:00.000Z |TRUE                      |NULL                          |1                   |51199050402 |AE        |FALSE        |37.2     |-76.4     |0                  |3.9                 |7.6                  |2                                  |FALSE              |15              |1             |1987-01-01T05:00:00.000Z |2004-08-30T04:00:00.000Z |15869.17                  |NULL                      |NULL                                       |FALSE                         |1          |FALSE                          |VA    |250000                         |30500                          |2009       |23696           |TRUE             |619d2db7ca992633f8bcda27 |
+|FALSE                         |2021-07-25T01:39:04.381Z |NULL               |1                           |Temporarily Unavailable |N                    |1           |24033      |5                             |2007-01-01T05:00:00.000Z |FALSE                     |NULL                          |NULL                |24033801600 |X         |FALSE        |38.8     |-77.0     |0                  |NULL                |0                    |3                                  |FALSE              |NULL            |1             |1953-01-01T05:00:00.000Z |2006-11-15T05:00:00.000Z |NULL                      |NULL                      |NULL                                       |FALSE                         |7          |FALSE                          |MD    |100000                         |40000                          |2007       |20745           |TRUE             |619d2db7ca992633f8bcda25 |
+|FALSE                         |2021-07-25T01:39:04.381Z |NULL               |NULL                        |Temporarily Unavailable |N                    |1           |22073      |10                            |1989-05-04T04:00:00.000Z |FALSE                     |3                             |0                   |22073001700 |AE        |FALSE        |32.5     |-92.1     |0                  |NULL                |0                    |1                                  |FALSE              |10              |1             |1962-07-01T04:00:00.000Z |1989-01-14T05:00:00.000Z |NULL                      |NULL                      |NULL                                       |FALSE                         |1          |FALSE                          |LA    |82300                          |20000                          |1989       |71201           |FALSE            |619d2db7ca992633f8bcda28 |
+|FALSE                         |2021-09-30T01:46:33.952Z |5                  |NULL                        |Temporarily Unavailable |N                    |1           |12091      |5                             |1995-10-05T04:00:00.000Z |FALSE                     |3                             |12                  |12091021002 |AE        |FALSE        |30.5     |-86.4     |0                  |NULL                |16.8                 |3                                  |FALSE              |10              |1             |1990-01-01T05:00:00.000Z |1990-06-30T04:00:00.000Z |NULL                      |NULL                      |NULL                                       |TRUE                          |1          |FALSE                          |FL    |150700                         |0                              |1995       |32578           |TRUE             |619d2db7ca992633f8bcda2a |
+|FALSE                         |2021-07-25T01:39:04.381Z |11                 |NULL                        |Temporarily Unavailable |N                    |1           |22103      |7                             |2005-08-29T04:00:00.000Z |FALSE                     |NULL                          |1                   |22103040710 |AE        |FALSE        |30.3     |-89.7     |0                  |10.5                |12.3                 |2                                  |FALSE              |NULL            |1             |1994-01-01T05:00:00.000Z |2003-05-29T04:00:00.000Z |72498.67                  |10365.6                   |NULL                                       |TRUE                          |1          |FALSE                          |LA    |161600                         |50000                          |2005       |70461           |TRUE             |619d2db7ca992633f8bcda2c |
+|FALSE                         |2021-07-25T01:39:04.381Z |NULL               |NULL                        |Temporarily Unavailable |N                    |1           |36103      |NULL                          |2012-10-30T04:00:00.000Z |FALSE                     |NULL                          |NULL                |36103147402 |X         |FALSE        |40.7     |-73.2     |0                  |NULL                |0                    |2                                  |FALSE              |NULL            |1             |1978-01-01T05:00:00.000Z |2012-04-09T04:00:00.000Z |3799.19                   |NULL                      |NULL                                       |TRUE                          |7          |FALSE                          |NY    |250000                         |100000                         |2012       |11751           |TRUE             |619d2db7ca992633f8bcda2d |
+|FALSE                         |2021-07-25T01:39:04.381Z |NULL               |NULL                        |Temporarily Unavailable |N                    |1           |48201      |5                             |2016-05-16T04:00:00.000Z |FALSE                     |NULL                          |NULL                |48201332400 |AE        |FALSE        |29.7     |-95.3     |0                  |NULL                |0                    |1                                  |FALSE              |NULL            |1             |1951-01-01T05:00:00.000Z |2010-12-15T05:00:00.000Z |NULL                      |NULL                      |NULL                                       |FALSE                         |1          |FALSE                          |TX    |136700                         |0                              |2016       |77033           |FALSE            |619d2db7ca992633f8bcda31 |
+|FALSE                         |2021-07-25T01:39:04.381Z |NULL               |NULL                        |Temporarily Unavailable |N                    |1           |12033      |7                             |2014-04-30T04:00:00.000Z |FALSE                     |NULL                          |NULL                |12033003301 |C         |FALSE        |30.5     |-87.3     |0                  |NULL                |0                    |1                                  |FALSE              |NULL            |1             |1994-01-01T05:00:00.000Z |2009-06-06T04:00:00.000Z |71097.77                  |43515.53                  |NULL                                       |TRUE                          |1          |FALSE                          |FL    |101600                         |50000                          |2014       |32526           |TRUE             |619d2db7ca992633f8bcda3d |
+|FALSE                         |2021-07-25T01:39:04.381Z |NULL               |NULL                        |Temporarily Unavailable |N                    |1           |37055      |7                             |1991-08-18T04:00:00.000Z |FALSE                     |NULL                          |NULL                |NULL        |A         |FALSE        |35.3     |-75.5     |0                  |NULL                |0                    |1                                  |FALSE              |10              |1             |1978-09-01T04:00:00.000Z |1988-11-25T05:00:00.000Z |1493.08                   |NULL                      |NULL                                       |FALSE                         |1          |FALSE                          |NC    |96700                          |0                              |1991       |27920           |FALSE            |619d2db7ca992633f8bcda43 |
+|FALSE                         |2021-07-25T01:39:04.381Z |49                 |NULL                        |Temporarily Unavailable |N                    |1           |48201      |5                             |2017-08-27T04:00:00.000Z |FALSE                     |NULL                          |-1                  |48201413000 |AE        |FALSE        |29.7     |-95.4     |0                  |47.1                |48.5                 |1                                  |FALSE              |NULL            |1             |1950-01-01T05:00:00.000Z |2013-05-30T04:00:00.000Z |141569.02                 |92168.22                  |NULL                                       |FALSE                         |1          |FALSE                          |TX    |209000                         |100000                         |2017       |77025           |FALSE            |619d2db7ca992633f8bcda45 |
+
 If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the `fema_data_fields()` function.
 
-```{r, cache = T}
+
+```r
 data_fields <- fema_data_fields("fimanfipclaims")
 kable(head(data_fields,3))
 ```
 
 
+
+|    |datasetId   |openFemaDataSet |name |title                         |description                     |type                                                                                                                                                                                                                          |sortOrder |datasetVersion |hash  |lastRefresh |isNestedObject |isNullable |isSearchable                             |primaryKey               |id                       |
+|:---|:-----------|:---------------|:----|:-----------------------------|:-------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:--------------|:-----|:-----------|:--------------|:----------|:----------------------------------------|:------------------------|:------------------------|
+|659 |openfema-31 |FimaNfipClaims  |1    |agricultureStructureIndicator |Agriculture Structure Indicator |Yes (Y) or No (N) indicator of whether or not a building is reported as being an agricultural structure in the policy application. Yes is indicated with either a 'true' or '1'. No is indicated with either a 'false' or '0' |boolean   |1              |FALSE |FALSE       |FALSE          |NULL       |91f8c693c90fd3b4d357dbef97515d9551f30ea5 |2021-11-26T14:41:05.465Z |5f086f3e1dbf327060c5c09d |
+|660 |openfema-31 |FimaNfipClaims  |1    |asOfDate                      |As Of Date                      |The effective date of the data in the file. When time is not specified in the field, it will default to T00:00:00.000Z                                                                                                        |date      |2              |TRUE  |FALSE       |FALSE          |NULL       |d740807d8229295f26f8d891620bdb74b44cdc4d |2021-11-26T14:41:05.465Z |5f086f3e1dbf327060c5c09e |
+|661 |openfema-31 |FimaNfipClaims  |1    |baseFloodElevation            |Base Flood Elevation            |Base Flood Elevation (BFE) is the elevation, in feet, at which there is a 1% chance per year of flooding in feet from the elevation certificate                                                                               |number    |3              |TRUE  |FALSE       |FALSE          |NULL       |ff76dc6c9631625e397499900d99746bd1fb3677 |2021-11-26T14:41:05.466Z |5f086f3e1dbf327060c5c09f |
+
+
 In this case we will return only the `policyCount` and `floodZone` columns. As can be seen, an id column is always returned even if the select argument is used. 
-```{r, cache = T}
+
+```r
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10, select = c("policyCount","floodZone"))
 kable(df)
 ```
 
+
+
+|policyCount |floodZone |id                       |
+|:-----------|:---------|:------------------------|
+|1           |AE        |619d2db7ca992633f8bcda27 |
+|1           |X         |619d2db7ca992633f8bcda25 |
+|1           |AE        |619d2db7ca992633f8bcda28 |
+|1           |AE        |619d2db7ca992633f8bcda2a |
+|1           |AE        |619d2db7ca992633f8bcda2c |
+|1           |X         |619d2db7ca992633f8bcda2d |
+|1           |AE        |619d2db7ca992633f8bcda31 |
+|1           |C         |619d2db7ca992633f8bcda3d |
+|1           |A         |619d2db7ca992633f8bcda43 |
+|1           |AE        |619d2db7ca992633f8bcda45 |
+
 If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the valid_parameters() function to return a vector containing the variables that are "searchable" for a particular data set. 
-```{r, cache = T}
+
+```r
 params <- valid_parameters(data_set = "fimaNfipClaims")
 paste(params, collapse = ", ")
+#> [1] "agricultureStructureIndicator, asOfDate, baseFloodElevation, basementEnclosureCrawlspaceType, reportedCity, condominiumIndicator , policyCount, countyCode , communityRatingSystemDiscount, dateOfLoss, elevatedBuildingIndicator, elevationDifference, elevationCertificateIndicator, censusTract, floodZone, latitude, houseWorship, locationOfContents, longitude, lowestAdjacentGrade, lowestFloorElevation, numberOfFloorsInTheInsuredBuilding, nonProfitIndicator, obstructionType, occupancyType, originalNBDate, originalConstructionDate, amountPaidOnBuildingClaim, amountPaidOnContentsClaim, postFIRMConstructionIndicator, amountPaidOnIncreasedCostOfComplianceClaim, rateMethod, smallBusinessIndicatorBuilding, state, totalBuildingInsuranceCoverage, totalContentsInsuranceCoverage, reportedZipCode, primaryResidence, id, yearOfLoss"
 ```
 
 We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to see unique values of those variables in the data set. We can do this by using the `parameter_values()` function. This function returns the unique values of a variable contained in the first 1000 observations of a data set. Notably, it does not return all unique values, as that would require access to the entire data set, which as we saw above is over 2.5 million records. 
 
-```{r, cache = T}
+
+```r
 parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
+#>  [1] "AE"   "X"    "C"    "A"    "A10"  "A06"  "AHB"  "AO"   "VE"   "A14"  "A99"  "V21"  "AH"   "A07"  "A04" 
+#> [16] "AOB"  "A11"  "B"    "A01"  "A09"  "A08"  "A16"  "A17"  "A02"  "D"    "V11"  "A15"  "A12"  "A03"  "V13" 
+#> [31] "A05"  "A13"  "NULL" "V05"  "A21"
 ```
 
 
 We can see from the above that `floodZone` is a character in the data and there are 32 unique values in the first 1000 observations of the full data set. Lets go a head a define a filter to limit our results to records with "AE" or "X" flood zones.
-```{r, cache = T}
+
+```r
 my_filters <- list(floodZone = c("AE","X"))
 
 df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, 
                select = c("policyCount","floodZone"), filters = my_filters)
 kable(df)
-
-
 ```
+
+
+
+|floodZone |policyCount |id                       |
+|:---------|:-----------|:------------------------|
+|AE        |1           |61ad7aad9bf443f510234c3d |
+|AE        |1           |61ad7aad9bf443f510234c47 |
+|AE        |1           |61ad7aad9bf443f510234c55 |
+|AE        |1           |61ad7aad9bf443f510234c5b |
+|AE        |1           |61ad7aad9bf443f510234c69 |
+|AE        |1           |61ad7aad9bf443f510234cc1 |
+|AE        |1           |61ad7aad9bf443f510234cc6 |
+|AE        |1           |61ad7aad9bf443f510234cc7 |
+|AE        |1           |61ad7aad9bf443f510234cd0 |
+|AE        |1           |61ad7aad9bf443f510234cdd |
 
 
 
@@ -121,7 +190,8 @@ kable(df)
 ## More Examples
 
 ### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
-```{r, cache = T}
+
+```r
 df <- open_fema(data_set = "fimaNfipClaims",
                  top_n = 100,
                  filters = list(countyCode = "= 01001",
@@ -131,15 +201,39 @@ df <- open_fema(data_set = "fimaNfipClaims",
 
 
 ### Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.
-```{r, cache = T}
+
+```r
 # see which parameter can be used for filtering the Hazard Mitigation Grants data set
 valid_parameters("HazardMitigationGrants") 
+#>  [1] "id"                  "projectType"         "projectCounties"     "status"             
+#>  [5] "subgrantee"          "disasterNumber"      "state"               "projectAmount"      
+#>  [9] "region"              "declarationDate"     "projectNumber"       "disasterTitle"      
+#> [13] "projectDescription"  "lastRefresh"         "costSharePercentage" "subgranteeFIPSCode" 
+#> [17] "projectTitle"        "incidentType"        "hash"
 
 # check example values for "incidentType"
 parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") 
+#>  [1] "Flood"            "Severe Storm(s)"  "Tornado"          "Freezing"         "Hurricane"       
+#>  [6] "Earthquake"       "Typhoon"          "Volcano"          "Fire"             "Snow"            
+#> [11] "Severe Ice Storm" "Coastal Storm"
 
 # check to see how "state" is formatted
 parameter_values(data_set = "HazardMitigationGrants", data_field = "state") 
+#>  [1] "Kentucky"                       "Utah"                           "North Dakota"                  
+#>  [4] "Texas"                          "North Carolina"                 "Alaska"                        
+#>  [7] "Connecticut"                    "Virgin Islands of the U.S."     "Louisiana"                     
+#> [10] "Vermont"                        "Puerto Rico"                    "South Carolina"                
+#> [13] "Maine"                          "Maryland"                       "Minnesota"                     
+#> [16] "Washington"                     "District of Columbia"           "California"                    
+#> [19] "Virginia"                       "Alabama"                        "Mississippi"                   
+#> [22] "Northern Mariana Islands"       "Tennessee"                      "Oregon"                        
+#> [25] "Georgia"                        "Hawaii"                         "American Samoa"                
+#> [28] "Arkansas"                       "Oklahoma"                       "Missouri"                      
+#> [31] "Iowa"                           "Nebraska"                       "New Hampshire"                 
+#> [34] "Wisconsin"                      "Illinois"                       "Indiana"                       
+#> [37] "Palau"                          "Ohio"                           "Federated States of Micronesia"
+#> [40] "Arizona"                        "Guam"                           "New York"                      
+#> [43] "Rhode Island"                   "Massachusetts"                  "Marshall Islands"
 
 # construct a list containing filters for Hurricane and Florida
 filter_list <- c(incidentType = c("Hurricane"),
@@ -148,47 +242,91 @@ filter_list <- c(incidentType = c("Hurricane"),
 # pass filter_list to the open_fema function to retreieve data.
 df <- open_fema(data_set = "HazardMitigationGrants", filters = filter_list, 
                ask_before_call = FALSE)
+#> 1 out of 2 itterations completedFALSE
+#> 2 out of 2 itterations completedFALSE
 kable(df[1:3,1:4])
 ```
+
+
+
+|region |state   |disasterNumber |declarationDate          |
+|:------|:-------|:--------------|:------------------------|
+|4      |Florida |955            |1992-08-24T00:00:00.000Z |
+|4      |Florida |955            |1992-08-24T00:00:00.000Z |
+|4      |Florida |955            |1992-08-24T00:00:00.000Z |
 
 
 ### Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.
 
 Get a dataset description for the `HousingAssistanceRenters` data set to see if this is the right data set for the question
-```{r, cache = T}
+
+```r
 # get meta data for the `HousingAssistanceRenters`
 ds <- fema_data_sets() %>% filter(name == "HousingAssistanceRenters")
 
 # there are two entries corresponding to two versions of the data set, 
 # we want the most recent one
 nrow(ds)
+#> [1] 2
 ds <- ds %>% filter(version == max(as.numeric(ds$version)))
 
 # now print out the data set description
 print(ds$description)
-
+#> [1] "The dataset was generated by FEMA's Enterprise Coordination & Information Management (ECIM) Reporting team and is primarily composed of data from Housing Assistance Program reporting authority from FEMA registration renters and owners within the state, county, zip where the registration is valid. This dataset contains aggregated, non-PII data on FEMA's Housing Assistance Program within the state, county, zip where the registration is valid for the declarations, starting with disaster declarations number 4116.  The data is divided into data for renters and data for property owners. Additional core data elements include number of applicants, county, zip code, severity of damage, owner or renter. Data is self-reported and as such is subject to human error. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.This is raw, unedited data from FEMA's National Emergency Management Information System (NEMIS) and as such is subject to a small percentage of human error. For example, when an applicant registers they enter their street and city address.  The system runs a check and suggests a county.  The applicant, if registering online can override that choice.  If they are registering via the call center the Human Services Specialist (HSS) representatives are instructed to ask (not offer) what county they live in.  So even though the system might suggest County A,  an applicant has the right to choose County B.  The financial information is derived from NEMIS and not FEMA's official financial systems.  Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov;  this dataset is not intended to be used for any official federal financial reporting.Citation: The Agency's preferred citation for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page, Citing Data section: https://www.fema.gov/about/openfema/terms-conditions.If you have media inquiries about this dataset, please email the FEMA News Desk FEMA-News-Desk@dhs.gov or call (202) 646-3272.  For inquiries about FEMA's data and Open government program please contact the OpenFEMA team via email OpenFEMA@fema.dhs.gov."
 ```
 
 See which columns we can filter on to select just Hurricane Irma related grants
-```{r, cache = T}
+
+```r
 # see which parameter can be used for filtering the Housing Assistance for Renters 
 valid_parameters("HousingAssistanceRenters") 
+#>  [1] "city"                         "validRegistrations"           "disasterNumber"              
+#>  [4] "zipCode"                      "repairReplaceAmount"          "totalInspected"              
+#>  [7] "approvedForFemaAssistance"    "totalWithSubstantialDamage"   "rentalAmount"                
+#> [10] "otherNeedsAmount"             "approvedBetween10001And25000" "totalInspectedWithNoDamage"  
+#> [13] "approvedBetween1And10000"     "approvedBetween25001AndMax"   "totalMaxGrants"              
+#> [16] "hash"                         "lastRefresh"                  "county"                      
+#> [19] "state"                        "totalWithModerateDamage"      "totalApprovedIhpAmount"      
+#> [22] "totalWithMajorDamage"         "id"                           "2"                           
+#> [25] "2"                            "2"                            "2"                           
+#> [28] "2"                            "2"                            "2"                           
+#> [31] "2"                            "2"                            "2"                           
+#> [34] "2"                            "2"                            "2"                           
+#> [37] "2"                            "2"                            "2"                           
+#> [40] "2"                            "2"                            "2"                           
+#> [43] "2"                            "2"
 ```
 
 All we have in this data set is the `disasterNumber`. Thus, to filter on a specific disaster we have to load the `FemaWebDisasterDeclarations` data find the disaster number associated with the event we are interested in.
-```{r, cache = T}
+
+```r
 # call the disaster declarations
 dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
+#> 1 out of 5 itterations completedFALSE
+#> 2 out of 5 itterations completedFALSE
+#> 3 out of 5 itterations completedFALSE
+#> 4 out of 5 itterations completedFALSE
+#> 5 out of 5 itterations completedFALSE
 
 # filter disaster declarations to those with "hurricane" in the name
 hurricanes <- distinct(dd %>% filter(grepl("hurricane",tolower(disasterName))) %>% select(disasterName, disasterNumber))
 kable(head(hurricanes))
-
-
 ```
 
+
+
+|disasterName                               |disasterNumber |
+|:------------------------------------------|:--------------|
+|HURRICANE MARIA                            |3390           |
+|HURRICANE IRMA                             |3388           |
+|HURRICANE NATE                             |3395           |
+|HURRICANE HARVEY                           |4332           |
+|HURRICANE IRMA                             |3384           |
+|HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA |4341           |
+
 As can be seen, disaster numbers do not uniquely ID an event, since multiple disaster declarations may be declared for the same event, but in different locations. Thus to filter on a particular event, we need to collect all the disaster declaration numbers corresponding to that event. 
-```{r, cache = T}
+
+```r
 # get all disaster declarations associated with hurricane irma. 
 # notice the use of grepl() which picked up a disaster declaration name 
 # that was differnt than all the others.
@@ -196,30 +334,47 @@ dd_irma <- hurricanes %>% filter(grepl("irma",tolower(disasterName)))
 
 # get a vector of just the disaster declaration numbers
 dd_nums_irma <- dd_irma$disasterNumber
-
 ```
 
 Now we are read to filter our API call for the `HousingAssistanceRenters` data set.
-```{r, cache = T}
+
+```r
 # construct filter list
 filter_list <- list(disasterNumber = dd_nums_irma)
 
 
 # make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.
 assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list, ask_before_call = F)
-
+#> 1 out of 6 itterations completedFALSE
+#> 2 out of 6 itterations completedFALSE
+#> 3 out of 6 itterations completedFALSE
+#> 4 out of 6 itterations completedFALSE
+#> 5 out of 6 itterations completedFALSE
+#> 6 out of 6 itterations completedFALSE
 ```
 
 Check out the returned data
-```{r, cache = T}
+
+```r
 # check out the returned data
 kable(head(assistance_irma))
-
 ```
 
 
+
+|state |validRegistrations |totalInspected |totalInspectedWithNoDamage |totalWithModerateDamage |totalWithMajorDamage |totalWithSubstantialDamage |approvedForFemaAssistance |totalApprovedIhpAmount |repairReplaceAmount |rentalAmount |otherNeedsAmount |approvedBetween1And10000 |approvedBetween10001And25000 |approvedBetween25001AndMax |totalMaxGrants |disasterNumber |zipCode |county                                  |city              |id                       |
+|:-----|:------------------|:--------------|:--------------------------|:-----------------------|:--------------------|:--------------------------|:-------------------------|:----------------------|:-------------------|:------------|:----------------|:------------------------|:----------------------------|:--------------------------|:--------------|:--------------|:-------|:---------------------------------------|:-----------------|:------------------------|
+|VI    |1                  |0              |1                          |0                       |0                    |0                          |1                         |500                    |0                   |0            |500              |1                        |0                            |0                          |0              |4335           |00083   |St. John (Island) (County-equivalent)   |ST JOHN           |61d01e95ca68100bdec89596 |
+|VI    |1                  |1              |1                          |0                       |0                    |0                          |0                         |0                      |0                   |0            |0                |0                        |0                            |0                          |0              |4335           |00802   |St. Thomas (Island) (County-equivalent) |BOVONI            |61d01e95ca68100bdec895a6 |
+|VI    |1                  |1              |0                          |1                       |0                    |0                          |1                         |4476.9                 |0                   |1696         |2780.9           |1                        |0                            |0                          |0              |4335           |00802   |St. Thomas (Island) (County-equivalent) |CHARLOTEAMALIE    |61d01e95ca68100bdec895a7 |
+|VI    |267                |203            |186                        |63                      |18                   |0                          |133                       |396769.39              |0                   |176915       |219854.39        |127                      |6                            |0                          |0              |4335           |00802   |St. Thomas (Island) (County-equivalent) |CHARLOTTE AMALIE  |61d01e95ca68100bdec895a9 |
+|VI    |1                  |1              |0                          |0                       |1                    |0                          |1                         |1696                   |0                   |1696         |0                |1                        |0                            |0                          |0              |4335           |00802   |St. Thomas (Island) (County-equivalent) |CHAROLETTE AMALIE |61d01e95ca68100bdec895ae |
+|VI    |1                  |0              |1                          |0                       |0                    |0                          |1                         |500                    |0                   |0            |500              |1                        |0                            |0                          |0              |4335           |00802   |St. Thomas (Island) (County-equivalent) |COUNTRY           |61d01e95ca68100bdec895af |
+
+
 Now we can answer our origonal question: How much did FEMA awarded for rental assistance following Hurricane Irma?
-```{r, cache = T}
+
+```r
 # sum the rentalAmount Column
 rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
 
@@ -227,7 +382,7 @@ rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
 rent_assistance <- rent_assistance/1000000
 
 print(paste0("$",round(rent_assistance,2)," million was awarded by FEMA for rental assistance following Hurricane Irma"))
-
+#> [1] "$314.64 million was awarded by FEMA for rental assistance following Hurricane Irma"
 ```
 
 
@@ -236,10 +391,10 @@ print(paste0("$",round(rent_assistance,2)," million was awarded by FEMA for rent
 In some cases bulk downloading a full data set file may be preferred. In this case, users can use the bulk_dl() command
 to download a csv of the full data file and save it to a specified directory.
 
-```{r,cache = T}
+
+```r
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
+#> Downloading file to /home/dylan/Dropbox/rfema/vignettes/FemaRegions.csv
 ```
 
-```{r,cache = F, include = F}
-file.remove("FemaRegions.csv")
-```
+

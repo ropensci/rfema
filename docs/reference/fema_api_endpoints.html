@@ -75,7 +75,7 @@ data set" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfema</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@ data set" />
       <a href="../articles/getting_started.html">rfema: Getting Started</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -152,11 +155,10 @@ API endpoint for.</p></td>
 with the data set.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"FimaNfipClaims"</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>rfema</span><span class='fu'>:::</span><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"FimaNfipClaims"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>rfema</span><span class='fu'>:::</span><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"fImAnfiPclaims"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.fema.gov/api/open/v1/FimaNfipClaims"</span>
-<span class='r-in'><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"fImAnfiPclaims"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.fema.gov/api/open/v1/FimaNfipClaims"</span>
-<span class='r-in'><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"fimanfippolicies"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>rfema</span><span class='fu'>:::</span><span class='fu'>fema_api_endpoints</span><span class='op'>(</span><span class='st'>"fimanfippolicies"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://www.fema.gov/api/open/v1/FimaNfipPolicies"</span>
 </pre>
   </div>

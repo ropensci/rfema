@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rfema</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -57,6 +57,9 @@
       <a href="articles/getting_started.html">rfema: Getting Started</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -90,6 +93,7 @@
 <h2 class="hasAnchor">
 <a href="#rfema-r-fema" class="anchor"></a>rfema (R FEMA)</h2>
 
+<p><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <a href="https://codecov.io/gh/dylan-turner25/rfema?branch=main"><img src="https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/ropensci/software-review/issues/484"><img src="https://badges.ropensci.org/484_status.svg" alt="Status at rOpenSci Software Peer Review"></a></p>
 <!-- badges: start -->
 <!-- [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions) -->
 <!-- badges: end -->
@@ -98,16 +102,20 @@
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p><code>rfema</code> allows users to access The Federal Emergency Management Agency’s (FEMA) publicly available data through the open FEMA API. The package provides a set of functions to easily navigate and access all data sets provided by FEMA, including (but not limited to) data from the National Flood Insurance Program and FEMA’s various disaster aid programs.</p>
-<p>FEMA data is publicly available at the open FEMA website (<a href="https://www.fema.gov/about/openfema/data-sets" class="uri">https://www.fema.gov/about/openfema/data-sets</a>) and is avaliable for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA’s API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA’s API without needing any technical knowledge of APIs.</p>
-<p>In accordance with the Open Fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency’s website(s). Guidance on FEMA’s preferred citation for Open FEMA data can be found at: <a href="https://www.fema.gov/about/openfema/terms-conditions" class="uri">https://www.fema.gov/about/openfema/terms-conditions</a></p>
+<p>FEMA data is publicly available at the open <a href="https://www.fema.gov/about/openfema/data-sets">FEMA website</a> and is available for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA’s API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA’s API without needing any technical knowledge of APIs. Notably, the FEMA API does not require an API key meaning the package is extremely accessible regardless of if the user has ever interacted with an API.</p>
+<p>The rest of this page explains the benefits of the package and demonstrates basic usage of the package. For those looking for more in depth examples of how to use the package in your workflow, consider reading the <a href="docs/articles/getting_started.html">Getting Started</a> vignette.</p>
+<p>In accordance with the Open Fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency’s website(s). Guidance on FEMA’s preferred citation for Open FEMA data can be found at: <a href="https://www.fema.gov/about/openfema/terms-conditions" class="uri">https://www.fema.gov/about/openfema/terms-conditions</a>.</p>
 </div>
 <div id="why-rfema" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-rfema" class="anchor"></a>Why rfema?</h2>
 <p>What are the advantages of accessing the FEMA API through the <code>rfema</code> package as compared to accessing the API directly? In short, the <code>rfema</code> package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the <code>rfema</code> package. As can be seen it requires quite a few lines of code, in part due to the API limiting calls to 1000 records per call which can make obtaining a full data set cumbersome.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># define the url for the appropriate api end point</span>
+<code class="sourceCode R"><span class="co"># Code needed to obtain data on flood insurance claims in Broward County, FL without the rfema package ------------------</span>
+
+<span class="co"># define the url for the appropriate api end point</span>
 <span class="va">base_url</span> <span class="op">&lt;-</span> <span class="st">"https://www.fema.gov/api/open/v1/FimaNfipClaims"</span>
+
 
 <span class="co"># append the base_url to apply filters</span>
 <span class="va">filters</span> <span class="op">&lt;-</span> <span class="st">"?$inlinecount=allpages&amp;$top=1000&amp;$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"</span>
@@ -120,743 +128,199 @@
 <span class="co"># run the api call and determine the number of matching records</span>
 <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span><span class="va">record_check_query</span><span class="op">)</span>
 <span class="va">jsonData</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>        
-<span class="va">n_records</span> <span class="op">&lt;-</span> <span class="va">jsonData</span><span class="op">$</span><span class="va">metadata</span><span class="op">$</span><span class="va">count</span> <span class="co"># there are 2119 records meaning we will need three seperate API calls to get all the data</span>
+<span class="va">n_records</span> <span class="op">&lt;-</span> <span class="va">jsonData</span><span class="op">$</span><span class="va">metadata</span><span class="op">$</span><span class="va">count</span> 
 
 
 <span class="co"># calculate number of calls neccesary to get all records using the </span>
 <span class="co"># 1000 records/ call max limit defined by FEMA</span>
-<span class="va">itterations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="va">n_records</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>
-  
+<span class="va">iterations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="va">n_records</span> <span class="op">/</span> <span class="fl">1000</span><span class="op">)</span>
 
-<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">1</span>, to<span class="op">=</span><span class="va">itterations</span>, by<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-  <span class="co"># As above, if you have filters, specific fields, or are sorting, add that to the base URL </span>
-  <span class="co">#   or make sure it gets concatenated here.</span>
-  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_query</span>,<span class="st">"&amp;$skip="</span>,<span class="op">(</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span>
-  <span class="va">jsonData</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>         
-  
-  <span class="kw">if</span><span class="op">(</span><span class="va">i</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">{</span>
-    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">jsonData</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
-    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">jsonData</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># initialize a skip counter which will indicate where in the full </span>
+<span class="co"># data set each API call needs to start from.</span>
+<span class="va">skip</span> <span class="op">&lt;-</span> <span class="fl">0</span>
+
+<span class="co"># make however many API calls are neccesary to get the full data set</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">1</span>, to <span class="op">=</span> <span class="va">iterations</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co"># As above, if you have filters, specific fields, or are sorting, add</span>
+  <span class="co"># that to the base URL or make sure it gets concatenated here.</span>
+  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">api_query</span>, <span class="st">"&amp;$skip="</span>, <span class="op">(</span><span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">status_code</span> <span class="op">!=</span> <span class="fl">200</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">status</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/http_status.html">http_status</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="va">status</span><span class="op">$</span><span class="va">message</span><span class="op">)</span>
   <span class="op">}</span>
+  <span class="va">json_data</span> <span class="op">&lt;-</span> <span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
   
-
-
+  <span class="co"># for data returned as a list of lists, correct any discrepancies</span>
+  <span class="co"># in the length of the lists by adding NA values to the shorter lists</span>
+  
+  <span class="co"># calculate longest list</span>
+  <span class="va">max_list_length</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">json_data</span>, <span class="va">length</span><span class="op">)</span><span class="op">)</span>
+  
+  <span class="co"># add NA values to lists shorter than the max list length</span>
+  <span class="va">json_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">json_data</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">max_list_length</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span>
+  
+  <span class="kw">if</span> <span class="op">(</span><span class="va">i</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span>
+    <span class="co"># bind the data into a single data frame</span>
+    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">json_data</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
+      <span class="va">data</span>,
+      <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">json_data</span><span class="op">)</span><span class="op">)</span>
+    <span class="op">)</span>
+  <span class="op">}</span>
 <span class="op">}</span>
+
  
-  
 <span class="co"># remove the html line breaks from returned data frame (if there are any)  </span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data</span>, <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\n"</span>, <span class="st">""</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">data</span>, <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\n"</span>, <span class="st">""</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># view the retrieved data</span>
+<span class="va">data</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 2,119 × 40</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    agricultureStruct… asOfDate  baseFloodElevat… basementEnclosur… reportedCity </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;             &lt;chr&gt;        </span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 FALSE              2021-07-… 8                NULL              Temporarily …</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 FALSE              2021-09-… 6                0                 Temporarily …</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 FALSE              2021-09-… 4                0                 Temporarily …</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 FALSE              2021-09-… 6                0                 Temporarily …</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 FALSE              2021-09-… NULL             NULL              Temporarily …</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 FALSE              2021-09-… 6                NULL              Temporarily …</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 FALSE              2021-07-… NULL             NULL              Temporarily …</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 FALSE              2021-07-… 7                NULL              Temporarily …</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 FALSE              2021-07-… 7                NULL              Temporarily …</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 FALSE              2021-09-… NULL             0                 Temporarily …</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 2,109 more rows, and 35 more variables: condominiumIndicator &lt;chr&gt;,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   policyCount &lt;chr&gt;, countyCode &lt;chr&gt;, communityRatingSystemDiscount &lt;chr&gt;,</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   dateOfLoss &lt;chr&gt;, elevatedBuildingIndicator &lt;chr&gt;,</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   elevationCertificateIndicator &lt;chr&gt;, elevationDifference &lt;chr&gt;,</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   lowestFloorElevation &lt;chr&gt;, numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, …</span></span></code></pre></div>
 <p>Compare the above block of code to the following code which obtains the same data using the <code>rfema</code> package. The <code>rfema</code> package allows the same request to be made with two lines of code. Notably, the <code><a href="reference/open_fema.html">open_fema()</a></code> function handles checking the number of records and implements an iterative loop to deal with the 1000 records/call limit.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># define a list of filters to apply</span>
 <span class="va">filterList</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>countyCode <span class="op">=</span> <span class="st">"= 12011"</span>,yearOfLoss <span class="op">=</span> <span class="st">"&gt;= 2010"</span>, yearOfLoss <span class="op">=</span> <span class="st">"&lt;= 2012"</span><span class="op">)</span>
 
-<span class="co"># make the API call using the `open_fema` function.</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">rfema</span><span class="fu">::</span><span class="fu"><a href="reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,ask_before_call <span class="op">=</span> <span class="cn">F</span>, filters <span class="op">=</span> <span class="va">filterList</span> <span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 out of 3 itterations completedFALSE</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 out of 3 itterations completedFALSE</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 out of 3 itterations completedFALSE</span></span></code></pre></div>
+
+<span class="co"># Make the API call using the `open_fema` function. The function will output a </span>
+<span class="co"># status message to the console letting you monitor the progress of the data retrieval.</span>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">rfema</span><span class="fu">::</span><span class="fu"><a href="reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,ask_before_call <span class="op">=</span> <span class="cn">F</span>, filters <span class="op">=</span> <span class="va">filterList</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Obtaining Data: 1 out of 3 iterations (33.33% complete) Obtaining Data: 2 out</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## of 3 iterations (66.67% complete) Obtaining Data: 3 out of 3 iterations (100%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## complete)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># view data</span>
+<span class="va">data</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 2,119 × 40</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    agricultureStructur… asOfDate            baseFloodElevati… basementEnclosure…</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;                &lt;dttm&gt;              &lt;chr&gt;             &lt;chr&gt;             </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 FALSE                2021-07-25 00:00:00 8                 NULL              </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 FALSE                2021-09-02 00:00:00 6                 0                 </span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 FALSE                2021-09-02 00:00:00 4                 0                 </span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 FALSE                2021-09-02 00:00:00 6                 0                 </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 FALSE                2021-09-02 00:00:00 NULL              NULL              </span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 FALSE                2021-09-02 00:00:00 6                 NULL              </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 FALSE                2021-07-04 00:00:00 NULL              NULL              </span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 FALSE                2021-07-04 00:00:00 7                 NULL              </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 FALSE                2021-07-04 00:00:00 7                 NULL              </span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 FALSE                2021-09-02 00:00:00 NULL              0                 </span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 2,109 more rows, and 36 more variables: reportedCity &lt;chr&gt;,</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   condominiumIndicator &lt;chr&gt;, policyCount &lt;chr&gt;, countyCode &lt;chr&gt;,</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   communityRatingSystemDiscount &lt;chr&gt;, dateOfLoss &lt;dttm&gt;,</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   elevatedBuildingIndicator &lt;chr&gt;, elevationCertificateIndicator &lt;chr&gt;,</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   elevationDifference &lt;chr&gt;, censusTract &lt;chr&gt;, floodZone &lt;chr&gt;,</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   houseWorship &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;,</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;, …</span></span></code></pre></div>
+<p>The <code>rfema</code> package also returns data, where possible, in formats that are easier to work with. For example, all functions return data as a tibble with all date columns converted to POSIX format. This makes plotting time series easy as the API call can be piped directly into a <code>ggplot</code> plot. For example, the following is a plot of the number of FEMA disaster declarations in response to hurricanes since 2010, separated out by Florida versus the rest of the United States. In an application where the most up to date data is required, this block of code can be rerun to plot the most up to date data from the FEMA API.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/open_fema.html">open_fema</a></span><span class="op">(</span><span class="st">"DisasterDeclarationsSummaries"</span>, 
+                  filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>declarationDate <span class="op">=</span> <span class="st">"&gt;= 2010-01-01"</span>,
+                                 incidentType <span class="op">=</span> <span class="st">"Hurricane"</span><span class="op">)</span>, 
+                  ask_before_call <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/round_date.html">floor_date</a></span><span class="op">(</span><span class="va">declarationDate</span>,<span class="st">"year"</span><span class="op">)</span>,count <span class="op">=</span> <span class="fl">1</span>,
+         Florida <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">state</span> <span class="op">==</span> <span class="st">"FL"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>,<span class="va">count</span>,<span class="va">Florida</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">group_by</span><span class="op">(</span><span class="va">date</span>,<span class="va">Florida</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">summarise</span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">.</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="va">Florida</span>, y<span class="op">=</span><span class="va">count</span>, x<span class="op">=</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>position<span class="op">=</span><span class="st">"stack"</span>, stat<span class="op">=</span><span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span>,values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"grey80"</span>,<span class="st">"forestgreen"</span><span class="op">)</span>,drop <span class="op">=</span> <span class="cn">FALSE</span>,
+                    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Rest of U.S."</span>,<span class="st">"Florida"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"year"</span>,y <span class="op">=</span> <span class="st">""</span>,
+       title <span class="op">=</span> <span class="st">"County Level FEMA Disaster Declarations for Hurricanes"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6 iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining Data: 6 out of 6 iterations (100% complete)`summarise()` has grouped output by 'date'. You can override using the `.groups` argument.</span></span></code></pre></div>
+<p><img src="README_files/figure-gfm/unnamed-chunk-3-1.png"><!-- --></p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from GitHub using <code>devtools::install_github("dylan-turner25/rfema")</code>. The FEMA API does not require an API key, meaning no further steps need be taken to start using the package</p>
+<p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from GitHub using <code>remotes::install_github("dylan-turner25/rfema")</code>. The FEMA API does not require an API key, meaning no further steps need be taken to start using the package</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Use the <code><a href="reference/fema_data_sets.html">fema_data_sets()</a></code> function to obtain a data frame of available data sets along with associated meta data.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fema_data_sets.html">fema_data_sets</a></span><span class="op">(</span><span class="op">)</span>
+<p>For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the <a href="https://www.fema.gov/about/openfema/data-sets">FEMA API documentation page</a>. However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the <code><a href="reference/fema_data_sets.html">fema_data_sets()</a></code> function to obtain a tibble of available data sets along with associated meta data is a convenient option.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># store meta data for the available data sets as an object in the R environment</span>
+<span class="va">data_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fema_data_sets.html">fema_data_sets</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># truncate the description field for purposes of displaying the table</span>
-<span class="va">data_sets</span><span class="op">$</span><span class="va">description</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">data_sets</span><span class="op">$</span><span class="va">description</span>,<span class="fl">1</span>,<span class="fl">50</span><span class="op">)</span>,<span class="st">"..."</span><span class="op">)</span>
+<span class="co"># view the just retrieved data</span>
+<span class="va">data_sets</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 37 × 64</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    identifier  name    title   description   distribution.acce… distribution.fo…</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;         &lt;chr&gt;              &lt;chr&gt;           </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 openfema-1  Public… Public… FEMA provide… https://www.fema.… csv             </span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 openfema-1  Public… Public… FEMA provide… https://www.fema.… csv             </span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 openfema-26 FemaWe… FEMA W… This data se… https://www.fema.… csv             </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 openfema-28 Hazard… Hazard… This dataset… https://www.fema.… csv             </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 openfema-36 FemaRe… FEMA R… Provides the… https://www.fema.… csv             </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 openfema-22 Emerge… Emerge… This dataset… https://www.fema.… csv             </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 openfema-45 Hazard… Hazard… The dataset … https://www.fema.… csv             </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 openfema-12 Housin… Housin… This dataset… https://www.fema.… csv             </span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 openfema-8  DataSe… OpenFE… Metadata for… https://www.fema.… csv             </span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 openfema-37 Hazard… Hazard… This dataset… https://www.fema.… csv             </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 27 more rows, and 58 more variables: distribution.datasetSize &lt;chr&gt;,</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   distribution.accessURL.1 &lt;chr&gt;, distribution.format.1 &lt;chr&gt;,</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   distribution.datasetSize.1 &lt;chr&gt;, distribution.accessURL.2 &lt;chr&gt;,</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   distribution.format.2 &lt;chr&gt;, distribution.datasetSize.2 &lt;chr&gt;,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   webService &lt;chr&gt;, dataDictionary &lt;chr&gt;, keyword &lt;chr&gt;, modified &lt;chr&gt;,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   publisher &lt;chr&gt;, contactPoint &lt;chr&gt;, mbox &lt;chr&gt;, accessLevel &lt;chr&gt;,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   landingPage &lt;chr&gt;, temporal &lt;chr&gt;, api &lt;chr&gt;, version &lt;chr&gt;, …</span></span></code></pre></div>
+<p>Once you have the name of the data set you want, simply pass it as an argument to the <code><a href="reference/open_fema.html">open_fema()</a></code> function which will return the data set as a tibble. By default, <code><a href="reference/open_fema.html">open_fema()</a></code> will warn you if the number of records is greater than 1000 and present an estimated time required to complete the records request. As the user, you will the be asked to confirm that you want to retrieve all of the available records (for many data sets the total records is quite large). To turn off this feature, set the parameter <code>ask_before_call</code> equal to FALSE. To limit the number of records returned, specify the <code>top_n</code> argument. This is useful for exploring a data set without retrieving all records.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># obtain the first 10 records from the fimaNfipClaims data set.</span>
+<span class="co"># Note: the data_set argument is not case sensative</span>
+<span class="va">retrieved_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimanfipclaims"</span>, top_n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 
-<span class="co"># view just the first three datasets</span>
-<span class="fu">kable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">data_sets</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="0%">
-<col width="2%">
-<col width="2%">
-<col width="3%">
-<col width="5%">
-<col width="1%">
-<col width="1%">
-<col width="5%">
-<col width="1%">
-<col width="1%">
-<col width="5%">
-<col width="1%">
-<col width="1%">
-<col width="5%">
-<col width="5%">
-<col width="3%">
-<col width="1%">
-<col width="2%">
-<col width="0%">
-<col width="1%">
-<col width="0%">
-<col width="2%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="1%">
-<col width="0%">
-<col width="0%">
-<col width="1%">
-<col width="0%">
-<col width="1%">
-<col width="0%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="0%">
-<col width="2%">
-<col width="1%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="1%">
-<col width="1%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">identifier</th>
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">description</th>
-<th align="left">distribution.accessURL</th>
-<th align="left">distribution.format</th>
-<th align="left">distribution.datasetSize</th>
-<th align="left">distribution.accessURL.1</th>
-<th align="left">distribution.format.1</th>
-<th align="left">distribution.datasetSize.1</th>
-<th align="left">distribution.accessURL.2</th>
-<th align="left">distribution.format.2</th>
-<th align="left">distribution.datasetSize.2</th>
-<th align="left">webService</th>
-<th align="left">dataDictionary</th>
-<th align="left">keyword</th>
-<th align="left">modified</th>
-<th align="left">publisher</th>
-<th align="left">contactPoint</th>
-<th align="left">mbox</th>
-<th align="left">accessLevel</th>
-<th align="left">landingPage</th>
-<th align="left">temporal</th>
-<th align="left">api</th>
-<th align="left">version</th>
-<th align="left">bureauCode</th>
-<th align="left">programCode</th>
-<th align="left">accessLevelComment</th>
-<th align="left">license</th>
-<th align="left">spatial</th>
-<th align="left">theme</th>
-<th align="left">dataQuality</th>
-<th align="left">accrualPeriodicity</th>
-<th align="left">language</th>
-<th align="left">primaryITInvestmentUII</th>
-<th align="left">issued</th>
-<th align="left">systemOfRecords</th>
-<th align="left">deprecated</th>
-<th align="left">hash</th>
-<th align="left">lastRefresh</th>
-<th align="left">recordCount</th>
-<th align="left">depApiMessage</th>
-<th align="left">depNewURL</th>
-<th align="left">depWebMessage</th>
-<th align="left">lastDataSetRefresh</th>
-<th align="left">id</th>
-<th align="left">accessUrl</th>
-<th align="left">format</th>
-<th align="left">depDate</th>
-<th align="left">keyword1</th>
-<th align="left">keyword2</th>
-<th align="left">keyword3</th>
-<th align="left">keyword4</th>
-<th align="left">keyword5</th>
-<th align="left">keyword6</th>
-<th align="left">keyword7</th>
-<th align="left">keyword8</th>
-<th align="left">keyword9</th>
-<th align="left">keyword10</th>
-<th align="left">keyword11</th>
-<th align="left">keyword12</th>
-<th align="left">keyword13</th>
-<th align="left">keyword14</th>
-<th align="left">references</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">openfema-1</td>
-<td align="left">PublicAssistanceFundedProjectsSummaries</td>
-<td align="left">Public Assistance Funded Project Summaries</td>
-<td align="left">FEMA provides supplemental Federal disaster grant …</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv</a></td>
-<td align="left">csv</td>
-<td align="left">small (10MB - 50MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json</a></td>
-<td align="left">json</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona</a></td>
-<td align="left">jsona</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries</a></td>
-<td align="left"><a href="https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1" class="uri">https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1</a></td>
-<td align="left">public, assistance, disaster, grant, funding, sub-grantees</td>
-<td align="left">2019-05-30T04:00:00.000Z</td>
-<td align="left">Federal Emergency Management Agency</td>
-<td align="left">OpenFEMA</td>
-<td align="left"><a href="mailto:openfema@fema.gov" class="email">openfema@fema.gov</a></td>
-<td align="left">public</td>
-<td align="left"><a href="https://www.fema.gov/assistance/public" class="uri">https://www.fema.gov/assistance/public</a></td>
-<td align="left">1980-02-01/</td>
-<td align="left">TRUE</td>
-<td align="left">1</td>
-<td align="left">024:70</td>
-<td align="left">024:039</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Public Assistance</td>
-<td align="left">true</td>
-<td align="left">R/P1D</td>
-<td align="left">en-US</td>
-<td align="left"></td>
-<td align="left">2010-01-21T05:00:00.000Z</td>
-<td align="left"></td>
-<td align="left">FALSE</td>
-<td align="left">bd507ed0181bba91866372a0a5d3c3e4</td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
-<td align="left">171463</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
-<td align="left">5dd723598ca22d24d423eb6f</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">openfema-1</td>
-<td align="left">PublicAssistanceFundedProjectsSummaries</td>
-<td align="left">Public Assistance Funded Project Summaries</td>
-<td align="left">FEMA provides supplemental Federal disaster grant …</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.csv</a></td>
-<td align="left">csv</td>
-<td align="left">small (10MB - 50MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.json</a></td>
-<td align="left">json</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries.jsona</a></td>
-<td align="left">jsona</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries" class="uri">https://www.fema.gov/api/open/v1/PublicAssistanceFundedProjectsSummaries</a></td>
-<td align="left"><a href="https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1" class="uri">https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-summaries-v1</a></td>
-<td align="left">public, assistance, disaster, grant, funding, sub-grantees</td>
-<td align="left">2019-05-30T04:00:00.000Z</td>
-<td align="left">Federal Emergency Management Agency</td>
-<td align="left">OpenFEMA</td>
-<td align="left"><a href="mailto:openfema@fema.gov" class="email">openfema@fema.gov</a></td>
-<td align="left">public</td>
-<td align="left"><a href="https://www.fema.gov/assistance/public" class="uri">https://www.fema.gov/assistance/public</a></td>
-<td align="left">1980-02-01/</td>
-<td align="left">TRUE</td>
-<td align="left">1</td>
-<td align="left">024:70</td>
-<td align="left">024:039</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Public Assistance</td>
-<td align="left">true</td>
-<td align="left">R/P1D</td>
-<td align="left">en-US</td>
-<td align="left"></td>
-<td align="left">2010-01-21T05:00:00.000Z</td>
-<td align="left"></td>
-<td align="left">FALSE</td>
-<td align="left">bd507ed0181bba91866372a0a5d3c3e4</td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
-<td align="left">171463</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">2021-11-09T17:36:48.359Z</td>
-<td align="left">5dd723598ca22d24d423eb6f</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">openfema-26</td>
-<td align="left">FemaWebDeclarationAreas</td>
-<td align="left">FEMA Web Declaration Areas</td>
-<td align="left">This data set contains general information on decl…</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv" class="uri">https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.csv</a></td>
-<td align="left">csv</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json" class="uri">https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.json</a></td>
-<td align="left">json</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona" class="uri">https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas.jsona</a></td>
-<td align="left">jsona</td>
-<td align="left">medium (50MB - 500MB)</td>
-<td align="left"><a href="https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas" class="uri">https://www.fema.gov/api/open/v1/FemaWebDeclarationAreas</a></td>
-<td align="left"><a href="https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1" class="uri">https://www.fema.gov/openfema-data-page/fema-web-declaration-areas-v1</a></td>
-<td align="left">disaster, declaration, fema website</td>
-<td align="left">2019-09-26T04:00:00.000Z</td>
-<td align="left">Federal Emergency Management Agency</td>
-<td align="left">OpenFEMA</td>
-<td align="left"><a href="mailto:openfema@fema.gov" class="email">openfema@fema.gov</a></td>
-<td align="left">public</td>
-<td align="left"><a href="https://www.fema.gov/disasters" class="uri">https://www.fema.gov/disasters</a></td>
-<td align="left">1960-11-01/</td>
-<td align="left">TRUE</td>
-<td align="left">1</td>
-<td align="left">024:70</td>
-<td align="left">024:039</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">Disaster Information</td>
-<td align="left">true</td>
-<td align="left">R/PT20M</td>
-<td align="left">en-US</td>
-<td align="left"></td>
-<td align="left">NA</td>
-<td align="left"></td>
-<td align="left">FALSE</td>
-<td align="left">89eaca0ba42130ddbd5477ed92fee30b</td>
-<td align="left">2021-11-09T19:31:35.318Z</td>
-<td align="left">438102</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">2021-11-09T19:31:35.318Z</td>
-<td align="left">5dd723598ca22d24d423eb73</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-</tr>
-</tbody>
-</table>
-<p>Once you have the name of the data set you want, simply pass it as an argument to the <code><a href="reference/open_fema.html">open_fema()</a></code> function which will return the data set as a data frame. By default, <code><a href="reference/open_fema.html">open_fema()</a></code> will warn you if the number of records is greater than 1000 and will ask you to confirm that you want to retrieve all of the available records (for many data sets the total records is quite large). To turn off this feature, set the parameter <code>ask_before_call</code> equal to FALSE. To limit the number of records returned, specify the <code>top_n</code> argument. This is useful for exploring a data set without retrieving all records.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">retrieved_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimanfipclaims"</span>, top_n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-
-<span class="fu">kable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">retrieved_data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="1%">
-<col width="3%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="4%">
-<col width="2%">
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="3%">
-<col width="1%">
-<col width="3%">
-<col width="0%">
-<col width="3%">
-<col width="3%">
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">agricultureStructureIndicator</th>
-<th align="left">asOfDate</th>
-<th align="left">baseFloodElevation</th>
-<th align="left">basementEnclosureCrawlspace</th>
-<th align="left">reportedCity</th>
-<th align="left">condominiumIndicator</th>
-<th align="left">policyCount</th>
-<th align="left">countyCode</th>
-<th align="left">communityRatingSystemDiscount</th>
-<th align="left">dateOfLoss</th>
-<th align="left">elevatedBuildingIndicator</th>
-<th align="left">elevationCertificateIndicator</th>
-<th align="left">elevationDifference</th>
-<th align="left">censusTract</th>
-<th align="left">floodZone</th>
-<th align="left">houseWorship</th>
-<th align="left">latitude</th>
-<th align="left">longitude</th>
-<th align="left">locationOfContents</th>
-<th align="left">lowestAdjacentGrade</th>
-<th align="left">lowestFloorElevation</th>
-<th align="left">numberOfFloorsInTheInsuredBuilding</th>
-<th align="left">nonProfitIndicator</th>
-<th align="left">obstructionType</th>
-<th align="left">occupancyType</th>
-<th align="left">originalConstructionDate</th>
-<th align="left">originalNBDate</th>
-<th align="left">amountPaidOnBuildingClaim</th>
-<th align="left">amountPaidOnContentsClaim</th>
-<th align="left">amountPaidOnIncreasedCostOfComplianceClaim</th>
-<th align="left">postFIRMConstructionIndicator</th>
-<th align="left">rateMethod</th>
-<th align="left">smallBusinessIndicatorBuilding</th>
-<th align="left">state</th>
-<th align="left">totalBuildingInsuranceCoverage</th>
-<th align="left">totalContentsInsuranceCoverage</th>
-<th align="left">yearOfLoss</th>
-<th align="left">reportedZipcode</th>
-<th align="left">primaryResidence</th>
-<th align="left">id</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">FALSE</td>
-<td align="left">2021-07-25T01:39:04.381Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">Temporarily Unavailable</td>
-<td align="left">N</td>
-<td align="left">1</td>
-<td align="left">30009</td>
-<td align="left">NULL</td>
-<td align="left">2011-07-12T04:00:00.000Z</td>
-<td align="left">TRUE</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">30009000300</td>
-<td align="left">AE</td>
-<td align="left">FALSE</td>
-<td align="left">45.2</td>
-<td align="left">-109.2</td>
-<td align="left">0</td>
-<td align="left">NULL</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">FALSE</td>
-<td align="left">50</td>
-<td align="left">1</td>
-<td align="left">1975-01-01T05:00:00.000Z</td>
-<td align="left">2011-04-13T04:00:00.000Z</td>
-<td align="left">593.5</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">FALSE</td>
-<td align="left">1</td>
-<td align="left">FALSE</td>
-<td align="left">MT</td>
-<td align="left">150000</td>
-<td align="left">0</td>
-<td align="left">2011</td>
-<td align="left">59068</td>
-<td align="left">TRUE</td>
-<td align="left">6175bc553f4df1156c4c42d1</td>
-</tr>
-<tr class="even">
-<td align="left">FALSE</td>
-<td align="left">2021-07-25T01:39:04.381Z</td>
-<td align="left">NULL</td>
-<td align="left">1</td>
-<td align="left">Temporarily Unavailable</td>
-<td align="left">N</td>
-<td align="left">1</td>
-<td align="left">24033</td>
-<td align="left">5</td>
-<td align="left">2007-01-01T05:00:00.000Z</td>
-<td align="left">FALSE</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">24033801600</td>
-<td align="left">X</td>
-<td align="left">FALSE</td>
-<td align="left">38.8</td>
-<td align="left">-77.0</td>
-<td align="left">0</td>
-<td align="left">NULL</td>
-<td align="left">0</td>
-<td align="left">3</td>
-<td align="left">FALSE</td>
-<td align="left">NULL</td>
-<td align="left">1</td>
-<td align="left">1953-01-01T05:00:00.000Z</td>
-<td align="left">2006-11-15T05:00:00.000Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">FALSE</td>
-<td align="left">7</td>
-<td align="left">FALSE</td>
-<td align="left">MD</td>
-<td align="left">100000</td>
-<td align="left">40000</td>
-<td align="left">2007</td>
-<td align="left">20745</td>
-<td align="left">TRUE</td>
-<td align="left">6175bc553f4df1156c4c42d0</td>
-</tr>
-<tr class="odd">
-<td align="left">FALSE</td>
-<td align="left">2021-07-25T01:39:04.381Z</td>
-<td align="left">NULL</td>
-<td align="left">2</td>
-<td align="left">Temporarily Unavailable</td>
-<td align="left">N</td>
-<td align="left">1</td>
-<td align="left">29189</td>
-<td align="left">NULL</td>
-<td align="left">2008-09-13T04:00:00.000Z</td>
-<td align="left">FALSE</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">29189215700</td>
-<td align="left">AE</td>
-<td align="left">FALSE</td>
-<td align="left">38.7</td>
-<td align="left">-90.3</td>
-<td align="left">0</td>
-<td align="left">NULL</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">FALSE</td>
-<td align="left">NULL</td>
-<td align="left">1</td>
-<td align="left">1957-01-01T05:00:00.000Z</td>
-<td align="left">1996-02-08T05:00:00.000Z</td>
-<td align="left">118224.96</td>
-<td align="left">26300</td>
-<td align="left">NULL</td>
-<td align="left">FALSE</td>
-<td align="left">1</td>
-<td align="left">FALSE</td>
-<td align="left">MO</td>
-<td align="left">250000</td>
-<td align="left">0</td>
-<td align="left">2008</td>
-<td align="left">63130</td>
-<td align="left">TRUE</td>
-<td align="left">6175bc553f4df1156c4c42d6</td>
-</tr>
-<tr class="even">
-<td align="left">FALSE</td>
-<td align="left">2021-07-25T01:39:04.381Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">Temporarily Unavailable</td>
-<td align="left">N</td>
-<td align="left">1</td>
-<td align="left">12086</td>
-<td align="left">10</td>
-<td align="left">1992-08-24T04:00:00.000Z</td>
-<td align="left">FALSE</td>
-<td align="left">3</td>
-<td align="left">2</td>
-<td align="left">12086008405</td>
-<td align="left">AE</td>
-<td align="left">FALSE</td>
-<td align="left">25.7</td>
-<td align="left">-80.3</td>
-<td align="left">0</td>
-<td align="left">NULL</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">FALSE</td>
-<td align="left">10</td>
-<td align="left">1</td>
-<td align="left">1988-01-01T05:00:00.000Z</td>
-<td align="left">1988-06-15T04:00:00.000Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">TRUE</td>
-<td align="left">1</td>
-<td align="left">FALSE</td>
-<td align="left">FL</td>
-<td align="left">185000</td>
-<td align="left">52500</td>
-<td align="left">1992</td>
-<td align="left">33176</td>
-<td align="left">FALSE</td>
-<td align="left">6175bc553f4df1156c4c42d7</td>
-</tr>
-<tr class="odd">
-<td align="left">FALSE</td>
-<td align="left">2021-07-25T01:39:04.381Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">Temporarily Unavailable</td>
-<td align="left">N</td>
-<td align="left">1</td>
-<td align="left">48201</td>
-<td align="left">7</td>
-<td align="left">1989-08-01T04:00:00.000Z</td>
-<td align="left">FALSE</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">48201350400</td>
-<td align="left">X</td>
-<td align="left">FALSE</td>
-<td align="left">29.6</td>
-<td align="left">-95.2</td>
-<td align="left">0</td>
-<td align="left">NULL</td>
-<td align="left">0</td>
-<td align="left">3</td>
-<td align="left">FALSE</td>
-<td align="left">10</td>
-<td align="left">1</td>
-<td align="left">1974-12-31T05:00:00.000Z</td>
-<td align="left">1984-12-20T05:00:00.000Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">FALSE</td>
-<td align="left">1</td>
-<td align="left">FALSE</td>
-<td align="left">TX</td>
-<td align="left">88700</td>
-<td align="left">25600</td>
-<td align="left">1989</td>
-<td align="left">77089</td>
-<td align="left">FALSE</td>
-<td align="left">6175bc553f4df1156c4c42d8</td>
-</tr>
-<tr class="even">
-<td align="left">FALSE</td>
-<td align="left">2021-07-25T01:39:04.381Z</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">Temporarily Unavailable</td>
-<td align="left">N</td>
-<td align="left">1</td>
-<td align="left">51810</td>
-<td align="left">7</td>
-<td align="left">1998-02-05T05:00:00.000Z</td>
-<td align="left">FALSE</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">51810045412</td>
-<td align="left">X</td>
-<td align="left">FALSE</td>
-<td align="left">36.7</td>
-<td align="left">-75.9</td>
-<td align="left">0</td>
-<td align="left">NULL</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">FALSE</td>
-<td align="left">10</td>
-<td align="left">1</td>
-<td align="left">1984-07-01T04:00:00.000Z</td>
-<td align="left">1988-09-23T04:00:00.000Z</td>
-<td align="left">342.57</td>
-<td align="left">NULL</td>
-<td align="left">NULL</td>
-<td align="left">TRUE</td>
-<td align="left">1</td>
-<td align="left">FALSE</td>
-<td align="left">VA</td>
-<td align="left">185000</td>
-<td align="left">60000</td>
-<td align="left">1998</td>
-<td align="left">23456</td>
-<td align="left">TRUE</td>
-<td align="left">6175bc553f4df1156c4c42d9</td>
-</tr>
-</tbody>
-</table>
+<span class="co"># view the data</span>
+<span class="va">retrieved_data</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 10 × 40</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">##    agricultureStructur… asOfDate            baseFloodElevati… basementEnclosure…</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;                &lt;dttm&gt;              &lt;chr&gt;             &lt;chr&gt;             </span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 FALSE                2021-07-25 00:00:00 7                 NULL              </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 FALSE                2021-07-25 00:00:00 NULL              1                 </span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 FALSE                2021-07-25 00:00:00 NULL              NULL              </span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 FALSE                2021-09-30 00:00:00 5                 NULL              </span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 FALSE                2021-07-25 00:00:00 11                NULL              </span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 FALSE                2021-07-25 00:00:00 NULL              NULL              </span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 FALSE                2021-07-25 00:00:00 NULL              NULL              </span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 FALSE                2021-07-25 00:00:00 NULL              NULL              </span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 FALSE                2021-07-25 00:00:00 NULL              NULL              </span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 FALSE                2021-07-25 00:00:00 49                NULL              </span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 36 more variables: reportedCity &lt;chr&gt;, condominiumIndicator &lt;chr&gt;,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="do">## #   policyCount &lt;chr&gt;, countyCode &lt;chr&gt;, communityRatingSystemDiscount &lt;chr&gt;,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="do">## #   dateOfLoss &lt;dttm&gt;, elevatedBuildingIndicator &lt;chr&gt;,</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   elevationCertificateIndicator &lt;chr&gt;, elevationDifference &lt;chr&gt;,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;,</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   lowestFloorElevation &lt;chr&gt;, numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, …</span></span></code></pre></div>
 <p>There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the <a href="docs/articles/getting_started.html">Getting Started</a> vignette.</p>
+<hr>
+<p>Please note that <code>rfema</code> is released with a <a href="%22https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md%22">Contributor Code of Conduct</a>. By contributing to the package you agree to abide by its terms.</p>
 </div>
 
   </div>
@@ -894,15 +358,15 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Dylan Turner <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/000-0002-0915-7384" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.repostatus.org/"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://codecov.io/gh/dylan-turner25/rfema?branch=main"><img src="https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/dylan-turner25/rfema/actions"><img src="https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
 </ul>
 </div>
 </div>

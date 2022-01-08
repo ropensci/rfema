@@ -10,6 +10,8 @@
 #'
 #' @return a character string 
 #' 
+#' @noRd
+#' @keywords internal
 #'
 #' @examples \dontrun{rfema:::get_status_message(2000,2,1000,"2 minutes")}
 get_status_message <- function(n_records, iterations, top_n, estimated_time){
@@ -53,7 +55,10 @@ get_status_message <- function(n_records, iterations, top_n, estimated_time){
 #'
 #' @return returns a tibble with the columns representing dates converted to 
 #' POSIXct format
-#'
+#' 
+#' @noRd
+#' @keywords internal
+#' 
 #' @examples
 #' \dontrun{data <- open_fema("fimanfipclaims",top_n = 10)}
 #' \dontrun{data_with_dates <- rfema:::convert_dates(data)}
@@ -110,6 +115,9 @@ convert_dates <- function(data){
 #' the valid offerings through the FEMA API.
 #' 
 #'
+#' @noRd
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{rfema:::valid_dataset("fimanfipclaims")}
 #' \dontrun{rfema:::valid_dataset("fIMANfipclaiMS")}
@@ -144,7 +152,7 @@ valid_dataset <- function(data_set) {
 
 #' Helper function to generate the URL string for an API query
 #'
-#' @param data_set character string specifiying the data set to query from
+#' @param data_set character string specifying the data set to query from
 #' @param top_n numeric value indicating how many records to return
 #' (default is 1000 which is the maximum number of records the API will return
 #' in a single query )
@@ -152,12 +160,13 @@ valid_dataset <- function(data_set) {
 #' to construct filters.
 #' @param select a character vector of data fields to return
 #' (default is to return all data fields for the data set)
+#' 
+#' @noRd
+#' @keywords internal
 #'
 #' @return The function returns a string containing a url that can be used to
 #'  query the API.
 #'  
-#' 
-#'
 #' @examples
 #' \dontrun{filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
 #' vars_to_select <- c("countyCode", "baseFloodElevation")
@@ -256,15 +265,16 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
 
 #' Helper function that returns the API endpoint associated with an open FEMA
 #' data set
-#'
+#' 
+#' @noRd
+#' @keywords internal
+#' 
 #' @param data_set A character string with the name of the data set to get the
 #' API endpoint for.
 #'
 #' @return Returns a character string containing the API endpoint URL associated
 #'  with the data set.
 #'  
-#'  
-#'
 #' @examples
 #' \dontrun{rfema:::fema_api_endpoints("FimaNfipClaims")
 #' rfema:::fema_api_endpoints("fImAnfiPclaims")
@@ -290,6 +300,8 @@ fema_api_endpoints <- function(data_set) {
 
 #' Helper function to estimate time per API call
 #' 
+#' @noRd
+#' @keywords internal
 #'
 #' @param data_set the name of the open FEMA data set to time API calls for
 #' @param iterations the number of iterations that need to be performed

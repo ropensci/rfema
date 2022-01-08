@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bulk download full openFEMA data sets as .csv files — bulk_dl • rfema</title>
+<title>Bulk download full open FEMA data sets as .csv files — bulk_dl • rfema</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Bulk download full openFEMA data sets as .csv files — bulk_dl" />
-<meta property="og:description" content="For large files, the function" />
+<meta property="og:title" content="Bulk download full open FEMA data sets as .csv files — bulk_dl" />
+<meta property="og:description" content="For large data requests, it can sometimes be more practical (and quicker)
+to download and work with the entire data set. This function provides an
+easy way to download any of FEMA's data sets in its entirety and save it
+locally as a csv file." />
 
 
 
@@ -72,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfema</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -99,6 +102,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -120,16 +126,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bulk download full openFEMA data sets as .csv files</h1>
+    <h1>Bulk download full open FEMA data sets as .csv files</h1>
     <small class="dont-index">Source: <a href='https://github.com/dylan-turner25/rfema/blob/master/R/bulk_dl.R'><code>R/bulk_dl.R</code></a></small>
     <div class="hidden name"><code>bulk_dl.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>For large files, the function</p>
+    <p>For large data requests, it can sometimes be more practical (and quicker)
+to download and work with the entire data set. This function provides an
+easy way to download any of FEMA's data sets in its entirety and save it
+locally as a csv file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bulk_dl</span><span class='op'>(</span><span class='va'>data_set</span>, output_dir <span class='op'>=</span> <span class='cn'>NULL</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span>, size_warning <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>bulk_dl</span><span class='op'>(</span><span class='va'>data_set</span>, output_dir <span class='op'>=</span> <span class='cn'>NULL</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span>, size_warning <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,10 +171,8 @@ before proceeding with downloading a large file (default is TRUE)</p></td>
 specified output directory.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>bulk_dl</span><span class='op'>(</span><span class='st'>"femaregions"</span><span class='op'>)</span> <span class='co'># download the file</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Downloading file to /home/dylan/Dropbox/rfema/docs/reference/FemaRegions.csv</span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>"FemaRegions.csv"</span><span class='op'>)</span> <span class='co'># clean up directory after file downloads</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>bulk_dl</span><span class='op'>(</span><span class='st'>"femaregions"</span><span class='op'>)</span> <span class='co'># download the file</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>"FemaRegions.csv"</span><span class='op'>)</span> <span class='co'># clean up directory after file downloads</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -2,7 +2,7 @@
 
 If you plan to contribute code that would amount to a substantial change in the package, please first outline the planned change as an [issue](https://github.com/dylan-turner25/rfema/issues) so that it can be discussed to get community feedback.
 
-Contributors are asked to comply with the [code of conduct](https://github.com/dylan-turner25/rfema/CONDUCT.md) if they wish to remain associated with the project.
+Contributors are asked to comply with the [code of conduct](https://github.com/dylan-turner25/rfema/blob/main/CONDUCT.md) if they wish to remain associated with the project.
 
 # Pull Requests
 

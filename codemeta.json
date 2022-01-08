@@ -24,7 +24,14 @@
       "@id": "https://orcid.org/000-0002-0915-7384"
     }
   ],
-  "contributor": {},
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "François",
+      "familyName": "Michonneau",
+      "email": "francois.michonneau@gmail.com"
+    }
+  ],
   "copyrightHolder": {},
   "funder": {},
   "maintainer": [
@@ -115,18 +122,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "httr",
-      "name": "httr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=httr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "memoise",
       "name": "memoise",
       "provider": {
@@ -136,6 +131,23 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=memoise"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "httr",
+      "name": "httr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=httr"
     },
     {
       "@type": "SoftwareApplication",
@@ -151,26 +163,53 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "rvest",
-      "name": "rvest",
+      "identifier": "tibble",
+      "name": "tibble",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=rvest"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "utils",
-      "name": "utils"
+      "sameAs": "https://CRAN.R-project.org/package=tibble"
     }
   ],
   "codeRepository": "https://github.com/dylan-turner25/rfema",
   "readme": "https://github.com/dylan-turner25/rfema/blob/main/README.md",
-  "fileSize": "1259.038KB",
+  "fileSize": "132.767KB",
   "developmentStatus": ["https://www.repostatus.org/", "https://lifecycle.r-lib.org/articles/stages.html"],
   "issueTracker": "https://github.com/dylan-turner25/rfema/issues",
-  "contIntegration": "https://codecov.io/gh/dylan-turner25/rfema?branch=main"
+  "contIntegration": ["https://github.com/dylan-turner25/rfema/actions", "https://codecov.io/gh/dylan-turner25/rfema?branch=main"],
+  "releaseNotes": "https://github.com/dylan-turner25/rfema/blob/master/NEWS.md",
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/484",
+    "provider": "https://ropensci.org"
+  },
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2021",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Dylan",
+          "familyName": "Turner"
+        }
+      ],
+      "name": "TBD",
+      "url": "TBD",
+      "pagination": "TBD",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "TBD",
+        "datePublished": "2021",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "TBD",
+          "name": "TBD"
+        }
+      }
+    }
+  ]
 }

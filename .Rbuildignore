@@ -3,6 +3,7 @@
 ^LICENSE\.md$
 ^README.Rmd
 ^README_cache
+^README_files
 ^codemeta\.json$
 ^\.github$
 ^codecov\.yml$
@@ -13,3 +14,4 @@ _pkgdown.yml
 CONDUCT.md
 CONTRIBUTING.md
 NEWS.md
+^cache

@@ -1,8 +1,9 @@
 #' Get a dataframe of avaliable FEMA data sets
 #'
 #'
-#' @return Returns a tibble containing information about each data
-#' set avaliable.
+#' @return Returns a tibble containing meta data about each data
+#' set available through the FEMA API. For more information see the FEMA
+#' documentation page: https://www.fema.gov/about/openfema/data-sets.
 #' 
 #' @import httr
 #' @importFrom plyr rbind.fill

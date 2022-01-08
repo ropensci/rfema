@@ -7,8 +7,9 @@
 fema_data_sets()
 }
 \value{
-Returns a tibble containing information about each data
-set avaliable.
+Returns a tibble containing meta data about each data
+set available through the FEMA API. For more information see the FEMA
+documentation page: https://www.fema.gov/about/openfema/data-sets.
 }
 \description{
 Get a dataframe of avaliable FEMA data sets

@@ -8,10 +8,12 @@
 ## rfema (R FEMA)
 
 [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions)
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Codecov test
 coverage](https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg)](https://codecov.io/gh/dylan-turner25/rfema?branch=main)
 [![Status at rOpenSci Software Peer
@@ -29,20 +31,25 @@ Review](https://badges.ropensci.org/484_status.svg)](https://github.com/ropensci
 provides a set of functions to easily navigate and access all data sets
 provided by FEMA, including (but not limited to) data from the National
 Flood Insurance Program and FEMA’s various disaster aid programs.
-Notably, the FEMA API does not require an API key meaning the package is
-extremely accessible regardless of if the user has ever interacted with
-an API.
 
-FEMA data is publicly available at the open FEMA website
-(<https://www.fema.gov/about/openfema/data-sets>) and is available for
-bulk download, however, the files are sometimes very large (multiple
+FEMA data is publicly available at the open [FEMA
+website](https://www.fema.gov/about/openfema/data-sets) and is available
+for bulk download, however, the files are sometimes very large (multiple
 gigabytes) and many times users do not need all records for a data
 series (for example: many users may only want records for a single state
 for several years). Using FEMA’s API is a good option to circumvent
 working with the bulk data files, but can be inaccessible for those
 without prior API experience. This package contains a set of functions
 that allows users to easily identify and retrieve data from FEMA’s API
-without needing any technical knowledge of APIs.
+without needing any technical knowledge of APIs. Notably, the FEMA API
+does not require an API key meaning the package is extremely accessible
+regardless of if the user has ever interacted with an API.
+
+The rest of this page explains the benefits of the package and
+demonstrates basic usage of the package. For those looking for more in
+depth examples of how to use the package in your workflow, consider
+reading the [Getting Started](docs/articles/getting_started.html)
+vignette.
 
 In accordance with the Open Fema terms and conditions: This product uses
 the Federal Emergency Management Agency’s Open FEMA API, but is not
@@ -50,7 +57,7 @@ endorsed by FEMA. The Federal Government or FEMA cannot vouch for the
 data or analyses derived from these data after the data have been
 retrieved from the Agency’s website(s). Guidance on FEMA’s preferred
 citation for Open FEMA data can be found at:
-<https://www.fema.gov/about/openfema/terms-conditions>
+<https://www.fema.gov/about/openfema/terms-conditions>.
 
 ## Why rfema?
 
@@ -71,6 +78,7 @@ full data set cumbersome.
 # define the url for the appropriate api end point
 base_url <- "https://www.fema.gov/api/open/v1/FimaNfipClaims"
 
+
 # append the base_url to apply filters
 filters <- "?$inlinecount=allpages&$top=1000&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
 
@@ -87,26 +95,46 @@ n_records <- jsonData$metadata$count
 
 # calculate number of calls neccesary to get all records using the 
 # 1000 records/ call max limit defined by FEMA
-itterations <- ceiling(n_records / 1000)
-  
+iterations <- ceiling(n_records / 1000)
 
-for(i in seq(from=1, to=itterations, by=1)){
-  # As above, if you have filters, specific fields, or are sorting, add that to the base URL 
-  #   or make sure it gets concatenated here.
-  result <- httr::GET(paste0(api_query,"&$skip=",(i-1) * 1000))
-  jsonData <- httr::content(result)         
-  
-  if(i == 1){
-    data <- dplyr::bind_rows(jsonData[[2]])
-  } else {
-    data <- dplyr::bind_rows(data, dplyr::bind_rows(jsonData[[2]]))
+# initialize a skip counter which will indicate where in the full 
+# data set each API call needs to start from.
+skip <- 0
+
+# make however many API calls are neccesary to get the full data set
+for (i in seq(from = 1, to = iterations, by = 1)) {
+  # As above, if you have filters, specific fields, or are sorting, add
+  # that to the base URL or make sure it gets concatenated here.
+  result <- httr::GET(paste0(api_query, "&$skip=", (i - 1) * 1000))
+  if (result$status_code != 200) {
+    status <- httr::http_status(result)
+    stop(status$message)
   }
+  json_data <- httr::content(result)[[2]]
   
-
-
+  # for data returned as a list of lists, correct any discrepancies
+  # in the length of the lists by adding NA values to the shorter lists
+  
+  # calculate longest list
+  max_list_length <- max(sapply(json_data, length))
+  
+  # add NA values to lists shorter than the max list length
+  json_data <- lapply(json_data, function(x) {
+    c(x, rep(NA, max_list_length - length(x)))
+  })
+  
+  if (i == 1) {
+    # bind the data into a single data frame
+    data <- data.frame(do.call(rbind, json_data))
+  } else {
+    data <- dplyr::bind_rows(
+      data,
+      data.frame(do.call(rbind, json_data))
+    )
+  }
 }
+
  
-  
 # remove the html line breaks from returned data frame (if there are any)  
 data <- as_tibble(lapply(data, function(data) gsub("\n", "", data)))
 
@@ -114,26 +142,26 @@ data <- as_tibble(lapply(data, function(data) gsub("\n", "", data)))
 data
 ```
 
-    ## # A tibble: 2,119 × 39
-    ##    agricultureStruct… asOfDate   baseFloodElevat… reportedCity  condominiumIndi…
-    ##    <chr>              <chr>      <chr>            <chr>         <chr>           
-    ##  1 FALSE              2021-07-2… 8                Temporarily … N               
-    ##  2 FALSE              2021-09-0… 6                Temporarily … N               
-    ##  3 FALSE              2021-09-0… 4                Temporarily … N               
-    ##  4 FALSE              2021-09-0… 6                Temporarily … N               
-    ##  5 FALSE              2021-09-0… <NA>             Temporarily … H               
-    ##  6 FALSE              2021-09-0… 6                Temporarily … N               
-    ##  7 FALSE              2021-07-0… <NA>             Temporarily … N               
-    ##  8 FALSE              2021-07-0… 7                Temporarily … N               
-    ##  9 FALSE              2021-07-0… 7                Temporarily … N               
-    ## 10 FALSE              2021-09-0… <NA>             Temporarily … N               
-    ## # … with 2,109 more rows, and 34 more variables: policyCount <chr>,
-    ## #   countyCode <chr>, communityRatingSystemDiscount <chr>, dateOfLoss <chr>,
-    ## #   elevatedBuildingIndicator <chr>, elevationDifference <chr>,
+    ## # A tibble: 2,119 × 40
+    ##    agricultureStruct… asOfDate  baseFloodElevat… basementEnclosur… reportedCity 
+    ##    <chr>              <chr>     <chr>            <chr>             <chr>        
+    ##  1 FALSE              2021-07-… 8                NULL              Temporarily …
+    ##  2 FALSE              2021-09-… 6                0                 Temporarily …
+    ##  3 FALSE              2021-09-… 4                0                 Temporarily …
+    ##  4 FALSE              2021-09-… 6                0                 Temporarily …
+    ##  5 FALSE              2021-09-… NULL             NULL              Temporarily …
+    ##  6 FALSE              2021-09-… 6                NULL              Temporarily …
+    ##  7 FALSE              2021-07-… NULL             NULL              Temporarily …
+    ##  8 FALSE              2021-07-… 7                NULL              Temporarily …
+    ##  9 FALSE              2021-07-… 7                NULL              Temporarily …
+    ## 10 FALSE              2021-09-… NULL             0                 Temporarily …
+    ## # … with 2,109 more rows, and 35 more variables: condominiumIndicator <chr>,
+    ## #   policyCount <chr>, countyCode <chr>, communityRatingSystemDiscount <chr>,
+    ## #   dateOfLoss <chr>, elevatedBuildingIndicator <chr>,
+    ## #   elevationCertificateIndicator <chr>, elevationDifference <chr>,
     ## #   censusTract <chr>, floodZone <chr>, houseWorship <chr>, latitude <chr>,
     ## #   longitude <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
-    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
-    ## #   nonProfitIndicator <chr>, occupancyType <chr>, …
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
 
 Compare the above block of code to the following code which obtains the
 same data using the `rfema` package. The `rfema` package allows the same
@@ -145,7 +173,9 @@ iterative loop to deal with the 1000 records/call limit.
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
 
-# make the API call using the `open_fema` function.
+
+# Make the API call using the `open_fema` function. The function will output a 
+# status message to the console letting you monitor the progress of the data retrieval.
 data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
 ```
 
@@ -179,6 +209,40 @@ data
     ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
     ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, …
 
+The `rfema` package also returns data, where possible, in formats that
+are easier to work with. For example, all functions return data as a
+tibble with all date columns converted to POSIX format. This makes
+plotting time series easy as the API call can be piped directly into a
+`ggplot` plot. For example, the following is a plot of the number of
+FEMA disaster declarations in response to hurricanes since 2010,
+separated out by Florida versus the rest of the United States. In an
+application where the most up to date data is required, this block of
+code can be rerun to plot the most up to date data from the FEMA API.
+
+``` r
+library(ggplot2)
+open_fema("DisasterDeclarationsSummaries", 
+                  filters = list(declarationDate = ">= 2010-01-01",
+                                 incidentType = "Hurricane"), 
+                  ask_before_call = F) %>% 
+  mutate(date = lubridate::floor_date(declarationDate,"year"),count = 1,
+         Florida = factor(state == "FL")) %>%
+  select(date,count,Florida) %>%
+  group_by(date,Florida) %>%
+  summarise(count = sum(count)) %>%
+  ggplot(., aes(fill=Florida, y=count, x=date)) + 
+    geom_bar(position="stack", stat="identity") +
+  scale_fill_manual(name = "",values = c("grey80","forestgreen"),drop = FALSE,
+                    labels = c("Rest of U.S.","Florida")) +
+  labs(x = "year",y = "",
+       title = "County Level FEMA Disaster Declarations for Hurricanes") +
+  theme_light()
+```
+
+    ## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6 iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining Data: 6 out of 6 iterations (100% complete)`summarise()` has grouped output by 'date'. You can override using the `.groups` argument.
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 ## Installation
 
 Right now, the best way to install and use the `rfema` package is by
@@ -189,10 +253,16 @@ using the package
 
 ## Usage
 
-Use the `fema_data_sets()` function to obtain a tibble of available data
-sets along with associated meta data.
+For those unfamiliar with the data sets available through the FEMA API,
+a good starting place is to visit the [FEMA API documentation
+page](https://www.fema.gov/about/openfema/data-sets). However, if you
+are already familiar with the data and want to quickly reference the
+data set names or another piece of meta data, using the
+`fema_data_sets()` function to obtain a tibble of available data sets
+along with associated meta data is a convenient option.
 
 ``` r
+# store meta data for the available data sets as an object in the R environment
 data_sets <- fema_data_sets()
 
 # view the just retrieved data
@@ -267,3 +337,9 @@ specifying which columns in a data set to return, and applying filters
 to any of the columns in a data set. For more information and examples
 of use cases, see the [Getting
 Started](docs/articles/getting_started.html) vignette.
+
+------------------------------------------------------------------------
+
+Please note that `rfema` is released with a [Contributor Code of
+Conduct](%22https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md%22).
+By contributing to the package you agree to abide by its terms.

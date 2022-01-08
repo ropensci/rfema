@@ -15,42 +15,34 @@ suggestions were dealt with.
     is extremely accessible regardless of if the user has ever interacted with 
     an API. "
     
-* TODO: link FEMA data sets webpage in README, vignette, and help file, when talking about fema_data_sets()
+* rOpensci Reviewer Suggestion: link FEMA data sets webpage in README, vignette, and help file, when talking about fema_data_sets().
+  - Done. The Readme and vignette both suggest that the `fema_data_sets()` function be used for quick references and that naive users should start by visiting the FEMA API documentation page. The help file for `fema_data_sets()` also contains a link to the documentation page now. 
  
-  
 * rOpensci Reviewer Suggestion: remove the use of kable() in the readme and 
 vignettes (removed from readme but not vignette yet)
   - `kable()` is not longer used to present output in the documentation files. 
-  Most output is now returned as a tibble making the use of `kable()` unnecesary
+  Most output is now returned as a tibble making the use of `kable()` unnecessary
   for truncating long blocks of text.
 
 * rOpensci Reviewer Suggestion: fix link to R-CMD-check badge
   - The link to the R-CMD-check badge has been fixed and point to the correct 
   Github repo
   
-* TODO: proofread readme, vignette, and function docs (devtools::spell_check())
-
 * rOpensci Reviewer Suggestion: Add description field for `bulk_dl()` in the help file.
     - the `bulk_dl()` help file now has a description field.
 
 * rOpensci Reviewer Suggestion: make sure functions in helpers.R are NOT exported
   - all functions in the helpers.R files are no longer exported. 
 
-* TODO: make sure there are links in the README to the Contributing file. 
+* rOpensci Reviewer Suggestion: Make sure there are links in the README to the Contributing file. 
+  - The end of the README file now has a link to the contributing file. 
 
-* TODO: include issues template in README using usethis::use_tidy_issue_template()
+* rOpensci Reviewer Suggestion: include issues template in README using usethis::use_tidy_issue_template()
+  - Done.
 
-* TODO: update DESCRIPTION file to include reviewers (who want to be acknowledged)
+* rOpensci Reviewer Suggestion: use TRUE/FALSE in the documentation
+  - all function help files use TRUE/FALSE now rather than the abbreviations T/F
 
-* TODO: clarify that the first block of code in the readme is without the package (pull request)
-  - DONE:
-
-* TODO: pre-compile vignette and make available from R console https://ropensci.org/blog/2019/12/08/precompute-vignettes/
-
-* TODO: use TRUE/FALSE in the documentation
-  - all function help files use TRUE/FALSE now
-
-* TODO: The link to the code of conduct from the CONTRIBUTING file is broken. (need to fix)
 
 ### MINOR IMPROVEMENTS
 
@@ -112,7 +104,7 @@ rfema 0.0.0.9000 (2021-11-19)
 =========================
 
 ### DOCUMENTATION FIXES
-* Added a NEWS.md file 
+* Added a NEWS.md file. 
 
 <!-- ### NEW FEATURES -->
 

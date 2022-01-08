@@ -1,12 +1,20 @@
 Package: rfema
 Title: Access the openFEMA API
-Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Dylan",
-           family = "Turner",
-           role = c("aut", "cre"),
-           email = "dylan.turner3@outlook.com",
-           comment = c(ORCID = "000-0002-0915-7384"))
+Version: 1.0.0
+Authors@R: c(person(given = "Dylan",
+                family = "Turner",
+                role = c("aut", "cre"),
+                email = "dylan.turner3@outlook.com",
+                comment = c(ORCID = "000-0002-0915-7384")),
+           person(given = "François",
+                family = "Michonneau",
+                role = c("rev","ctb"),
+                email = "francois.michonneau@gmail.com",
+                comment = "reviewed the package for rOpenSci and patched several bugs in the prelease code, see https://github.com/ropensci/software-review/issues/484."),
+           person(given = "Marcus",
+                family = "Beck",
+                role = c("rev"),
+                comment = "reviewed the package for rOpenSci, see https://github.com/ropensci/software-review/issues/484."))
 Description: `rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.
 License: MIT + file LICENSE
 Encoding: UTF-8

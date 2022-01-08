@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns examples of data field values — parameter_values • rfema</title>
+<title>Returns examples of data field values along with a description of the data field — parameter_values • rfema</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Returns examples of data field values — parameter_values" />
-<meta property="og:description" content="Returns examples of data field values" />
+<meta property="og:title" content="Returns examples of data field values along with a description of the data field — parameter_values" />
+<meta property="og:description" content="Returns examples of data field values along with a description of the data field" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfema</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -120,16 +123,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns examples of data field values</h1>
+    <h1>Returns examples of data field values along with a description of the data field</h1>
     <small class="dont-index">Source: <a href='https://github.com/dylan-turner25/rfema/blob/master/R/parameter_values.R'><code>R/parameter_values.R</code></a></small>
     <div class="hidden name"><code>parameter_values.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns examples of data field values</p>
+    <p>Returns examples of data field values along with a description of the data field</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parameter_values</span><span class='op'>(</span>data_set <span class='op'>=</span> <span class='cn'>NULL</span>, data_field <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>parameter_values</span><span class='op'>(</span>data_set <span class='op'>=</span> <span class='cn'>NULL</span>, data_field <span class='op'>=</span> <span class='cn'>NULL</span>, message <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,50 +145,22 @@
       <th>data_field</th>
       <td><p>a character vector specifying the data field</p></td>
     </tr>
+    <tr>
+      <th>message</th>
+      <td><p>a logical value that is TRUE by default. When TRUE, the function
+will return information as a console message. When set to FALSE, the function
+will return the same information as a tibble.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns a data frame with the unique data field values conatained in the first 1000 records of the full data set</p>
+    <p>returns a consoles message providing a description of the data field and
+several example values of the data field within the data set.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>parameter_values</span><span class='op'>(</span>data_set <span class='op'>=</span> <span class='st'>"fimaNfipClaims"</span>, data_field <span class='op'>=</span> <span class='st'>"totalBuildingInsuranceCoverage"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] "150000" "100000" "250000" "185000" "88700"  "200000" "105000" "136700"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [9] "25000"  "216000" "101600" "20000"  "59000"  "190000" "83100"  "161700"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [17] "137000" "60000"  "180000" "125100" "124100" "15000"  "119800" "141600"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] "50000"  "30000"  "126800" "49500"  "93000"  "90800"  "40000"  "0"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [33] "47000"  "158000" "172800" "32700"  "155000" "129900" "209000" "161600"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [41] "82300"  "80000"  "329500" "70300"  "106000" "27500"  "213000" "106200"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49] "152000" "112700" "76800"  "183000" "203500" "224600" "134200" "38500" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [57] "145000" "199000" "65500"  "111700" "123200" "129600" "190100" "206000"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [65] "29700"  "127100" "129700" "75900"  "193000" "10300"  "109100" "150700"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] "23000"  "140800" "139200" "84300"  "125000" "177400" "175700" "66600" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [81] "75000"  "115300" "65000"  "24200"  "88000"  "117000" "12100"  "51000" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [89] "186100" "55000"  "135000" "113000" "96700"  "170000" "27000"  "121000"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97] "120900" "90000"  "99000"  "220000" "44000"  "166000" "102000" "146400"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [105] "161000" "145200" "82500"  "26600"  "98000"  "166400" "114000" "139800"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [113] "140000" "206400" "120000" "246300" "97600"  "11900"  "17800"  "242000"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [121] "71500"  "144000" "133100" "127800" "146300" "138000" "402700" "137500"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [129] "32000"  "128000" "131100" "198000" "56000"  "90200"  "120300" "100900"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [137] "147600" "181200" "174000" "95000"  "122000" "33000"  "102500" "110000"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [145] "37400"  "58500"  "101200" "159700" "143200" "36300"  "500000" "182600"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [153] "7600"   "204000" "60500"  "70000"  "111000" "162900" "164500" "192500"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [161] "156000" "6100"   "205700" "5000"   "97000"  "212700" "22000"  "129300"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [169] "82000"  "30300"  "74000"  "170700" "148000" "32200"  "96800"  "119200"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [177] "42300"  "126000" "93500"  "77000"  "58000"  "75800"  "176000" "80600" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [185] "145100" "73300"  "78000"  "8000"   "109200" "99900"  "10000"  "77900" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [193] "115000" "98500"  "181500" "98200"  "49600"  "124500" "177000" "86600" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [201] "198400" "116600" "114500" "134000" "229000" "40300"  "153100" "111300"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [209] "79800"  "119000" "173900" "214500" "209200" "141000" "34800"  "62000" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [217] "107500" "123400" "142000" "92000"  "158500" "241700" "164800" "249700"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [225] "175000" "130700" "113400" "221400" "127500" "130000" "87100"  "142200"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [233] "87000"  "169000" "72600"  "202100" "39900"  "125300" "104800" "121400"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [241] "143000" "35000"  "7000"   "193600" "199700" "13000"  "95900"  "116200"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [249] "66500"  "74800"  "220200" "234000" "248300" "156100" "109900" "52000" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [257] "207000" "29300"  "36500"  "112800" "29000"  "249000" "160700" "173000"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [265] "67000"  "47500"  "126500" "194800" "79100"  "48300"  "58400"  "104500"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [273] "63300"  "215600" "171600" "168300" "168000" "167100" "53400"  "177100"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [281] "223300" "78700"  "73100"  "99200"  "133000" "118100" "68200"  "66000" </span>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>parameter_values</span><span class='op'>(</span>data_set <span class='op'>=</span> <span class='st'>"fimaNfipClaims"</span>, </span>
+<span class='r-in'>data_field <span class='op'>=</span> <span class='st'>"totalBuildingInsuranceCoverage"</span><span class='op'>)</span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

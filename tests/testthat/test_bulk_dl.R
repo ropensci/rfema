@@ -56,8 +56,3 @@ test_that("bulk_dl works without specifying file path or file name", {
   # remove the file
   file.remove(csv_file)
 })
-
-
-
-
-

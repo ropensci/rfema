@@ -1,49 +1,56 @@
 #' Helper function to construct status message for `open_fema()` function
 #'
-#' @param n_records a numeric value indicating the number of matching records 
+#' @param n_records a numeric value indicating the number of matching records
 #' in the API call
-#' @param iterations numeric value indicating the  number of iterations 
-#' necessary to retrieve all the data 
+#' @param iterations numeric value indicating the  number of iterations
+#' necessary to retrieve all the data
 #' @param top_n numeric value indicating the number of matching records to return
-#' @param estimated_time character string indicating the estimated time to 
+#' @param estimated_time character string indicating the estimated time to
 #' complete the API call.
 #'
-#' @return a character string 
-#' 
+#' @return a character string
+#'
 #' @noRd
 #' @keywords internal
 #'
-#' @examples \dontrun{rfema:::get_status_message(2000,2,1000,"2 minutes")}
-get_status_message <- function(n_records, iterations, top_n, estimated_time){
-  
-  # top_n argument is specified and top_n is less than the number of matching 
+#' @examples \dontrun{
+#' rfema:::get_status_message(2000, 2, 1000, "2 minutes")
+#' }
+get_status_message <- function(n_records, iterations, top_n, estimated_time) {
+
+  # top_n argument is specified and top_n is less than the number of matching
   # records
-  if(is.null(top_n) == F){
-    if(n_records < top_n){
-      message <-paste0(n_records, " matching records found. At ",
-                        1000, " records per call, it will take ",iterations,
-                        " individual API calls to get all matching records. ",
-                        "It's estimated that this will take approximately ", 
-                       estimated_time ,". Continue?")
+  if (is.null(top_n) == F) {
+    if (n_records < top_n) {
+      message <- paste0(
+        n_records, " matching records found. At ",
+        1000, " records per call, it will take ", iterations,
+        " individual API calls to get all matching records. ",
+        "It's estimated that this will take approximately ",
+        estimated_time, ". Continue?"
+      )
     } else {
-      # top_n is less than the matching records 
-      message <- paste0(n_records, " matching records found. At ",
-                         1000, " records per call, it will take ",iterations,
-                         " individual API calls to get the top ", top_n ," matching records. ",
-                         "It's estimated that this will take approximately ", estimated_time ,". Continue?")
-    
+      # top_n is less than the matching records
+      message <- paste0(
+        n_records, " matching records found. At ",
+        1000, " records per call, it will take ", iterations,
+        " individual API calls to get the top ", top_n, " matching records. ",
+        "It's estimated that this will take approximately ", estimated_time, ". Continue?"
+      )
     }
   }
-  
+
   # top_n argument is not specified
-  if(is.null(top_n)){
-    message <-paste0(n_records, " matching records found. At ",
-                     1000, " records per call, it will take ",iterations,
-                     " individual API calls to get all matching records. ",
-                     "It's estimated that this will take approximately ", 
-                     estimated_time ,". Continue?")
+  if (is.null(top_n)) {
+    message <- paste0(
+      n_records, " matching records found. At ",
+      1000, " records per call, it will take ", iterations,
+      " individual API calls to get all matching records. ",
+      "It's estimated that this will take approximately ",
+      estimated_time, ". Continue?"
+    )
   }
-    
+
   return(message)
 }
 
@@ -53,51 +60,57 @@ get_status_message <- function(n_records, iterations, top_n, estimated_time){
 #'
 #' @param data a tibble returned from open_fema()
 #'
-#' @return returns a tibble with the columns representing dates converted to 
+#' @return returns a tibble with the columns representing dates converted to
 #' POSIXct format
-#' 
+#'
 #' @noRd
 #' @keywords internal
-#' 
+#'
 #' @examples
-#' \dontrun{data <- open_fema("fimanfipclaims",top_n = 10)}
-#' \dontrun{data_with_dates <- rfema:::convert_dates(data)}
-convert_dates <- function(data){
-  
-  # identify columns to convert to date objects based on if "date" is 
-  # in the column name
-  cols_to_convert <- colnames(data)[grepl("date",tolower(colnames(data)))]
+#' \dontrun{
+#' data <- open_fema("fimanfipclaims", top_n = 10)
+#' }
+#' \dontrun{
+#' data_with_dates <- rfema:::convert_dates(data)
+#' }
+convert_dates <- function(data) {
 
-  # loop over each column identified above  
-  for(c in cols_to_convert){
-    
+  # identify columns to convert to date objects based on if "date" is
+  # in the column name
+  cols_to_convert <- colnames(data)[grepl("date", tolower(colnames(data)))]
+
+  # loop over each column identified above
+  for (c in cols_to_convert) {
+
     # initialize an object to store the converted column
     converted_col <- NULL
-    
+
     # wrap the following in a tryCatch in case a column was identified above
     # that really shouldn't be converted to a date object
-    tryCatch({
-      # convert the tibble to a data frame
-      to_convert <- data.frame(data)[,c]
-      
-      # replace NULL values with NA
-      to_convert <- replace(to_convert, to_convert == "NULL", NA)
-      
-      # convert to a POSIXct object
-      converted_col <- as.POSIXct(to_convert, Sys.timezone())
-      
-    }, error = function(e){cat("ERROR :",conditionMessage(e), "\n")})
-    
-    # if the converted_col is not empty, go ahead and overwrite the 
-    # corresponding column in the data
-    if(is.null(converted_col) == F){
-      data[,c] <- converted_col
-    }
-    
-  }
-  
-  return(data)
+    tryCatch(
+      {
+        # convert the tibble to a data frame
+        to_convert <- data.frame(data)[, c]
 
+        # replace NULL values with NA
+        to_convert <- replace(to_convert, to_convert == "NULL", NA)
+
+        # convert to a POSIXct object
+        converted_col <- as.POSIXct(to_convert, Sys.timezone())
+      },
+      error = function(e) {
+        cat("ERROR :", conditionMessage(e), "\n")
+      }
+    )
+
+    # if the converted_col is not empty, go ahead and overwrite the
+    # corresponding column in the data
+    if (is.null(converted_col) == F) {
+      data[, c] <- converted_col
+    }
+  }
+
+  return(data)
 }
 
 
@@ -113,14 +126,18 @@ convert_dates <- function(data){
 #' @return returns the data with capitalization changed to be consistent with
 #' FEMA's naming convention or returns an error if the data set is not one of
 #' the valid offerings through the FEMA API.
-#' 
+#'
 #'
 #' @noRd
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{rfema:::valid_dataset("fimanfipclaims")}
-#' \dontrun{rfema:::valid_dataset("fIMANfipclaiMS")}
+#' \dontrun{
+#' rfema:::valid_dataset("fimanfipclaims")
+#' }
+#' \dontrun{
+#' rfema:::valid_dataset("fIMANfipclaiMS")
+#' }
 valid_dataset <- function(data_set) {
 
 
@@ -160,21 +177,24 @@ valid_dataset <- function(data_set) {
 #' to construct filters.
 #' @param select a character vector of data fields to return
 #' (default is to return all data fields for the data set)
-#' 
+#'
 #' @noRd
 #' @keywords internal
 #'
 #' @return The function returns a string containing a url that can be used to
 #'  query the API.
-#'  
+#'
 #' @examples
-#' \dontrun{filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
+#' \dontrun{
+#' filter_list <- list(baseFloodElevation = c(5, 6), countyCode = "34029")
 #' vars_to_select <- c("countyCode", "baseFloodElevation")
 #' url <- rfema:::gen_api_query(
 #'   data_set = "fimaNfipPolicies", top_n = 100,
-#'   filters = filter_list, select = vars_to_select)}
+#'   filters = filter_list, select = vars_to_select
+#' )
+#' }
 gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
-                                  select = NULL) {
+                          select = NULL) {
 
   # replace top_n with 1000 if no value is supplied
   if (is.null(top_n)) {
@@ -193,7 +213,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
 
     # check to make sure the selected fields are in the selected data set
     for (field in select) {
-      if (!( T %in% (field == valid_parameters(data_set)))) {
+      if (!(T %in% (field == valid_parameters(data_set)))) {
         stop(paste0(
           field, " is not a valid data field for the ", data_set,
           " data set use the valid_parameters() function to view all valid parameters for a data set."
@@ -211,7 +231,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
     # check to make sure the fields used to filter are in the selected data set
     params <- valid_parameters(data_set)
     for (field in names(filters)) {
-      if ( !(T %in% (field == params))) {
+      if (!(T %in% (field == params))) {
         stop(paste0(
           field, " is not a valid data field for the ", data_set,
           " thus cannot be used to construct a filter"
@@ -265,20 +285,22 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
 
 #' Helper function that returns the API endpoint associated with an open FEMA
 #' data set
-#' 
+#'
 #' @noRd
 #' @keywords internal
-#' 
+#'
 #' @param data_set A character string with the name of the data set to get the
 #' API endpoint for.
 #'
 #' @return Returns a character string containing the API endpoint URL associated
 #'  with the data set.
-#'  
+#'
 #' @examples
-#' \dontrun{rfema:::fema_api_endpoints("FimaNfipClaims")
+#' \dontrun{
+#' rfema:::fema_api_endpoints("FimaNfipClaims")
 #' rfema:::fema_api_endpoints("fImAnfiPclaims")
-#' rfema:::fema_api_endpoints("fimanfippolicies")}
+#' rfema:::fema_api_endpoints("fimanfippolicies")
+#' }
 fema_api_endpoints <- function(data_set) {
 
   # convert dataset to fema consistent capitalization
@@ -299,7 +321,7 @@ fema_api_endpoints <- function(data_set) {
 
 
 #' Helper function to estimate time per API call
-#' 
+#'
 #' @noRd
 #' @keywords internal
 #'
@@ -310,24 +332,26 @@ fema_api_endpoints <- function(data_set) {
 #' perform the specified number of API call iterations on the specified data set
 #'
 #' @examples
-#' \dontrun{rfema:::time_iterations("fimanfipclaims",25)}
-time_iterations <- function(data_set,iterations){
+#' \dontrun{
+#' rfema:::time_iterations("fimanfipclaims", 25)
+#' }
+time_iterations <- function(data_set, iterations) {
 
   # number of API calls to make
   api_calls <- 5
 
   # clear the memoise cache for the given open fema arguments so the function
   # contacts the API rather than returning cached results.
-  cache_exists <- memoise::drop_cache(open_fema)(data_set, top_n = api_calls*1000, ask_before_call = F)
+  cache_exists <- memoise::drop_cache(open_fema)(data_set, top_n = api_calls * 1000, ask_before_call = F)
 
   # get system start time
   start_time <- Sys.time()
 
   # print message on estimated code time
   message("Calculating estimated API call time...")
-  
+
   # execute an api call for "data_set" for 5000 records
-  data <- suppressMessages(open_fema(data_set, top_n = api_calls*1000, ask_before_call = F))
+  data <- suppressMessages(open_fema(data_set, top_n = api_calls * 1000, ask_before_call = F))
 
   # get system end time
   end_time <- Sys.time()
@@ -336,32 +360,29 @@ time_iterations <- function(data_set,iterations){
   diff <- as.numeric(end_time - start_time)
 
   # estimated seconds per iteration
-  time_per_itt <- diff/api_calls
-  
+  time_per_itt <- diff / api_calls
+
   # establish total estimated time given the iterations that need to be run
-  total_seconds <- time_per_itt*iterations
-  
+  total_seconds <- time_per_itt * iterations
+
   # establish units and convert second to that unit
   units <- "seconds"
   time <- total_seconds
-  total_minutes <- 0  
+  total_minutes <- 0
   total_hours <- 0
   total_years <- 0
-  if(time > 60 & units == "seconds"){
-    time <- total_seconds/60
+  if (time > 60 & units == "seconds") {
+    time <- total_seconds / 60
     units <- "minutes"
   }
-  if(time > 60 & units == "minutes"){
-    time <- time/60
+  if (time > 60 & units == "minutes") {
+    time <- time / 60
     units <- "hours"
   }
-  if(time > 24 & units == "hours"){
-    time <- time/24
+  if (time > 24 & units == "hours") {
+    time <- time / 24
     units <- "days"
   }
-  
-  return(paste( round(time,2) , units))
+
+  return(paste(round(time, 2), units))
 }
-
-
-

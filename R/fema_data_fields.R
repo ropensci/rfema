@@ -10,8 +10,12 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{fema_data_fields("FimaNfipClaims")}
-#' \dontrun{fema_data_fields("FimaNfipPolicies")}
+#' \dontrun{
+#' fema_data_fields("FimaNfipClaims")
+#' }
+#' \dontrun{
+#' fema_data_fields("FimaNfipPolicies")
+#' }
 fema_data_fields <- function(data_set) {
 
 

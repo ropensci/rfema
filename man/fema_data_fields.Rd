@@ -19,6 +19,10 @@ a description of the data field, and whether the data field is "searchable"
 Get data fields and descriptions for a given FEMA data set
 }
 \examples{
-\dontrun{fema_data_fields("FimaNfipClaims")}
-\dontrun{fema_data_fields("FimaNfipPolicies")}
+\dontrun{
+fema_data_fields("FimaNfipClaims")
+}
+\dontrun{
+fema_data_fields("FimaNfipPolicies")
+}
 }

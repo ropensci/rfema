@@ -15,5 +15,7 @@ documentation page: https://www.fema.gov/about/openfema/data-sets.
 Get a dataframe of avaliable FEMA data sets
 }
 \examples{
-\dontrun{fema_data_sets()}
+\dontrun{
+fema_data_sets()
+}
 }

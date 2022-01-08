@@ -16,5 +16,7 @@ Returns a tibble of parameter names that can be used to filter an API call for a
 Get all valid API parameters for a given FEMA data set
 }
 \examples{
-\dontrun{valid_parameters("fimaNfipPolicies")}
+\dontrun{
+valid_parameters("fimaNfipPolicies")
+}
 }

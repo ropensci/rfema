@@ -34,10 +34,11 @@
 #' data <- open_fema(
 #'   data_set = "fimaNfipClaims", top_n = 100,
 #'   filters = list(countyCode = "10001")
-#' )}
+#' )
+#' }
 open_fema <- function(data_set, top_n = NULL, filters = NULL,
-                              select = NULL, ask_before_call = TRUE,
-                              file_type = NULL, output_dir = NULL) {
+                      select = NULL, ask_before_call = TRUE,
+                      file_type = NULL, output_dir = NULL) {
 
   # return specific errors for edge case top_n arguments
   if (is.null(top_n) == F) {
@@ -115,16 +116,16 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
     # get the data, inform the user of how many iterations are needed and
     # ask if they want to proceed with the loop
     if (ask_before_call == TRUE & iterations > 1) {
-      
+
       # call the estimate_time function to get an estimated time per API call
       estimated_time <- time_iterations(data_set, iterations)
-      
-      
-      
+
+
+
       # send some logging info to the console to inform the user
       message(get_status_message(n_records, iterations, top_n, estimated_time))
-        
-  
+
+
       user_response <- readline(prompt = " 1 - Yes, get that data!, 0 - No, let me rethink my API call: ")
 
       if (user_response != "1") {
@@ -172,9 +173,8 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
         }
 
 
-        progress <- paste0("Obtaining Data: ", i, " out of ", iterations, " iterations (" ,round(i/iterations*100,2), "% complete)")
-        message('\r', progress, appendLF = FALSE)
-        
+        progress <- paste0("Obtaining Data: ", i, " out of ", iterations, " iterations (", round(i / iterations * 100, 2), "% complete)")
+        message("\r", progress, appendLF = FALSE)
       }
     } else {
       result <- httr::GET(paste0(api_query))
@@ -212,11 +212,11 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
     full_data,
     function(full_data) gsub("\n", "", full_data)
   ))
-  
+
   # convert full_data to a tibble
   full_data <- as_tibble(full_data)
-  
-  
+
+
   # convert dates to POSIXct format before returning the full data
   full_data <- convert_dates(full_data)
 

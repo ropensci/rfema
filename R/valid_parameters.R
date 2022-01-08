@@ -5,14 +5,16 @@
 #' @param data_set A character string indicating the data set to return valid parameters for
 #'
 #' @return Returns a tibble of parameter names that can be used to filter an API call for a given open FEMA data set
-#' 
+#'
 #' @importFrom memoise memoise
 #' @importFrom tibble as_tibble
-#' 
+#'
 #' @export
 #'
 #' @examples
-#' \dontrun{valid_parameters("fimaNfipPolicies")}
+#' \dontrun{
+#' valid_parameters("fimaNfipPolicies")
+#' }
 valid_parameters <- memoise::memoise(function(data_set = NULL) {
   data_set <- valid_dataset(data_set = data_set)
   data_fields <- fema_data_fields(data_set)
@@ -34,10 +36,10 @@ valid_parameters <- memoise::memoise(function(data_set = NULL) {
       }
     }
   }
-  
+
   # trim white space before returning
   params <- data.frame(params)
-  params[,1] <- trimws(params[,1])
+  params[, 1] <- trimws(params[, 1])
 
 
   return(as_tibble(params))

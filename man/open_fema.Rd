@@ -55,5 +55,6 @@ choose whether to continue.
 data <- open_fema(
   data_set = "fimaNfipClaims", top_n = 100,
   filters = list(countyCode = "10001")
-)}
+)
+}
 }

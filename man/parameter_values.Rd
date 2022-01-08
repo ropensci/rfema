@@ -23,6 +23,10 @@ several example values of the data field within the data set.
 Returns examples of data field values along with a description of the data field
 }
 \examples{
-\dontrun{parameter_values(data_set = "fimaNfipClaims", 
-data_field = "totalBuildingInsuranceCoverage")}
+\dontrun{
+parameter_values(
+  data_set = "fimaNfipClaims",
+  data_field = "totalBuildingInsuranceCoverage"
+)
+}
 }

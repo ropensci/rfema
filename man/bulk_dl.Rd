@@ -30,6 +30,10 @@ easy way to download any of FEMA's data sets in its entirety and save it
 locally as a csv file.
 }
 \examples{
-\dontrun{bulk_dl("femaregions")} # download the file
-\dontrun{file.remove("FemaRegions.csv")} # clean up directory after file downloads
+\dontrun{
+bulk_dl("femaregions") # download the file
+}
+\dontrun{
+file.remove("FemaRegions.csv") # clean up directory after file downloads
+}
 }

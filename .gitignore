@@ -4,7 +4,6 @@
 .Ruserdata
 READEME_cache/**
 READEME_cache/gfm/**
-README_files/**
 vignettes/getting_started_cache/**
 README.rmd
 cache

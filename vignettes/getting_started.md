@@ -1,13 +1,11 @@
 ---
 title: "rfema: Getting Started"
 author: "Dylan Turner"
-date: "2022-01-09"
-output: rmarkdown::html_vignette
-# output:
-#  github_document:
-#    toc: true
-#    toc_depth: 3
-vignette: >
+date: "2022-01-08"
+output:
+ github_document:
+   toc: true
+   toc_depth: 3
   %\VignetteIndexEntry{rfema: Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}

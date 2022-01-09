@@ -1,5 +1,5 @@
 ---
-# output: github_document
+title: "rfema (R FEMA)"
 
 output:
   github_document:
@@ -16,7 +16,7 @@ library(devtools)
 load_all()
 ```
 
-## rfema (R FEMA)
+
 
 
 [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions)
@@ -38,7 +38,7 @@ load_all()
 
 FEMA data is publicly available at the open [FEMA website](https://www.fema.gov/about/openfema/data-sets) and is available for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA's API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA's API without needing any technical knowledge of APIs. Notably, the FEMA API does not require an API key meaning the package is extremely accessible regardless of if the user has ever interacted with an API. 
 
-The rest of this page explains the benefits of the package and demonstrates basic usage of the package. For those looking for more in depth examples of how to use the package in your workflow, consider reading the [Getting Started](docs/articles/getting_started.html) vignette.
+The rest of this page explains the benefits of the package and demonstrates basic usage of the package. For those looking for more in depth examples of how to use the package in your workflow, consider reading the [Getting Started](https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md) vignette.
 
 In accordance with the Open Fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency's website(s). Guidance on FEMA's preferred citation for Open FEMA data can be found at: https://www.fema.gov/about/openfema/terms-conditions.
 
@@ -184,7 +184,7 @@ retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 retrieved_data
 ```
 
-There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](docs/articles/getting_started.html) vignette.
+There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md) vignette.
 
 ---
 

@@ -1,11 +1,10 @@
+rfema (R FEMA)
+================
 
--   [rfema (R FEMA)](#rfema-r-fema)
 -   [Introduction](#introduction)
 -   [Why rfema?](#why-rfema)
 -   [Installation](#installation)
 -   [Usage](#usage)
-
-## rfema (R FEMA)
 
 [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions)
 [![Project Status: Active – The project has reached a stable, usable
@@ -48,7 +47,8 @@ regardless of if the user has ever interacted with an API.
 The rest of this page explains the benefits of the package and
 demonstrates basic usage of the package. For those looking for more in
 depth examples of how to use the package in your workflow, consider
-reading the [Getting Started](docs/articles/getting_started.html)
+reading the [Getting
+Started](https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md)
 vignette.
 
 In accordance with the Open Fema terms and conditions: This product uses
@@ -336,7 +336,8 @@ want to retrieve by specifying how many records you want returned,
 specifying which columns in a data set to return, and applying filters
 to any of the columns in a data set. For more information and examples
 of use cases, see the [Getting
-Started](docs/articles/getting_started.html) vignette.
+Started](https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md)
+vignette.
 
 ------------------------------------------------------------------------
 

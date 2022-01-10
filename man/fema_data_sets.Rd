@@ -2,7 +2,7 @@
 % Please edit documentation in R/fema_data_sets.R
 \name{fema_data_sets}
 \alias{fema_data_sets}
-\title{Get a dataframe of avaliable FEMA data sets}
+\title{Get a tibble of available FEMA data sets}
 \usage{
 fema_data_sets()
 }
@@ -12,7 +12,7 @@ set available through the FEMA API. For more information see the FEMA
 documentation page: https://www.fema.gov/about/openfema/data-sets.
 }
 \description{
-Get a dataframe of avaliable FEMA data sets
+Get a tibble of available FEMA data sets
 }
 \examples{
 \dontrun{

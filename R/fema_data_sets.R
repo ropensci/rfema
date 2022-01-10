@@ -1,4 +1,4 @@
-#' Get a dataframe of avaliable FEMA data sets
+#' Get a tibble of available FEMA data sets
 #'
 #'
 #' @return Returns a tibble containing meta data about each data

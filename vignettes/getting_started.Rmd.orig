@@ -32,7 +32,7 @@ This vignette provides a brief overview on using the `rfema` package to obtain d
 ## Installation
 Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `remotes::install_github("dylan-turner25/rfema")`. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package
 
-## Avaliable Datasets
+## Available Datasets
 For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the [FEMA API documentation page](https://www.fema.gov/about/openfema/data-sets). However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the `fema_data_sets()` function to obtain a tibble of available data sets along with associated meta data is a convenient option.
 ```{r, cache = T}
 # store the avaliable data sets as an object in your R environment that can be referenced later
@@ -61,7 +61,7 @@ df
 
 
 
-The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The `open_fema` functions handles this process this automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the `ask_before_call` argument to `FALSE`). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")` will yield the following output in the R console.
+The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The `open_fema` function handles this process automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the `ask_before_call` argument to `FALSE`). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")` will yield the following output in the R console.
 
 ```{r, echo = F}
 time <- rfema:::time_iterations("fimanfipclaims",2565)
@@ -72,7 +72,7 @@ print(noquote("1 - Yes, get that data!, 0 - No, let me rethink my API call: "))
 Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the `bulk_dl` function. 
 
 
-Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
+Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
 ```{r, cache = T}
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
 
@@ -103,14 +103,14 @@ params
 
 ```
 
-We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
+We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
 
 ```{r, cache = T}
 # get more information onf the "floodZone" parameter from the NFIP Claims data set
 parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
 ```
 
-As can be seen `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field which description, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
+As can be seen `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
 ```{r, cache = T}
 parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
 ```
@@ -186,7 +186,7 @@ nrow(ds)
 ds <- ds %>% filter(version == max(as.numeric(ds$version)))
 
 # now print out the data set description and make sure its the data set 
-# is applicable or our research question
+# that applicable or our research question
 print(ds$description)
 
 ```
@@ -257,7 +257,7 @@ print(paste0("$",round(rent_assistance,2),
 
 ## Bulk Downloads
 In some cases bulk downloading a full data set file may be preferred. For particularly large data requests, its usually faster to bulk download the entire data set as a csv file and then load it into the R environment. In this case, users can use the bulk_dl() command to download a csv of the full data file and save it to a specified directory.
-```{r,cache = T}
+```{r,cache = T,message = F, warning = F}
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
 

@@ -249,7 +249,7 @@ Right now, the best way to install and use the `rfema` package is by
 installing directly from GitHub using
 `remotes::install_github("dylan-turner25/rfema")`. The FEMA API does not
 require an API key, meaning no further steps need be taken to start
-using the package
+using the package.
 
 ## Usage
 

@@ -26,7 +26,7 @@ vignettes (removed from readme but not vignette yet)
 
 * rOpensci Reviewer Suggestion: fix link to R-CMD-check badge
   - The link to the R-CMD-check badge has been fixed and point to the correct 
-  Github repo
+  Github repo.
   
 * rOpensci Reviewer Suggestion: Add description field for `bulk_dl()` in the help file.
     - the `bulk_dl()` help file now has a description field.
@@ -47,7 +47,7 @@ vignettes (removed from readme but not vignette yet)
 ### MINOR IMPROVEMENTS
 
 * rOpensci Reviewer Suggestion: Convert all output to tibbles
-  - All exported functions that return objects now return that data as at tibble 
+  - All exported functions that return objects now return that data as at tibble. 
 
 * rOpensci Reviewer Suggestion: Add a estimate for the time it will take to 
 complete an API query.
@@ -67,15 +67,17 @@ complete an API query.
   POSIX format. This is done within the `open_fema` function so the tibble 
   returned to the user has dates converted before it reaches them.
     
-* rOpensci Reviewer Suggestion: investigate if parameter_values() function can 
+* rOpensci Reviewer Suggestion: Investigate if parameter_values() function can 
 obtain all parameter values, instead of just searching the first 1000 records 
 for unique values of the parameters.
   - As far as I can tell, there is  way to obtain all the unique
   values for a data set column without obtaining the entire data set and 
   searching all the records. I've modified the function to make it clear that
-  what is presented does not represent the full range of possible parameter 
-  values, but instead just provides some examples to help the user understand 
-  the data set. 
+  what is presented does not necessarily represent the full range of possible parameter 
+  values (some data fields have all the unique values detailed in the data sets description, 
+  but this is not universally true), but instead just provides some examples to help the user understand 
+  the data set. When the function is used, it also suggests visiting the FEMA documentation page 
+  for more information.
 
 * rOpensci Reviewer Suggestion: using remotes instead of devtools for installation in README (pull request)
   - Pull request was accepted and merged.
@@ -90,7 +92,7 @@ for unique values of the parameters.
 the `open_fema` function.
   - Fixed.
 
-* rOpensci Reviewer Suggestion: alter iteration message for the `open_fema` so
+* rOpensci Reviewer Suggestion: alter iteration message for the `open_fema` function so
 is overwrites the previous console message after each iteration.
    - Fixed. The message displayed after each iteration now looks like the 
    following: "Obtaining Data: 3 out of 5 iterations (60% complete)"

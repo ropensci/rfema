@@ -75,7 +75,7 @@ The FEMA API limits the number of records that can be returned in a single query
 
 ```
 #> Calculating estimated API call time...
-#> 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 1.92 hours. Continue?
+#> 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 5.92 hours. Continue?
 #> [1] 1 - Yes, get that data!, 0 - No, let me rethink my API call:
 ```
 

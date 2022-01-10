@@ -2,10 +2,10 @@ citHeader("To cite rfema in publications use:")
 
 citEntry(
   entry    = "Article",
-  title    = "TBD",
+  title    = "rfema",
   author   = as.person("Dylan Turner"),
   journal  = "TBD",
-  year     = 2021,
+  year     = 2022,
   volume   = "TBD",
   number   = "TBD",
   pages    = "TBD",

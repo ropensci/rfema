@@ -81,29 +81,25 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
+<div id="rfema-r-fema" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#rfema-r-fema" class="anchor"></a>rfema (R FEMA)</h1></div>
 <ul>
-<li><a href="#rfema-r-fema">rfema (R FEMA)</a></li>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#why-rfema">Why rfema?</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#usage">Usage</a></li>
 </ul>
-<div id="rfema-r-fema" class="section level2">
-<h2 class="hasAnchor">
-<a href="#rfema-r-fema" class="anchor"></a>rfema (R FEMA)</h2>
-
 <p><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <a href="https://codecov.io/gh/dylan-turner25/rfema?branch=main"><img src="https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/ropensci/software-review/issues/484"><img src="https://badges.ropensci.org/484_status.svg" alt="Status at rOpenSci Software Peer Review"></a></p>
 <!-- badges: start -->
 <!-- [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions) -->
 <!-- badges: end -->
-</div>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p><code>rfema</code> allows users to access The Federal Emergency Management Agency’s (FEMA) publicly available data through the open FEMA API. The package provides a set of functions to easily navigate and access all data sets provided by FEMA, including (but not limited to) data from the National Flood Insurance Program and FEMA’s various disaster aid programs.</p>
 <p>FEMA data is publicly available at the open <a href="https://www.fema.gov/about/openfema/data-sets">FEMA website</a> and is available for bulk download, however, the files are sometimes very large (multiple gigabytes) and many times users do not need all records for a data series (for example: many users may only want records for a single state for several years). Using FEMA’s API is a good option to circumvent working with the bulk data files, but can be inaccessible for those without prior API experience. This package contains a set of functions that allows users to easily identify and retrieve data from FEMA’s API without needing any technical knowledge of APIs. Notably, the FEMA API does not require an API key meaning the package is extremely accessible regardless of if the user has ever interacted with an API.</p>
-<p>The rest of this page explains the benefits of the package and demonstrates basic usage of the package. For those looking for more in depth examples of how to use the package in your workflow, consider reading the <a href="docs/articles/getting_started.html">Getting Started</a> vignette.</p>
+<p>The rest of this page explains the benefits of the package and demonstrates basic usage of the package. For those looking for more in depth examples of how to use the package in your workflow, consider reading the <a href="https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md">Getting Started</a> vignette.</p>
 <p>In accordance with the Open Fema terms and conditions: This product uses the Federal Emergency Management Agency’s Open FEMA API, but is not endorsed by FEMA. The Federal Government or FEMA cannot vouch for the data or analyses derived from these data after the data have been retrieved from the Agency’s website(s). Guidance on FEMA’s preferred citation for Open FEMA data can be found at: <a href="https://www.fema.gov/about/openfema/terms-conditions" class="uri">https://www.fema.gov/about/openfema/terms-conditions</a>.</p>
 </div>
 <div id="why-rfema" class="section level2">
@@ -258,7 +254,7 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from GitHub using <code>remotes::install_github("dylan-turner25/rfema")</code>. The FEMA API does not require an API key, meaning no further steps need be taken to start using the package</p>
+<p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from GitHub using <code>remotes::install_github("dylan-turner25/rfema")</code>. The FEMA API does not require an API key, meaning no further steps need be taken to start using the package.</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -318,11 +314,11 @@
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;,</span></span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;,</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   lowestFloorElevation &lt;chr&gt;, numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, …</span></span></code></pre></div>
-<p>There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the <a href="docs/articles/getting_started.html">Getting Started</a> vignette.</p>
+<p>There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the <a href="https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md">Getting Started</a> vignette.</p>
 <hr>
 <p>Please note that <code>rfema</code> is released with a <a href="%22https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md%22">Contributor Code of Conduct</a>. By contributing to the package you agree to abide by its terms.</p>
 </div>
-
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

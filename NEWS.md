@@ -1,6 +1,6 @@
 
 
-rfema 1.0.0 (2021-12-28)
+rfema 1.0.0 (2022-01-10)
 =========================
 Changes made for this version are primarily a result of suggestions made while 
 the package was reviewed for inclusion in the rOpensci suite of packages. Thus, 

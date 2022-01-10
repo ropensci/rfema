@@ -134,63 +134,52 @@
 <h3 class="hasAnchor">
 <a href="#documentation-fixes" class="anchor"></a>DOCUMENTATION FIXES</h3>
 <ul>
-<li>
-<p>rOpensci Reviewer Suggestion: emphasize in readme that no API is needed.</p>
+<li>rOpensci Reviewer Suggestion: emphasize in readme that no API is needed.
 <ul>
 <li>The following line has been added to the first paragraph of the README file: “Notably, the FEMA API does not require an API key meaning the package is extremely accessible regardless of if the user has ever interacted with an API.”</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: link FEMA data sets webpage in README, vignette, and help file, when talking about fema_data_sets().</p>
+<li>rOpensci Reviewer Suggestion: link FEMA data sets webpage in README, vignette, and help file, when talking about fema_data_sets().
 <ul>
 <li>Done. The Readme and vignette both suggest that the <code><a href="../reference/fema_data_sets.html">fema_data_sets()</a></code> function be used for quick references and that naive users should start by visiting the FEMA API documentation page. The help file for <code><a href="../reference/fema_data_sets.html">fema_data_sets()</a></code> also contains a link to the documentation page now.</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: remove the use of kable() in the readme and vignettes (removed from readme but not vignette yet)</p>
+<li>rOpensci Reviewer Suggestion: remove the use of kable() in the readme and vignettes (removed from readme but not vignette yet)
 <ul>
 <li>
 <code>kable()</code> is not longer used to present output in the documentation files. Most output is now returned as a tibble making the use of <code>kable()</code> unnecessary for truncating long blocks of text.</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: fix link to R-CMD-check badge</p>
+<li>rOpensci Reviewer Suggestion: fix link to R-CMD-check badge
 <ul>
-<li>The link to the R-CMD-check badge has been fixed and point to the correct Github repo</li>
+<li>The link to the R-CMD-check badge has been fixed and point to the correct Github repo.</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: Add description field for <code><a href="../reference/bulk_dl.html">bulk_dl()</a></code> in the help file.</p>
+<li>rOpensci Reviewer Suggestion: Add description field for <code><a href="../reference/bulk_dl.html">bulk_dl()</a></code> in the help file.
 <ul>
 <li>the <code><a href="../reference/bulk_dl.html">bulk_dl()</a></code> help file now has a description field.</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: make sure functions in helpers.R are NOT exported</p>
+<li>rOpensci Reviewer Suggestion: make sure functions in helpers.R are NOT exported
 <ul>
 <li>all functions in the helpers.R files are no longer exported.</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: Make sure there are links in the README to the Contributing file.</p>
+<li>rOpensci Reviewer Suggestion: Make sure there are links in the README to the Contributing file.
 <ul>
 <li>The end of the README file now has a link to the contributing file.</li>
 </ul>
 </li>
-<li>
-<p>rOpensci Reviewer Suggestion: include issues template in README using usethis::use_tidy_issue_template()</p>
+<li>rOpensci Reviewer Suggestion: include issues template in README using usethis::use_tidy_issue_template()
 <ul>
 <li>Done.</li>
 </ul>
 </li>
-<li><p>TODO: pre-compile vignette and make available from R console <a href="https://ropensci.org/blog/2019/12/08/precompute-vignettes/" class="uri">https://ropensci.org/blog/2019/12/08/precompute-vignettes/</a></p></li>
-<li>
-<p>rOpensci Reviewer Suggestion: use TRUE/FALSE in the documentation</p>
+<li>rOpensci Reviewer Suggestion: use TRUE/FALSE in the documentation
 <ul>
 <li>all function help files use TRUE/FALSE now rather than the abbreviations T/F</li>
 </ul>
 </li>
-<li><p>TODO: The link to the code of conduct from the CONTRIBUTING file is broken. (need to fix)</p></li>
 </ul>
 </div>
 <div id="minor-improvements" class="section level3">
@@ -199,7 +188,7 @@
 <ul>
 <li>rOpensci Reviewer Suggestion: Convert all output to tibbles
 <ul>
-<li>All exported functions that return objects now return that data as at tibble</li>
+<li>All exported functions that return objects now return that data as at tibble.</li>
 </ul>
 </li>
 <li>rOpensci Reviewer Suggestion: Add a estimate for the time it will take to complete an API query.
@@ -213,9 +202,9 @@
 POSIX format. This is done within the <code>open_fema</code> function so the tibble returned to the user has dates converted before it reaches them.</li>
 </ul>
 </li>
-<li>rOpensci Reviewer Suggestion: investigate if parameter_values() function can obtain all parameter values, instead of just searching the first 1000 records for unique values of the parameters.
+<li>rOpensci Reviewer Suggestion: Investigate if parameter_values() function can obtain all parameter values, instead of just searching the first 1000 records for unique values of the parameters.
 <ul>
-<li>As far as I can tell, there is way to obtain all the unique values for a data set column without obtaining the entire data set and searching all the records. I’ve modified the function to make it clear that what is presented does not represent the full range of possible parameter values, but instead just provides some examples to help the user understand the data set.</li>
+<li>As far as I can tell, there is way to obtain all the unique values for a data set column without obtaining the entire data set and searching all the records. I’ve modified the function to make it clear that what is presented does not necessarily represent the full range of possible parameter values (some data fields have all the unique values detailed in the data sets description, but this is not universally true), but instead just provides some examples to help the user understand the data set. When the function is used, it also suggests visiting the FEMA documentation page for more information.</li>
 </ul>
 </li>
 <li>rOpensci Reviewer Suggestion: using remotes instead of devtools for installation in README (pull request)
@@ -239,7 +228,7 @@ POSIX format. This is done within the <code>open_fema</code> function so the tib
 <li>Fixed.</li>
 </ul>
 </li>
-<li>rOpensci Reviewer Suggestion: alter iteration message for the <code>open_fema</code> so is overwrites the previous console message after each iteration.
+<li>rOpensci Reviewer Suggestion: alter iteration message for the <code>open_fema</code> function so is overwrites the previous console message after each iteration.
 <ul>
 <li>Fixed. The message displayed after each iteration now looks like the following: “Obtaining Data: 3 out of 5 iterations (60% complete)”</li>
 </ul>
@@ -259,7 +248,7 @@ POSIX format. This is done within the <code>open_fema</code> function so the tib
 <h3 class="hasAnchor">
 <a href="#documentation-fixes-1" class="anchor"></a>DOCUMENTATION FIXES</h3>
 <ul>
-<li>Added a NEWS.md file</li>
+<li>Added a NEWS.md file.</li>
 </ul>
 <!-- ### NEW FEATURES --><!--   * New function added `do_things()` to do things (<a href='https://github.com/dylan-turner25/rfema/issues/5'>#5</a>) --><!-- ### MINOR IMPROVEMENTS --><!--   * Improved documentation for `things()` (<a href='https://github.com/dylan-turner25/rfema/issues/4'>#4</a>) --><!-- ### BUG FIXES --><!--   * Fix parsing bug in `stuff()` (<a href='https://github.com/dylan-turner25/rfema/issues/3'>#3</a>) --><!-- ### DEPRECATED AND DEFUNCT --><!--   * `hello_world()` now deprecated and will be removed in a --><!--      future version, use `hello_mars()` --><!-- ### DOCUMENTATION FIXES --><!--   * Adding a NEWS.md file --><!-- ### (a special: any heading grouping a large number of changes under one thing) --><!--     * blablabla. -->
 </div>

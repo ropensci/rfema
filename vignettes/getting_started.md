@@ -7,7 +7,7 @@ This vignette provides a brief overview on using the `rfema` package to obtain d
 ## Installation
 Right now, the best way to install and use the `rfema` package is by installing directly from GitHub using `remotes::install_github("dylan-turner25/rfema")`. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package
 
-## Avaliable Datasets
+## Available Datasets
 For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the [FEMA API documentation page](https://www.fema.gov/about/openfema/data-sets). However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the `fema_data_sets()` function to obtain a tibble of available data sets along with associated meta data is a convenient option.
 
 ```r
@@ -70,19 +70,19 @@ df
 
 
 
-The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The `open_fema` functions handles this process this automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the `ask_before_call` argument to `FALSE`). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")` will yield the following output in the R console.
+The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The `open_fema` function handles this process automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the `ask_before_call` argument to `FALSE`). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")` will yield the following output in the R console.
 
 
 ```
 #> Calculating estimated API call time...
-#> 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 3.44 hours. Continue?
+#> 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 1.92 hours. Continue?
 #> [1] 1 - Yes, get that data!, 0 - No, let me rethink my API call:
 ```
 
 Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the `bulk_dl` function. 
 
 
-Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will be automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
+Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
 
 ```r
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
@@ -177,7 +177,7 @@ params
 #> # … with 30 more rows
 ```
 
-We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned in the data frame. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
+We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
 
 
 ```r
@@ -190,7 +190,7 @@ parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
 #> More Information Available at: https://www.fema.gov/about/openfema/data-sets
 ```
 
-As can be seen `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field which description, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
+As can be seen `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
 
 ```r
 parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
@@ -362,7 +362,7 @@ nrow(ds)
 ds <- ds %>% filter(version == max(as.numeric(ds$version)))
 
 # now print out the data set description and make sure its the data set 
-# is applicable or our research question
+# that applicable or our research question
 print(ds$description)
 #> [1] "The dataset was generated by FEMA's Enterprise Coordination & Information Management (ECIM) Reporting team and is primarily composed of data from Housing Assistance Program reporting authority from FEMA registration renters and owners within the state, county, zip where the registration is valid. This dataset contains aggregated, non-PII data on FEMA's Housing Assistance Program within the state, county, zip where the registration is valid for the declarations, starting with disaster declarations number 4116.  The data is divided into data for renters and data for property owners. Additional core data elements include number of applicants, county, zip code, severity of damage, owner or renter. Data is self-reported and as such is subject to human error. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.This is raw, unedited data from FEMA's National Emergency Management Information System (NEMIS) and as such is subject to a small percentage of human error. For example, when an applicant registers they enter their street and city address.  The system runs a check and suggests a county.  The applicant, if registering online can override that choice.  If they are registering via the call center the Human Services Specialist (HSS) representatives are instructed to ask (not offer) what county they live in.  So even though the system might suggest County A,  an applicant has the right to choose County B.  The financial information is derived from NEMIS and not FEMA's official financial systems.  Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov;  this dataset is not intended to be used for any official federal financial reporting.Citation: The Agency's preferred citation for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page, Citing Data section: https://www.fema.gov/about/openfema/terms-conditions.If you have media inquiries about this dataset, please email the FEMA News Desk FEMA-News-Desk@dhs.gov or call (202) 646-3272.  For inquiries about FEMA's data and Open government program please contact the OpenFEMA team via email OpenFEMA@fema.dhs.gov."
 ```
@@ -503,7 +503,6 @@ In some cases bulk downloading a full data set file may be preferred. For partic
 
 ```r
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
-#> Downloading file to /home/dylan/Dropbox/rfema/vignettes/FemaRegions.csv
 ```
 
 

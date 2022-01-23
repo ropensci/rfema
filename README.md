@@ -177,37 +177,31 @@ filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "
 # Make the API call using the `open_fema` function. The function will output a 
 # status message to the console letting you monitor the progress of the data retrieval.
 data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
-```
 
-    ## Obtaining Data: 1 out of 3 iterations (33.33% complete) Obtaining Data: 2 out
-    ## of 3 iterations (66.67% complete) Obtaining Data: 3 out of 3 iterations (100%
-    ## complete)
-
-``` r
 # view data
 data
 ```
 
-    ## # A tibble: 2,119 × 40
-    ##    agricultureStructur… asOfDate            baseFloodElevati… basementEnclosure…
+    ## # A tibble: 2,119 x 40
+    ##    agricultureStructur~ asOfDate            baseFloodElevati~ basementEnclosure~
     ##    <chr>                <dttm>              <chr>             <chr>             
     ##  1 FALSE                2021-07-25 00:00:00 8                 NULL              
-    ##  2 FALSE                2021-09-02 00:00:00 6                 0                 
-    ##  3 FALSE                2021-09-02 00:00:00 4                 0                 
-    ##  4 FALSE                2021-09-02 00:00:00 6                 0                 
-    ##  5 FALSE                2021-09-02 00:00:00 NULL              NULL              
-    ##  6 FALSE                2021-09-02 00:00:00 6                 NULL              
-    ##  7 FALSE                2021-07-04 00:00:00 NULL              NULL              
-    ##  8 FALSE                2021-07-04 00:00:00 7                 NULL              
-    ##  9 FALSE                2021-07-04 00:00:00 7                 NULL              
-    ## 10 FALSE                2021-09-02 00:00:00 NULL              0                 
-    ## # … with 2,109 more rows, and 36 more variables: reportedCity <chr>,
+    ##  2 FALSE                2021-11-21 00:00:00 NULL              NULL              
+    ##  3 FALSE                2021-11-21 00:00:00 7                 NULL              
+    ##  4 FALSE                2021-09-02 00:00:00 NULL              NULL              
+    ##  5 FALSE                2021-09-02 00:00:00 6                 0                 
+    ##  6 FALSE                2021-11-21 00:00:00 8                 NULL              
+    ##  7 FALSE                2021-09-02 00:00:00 6                 NULL              
+    ##  8 FALSE                2021-11-21 00:00:00 11                NULL              
+    ##  9 FALSE                2021-07-04 00:00:00 NULL              NULL              
+    ## 10 FALSE                2021-07-04 00:00:00 7                 NULL              
+    ## # ... with 2,109 more rows, and 36 more variables: reportedCity <chr>,
     ## #   condominiumIndicator <chr>, policyCount <chr>, countyCode <chr>,
     ## #   communityRatingSystemDiscount <chr>, dateOfLoss <dttm>,
     ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
     ## #   elevationDifference <chr>, censusTract <chr>, floodZone <chr>,
     ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
-    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, …
+    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, ...
 
 The `rfema` package also returns data, where possible, in formats that
 are easier to work with. For example, all functions return data as a
@@ -238,8 +232,6 @@ open_fema("DisasterDeclarationsSummaries",
        title = "County Level FEMA Disaster Declarations for Hurricanes") +
   theme_light()
 ```
-
-    ## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6 iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining Data: 6 out of 6 iterations (100% complete)`summarise()` has grouped output by 'date'. You can override using the `.groups` argument.
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 

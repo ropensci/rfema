@@ -120,7 +120,7 @@ data
 ```
 
 Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allows the same request to be made with two lines of code. Notably, the `open_fema()` function handles checking the number of records and implements an iterative loop to deal with the 1000 records/call limit. 
-```{r}
+```{r, message = F}
 # define a list of filters to apply
 filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
 
@@ -135,7 +135,7 @@ data
 ```
 
  The `rfema` package also returns data, where possible, in formats that are easier to work with. For example, all functions return  data as a tibble with all date columns converted to POSIX format. This makes plotting time series easy as the API call can be piped directly into a `ggplot` plot. For example, the following is a plot of the number of FEMA disaster declarations in response to hurricanes since 2010, separated out by Florida versus the rest of the United States. In an application where the most up to date data is required, this block of code can be rerun to plot the most up to date data from the FEMA API.
-```{r}
+```{r, message = F}
 library(ggplot2)
 open_fema("DisasterDeclarationsSummaries", 
                   filters = list(declarationDate = ">= 2010-01-01",
@@ -188,5 +188,5 @@ There are a variety of other ways to more precisely target the data you want to 
 
 ---
 
-Please note that `rfema` is released with a [Contributor Code of Conduct]("https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md"). By contributing to the package you agree to abide by its terms.
+Please note that `rfema` is released with a [Contributor Code of Conduct](https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md). By contributing to the package you agree to abide by its terms.
 

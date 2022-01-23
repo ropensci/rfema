@@ -342,5 +342,5 @@ vignette.
 ------------------------------------------------------------------------
 
 Please note that `rfema` is released with a [Contributor Code of
-Conduct](%22https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md%22).
+Conduct](https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md).
 By contributing to the package you agree to abide by its terms.

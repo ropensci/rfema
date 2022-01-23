@@ -188,5 +188,5 @@ There are a variety of other ways to more precisely target the data you want to 
 
 ---
 
-Please note that `rfema` is released with a [Contributor Code of Conduct]("https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md"). By contributing to the package you agree to abide by its terms.
+Please note that `rfema` is released with a [Contributor Code of Conduct](https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md). By contributing to the package you agree to abide by its terms.
 

@@ -8,7 +8,7 @@
   "description": "`rfema` allows users to access The Federal Emergency Management Agency's (FEMA) publicly available data through their API. The package provides a set of functions to easily navigate and access data from the National Flood Insurance Program along with FEMA's various disaster aid programs, including the Hazard Mitigation Grant Program, the Public Assistance Grant Program, and the Individual Assistance Grant Program.",
   "name": "rfema: Access the openFEMA API",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9000",
+  "version": "1.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -175,11 +175,11 @@
     }
   ],
   "codeRepository": "https://github.com/dylan-turner25/rfema",
-  "readme": "https://github.com/dylan-turner25/rfema/blob/main/README.md",
-  "fileSize": "132.767KB",
-  "developmentStatus": ["https://www.repostatus.org/", "https://lifecycle.r-lib.org/articles/stages.html"],
+  "readme": "https://github.com/ropensci/rfema/blob/main/README.md",
+  "fileSize": "115.418KB",
+  "developmentStatus": ["https://www.repostatus.org/#active", "https://www.tidyverse.org/lifecycle/#stable"],
   "issueTracker": "https://github.com/dylan-turner25/rfema/issues",
-  "contIntegration": ["https://github.com/dylan-turner25/rfema/actions", "https://codecov.io/gh/dylan-turner25/rfema?branch=main"],
+  "contIntegration": ["https://github.com/ropensci/rfema/actions", "https://codecov.io/gh/ropensci/rfema?branch=main"],
   "releaseNotes": "https://github.com/dylan-turner25/rfema/blob/master/NEWS.md",
   "review": {
     "@type": "Review",
@@ -189,7 +189,7 @@
   "citation": [
     {
       "@type": "ScholarlyArticle",
-      "datePublished": "2021",
+      "datePublished": "2022",
       "author": [
         {
           "@type": "Person",
@@ -197,13 +197,13 @@
           "familyName": "Turner"
         }
       ],
-      "name": "TBD",
+      "name": "rfema",
       "url": "TBD",
       "pagination": "TBD",
       "isPartOf": {
         "@type": "PublicationIssue",
         "issueNumber": "TBD",
-        "datePublished": "2021",
+        "datePublished": "2022",
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
           "volumeNumber": "TBD",

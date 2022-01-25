@@ -6,7 +6,7 @@ rfema (R FEMA)
 -   [Installation](#installation)
 -   [Usage](#usage)
 
-[![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions)
+[![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rfema/actions)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Codecov test
-coverage](https://codecov.io/gh/dylan-turner25/rfema/branch/main/graph/badge.svg)](https://codecov.io/gh/dylan-turner25/rfema?branch=main)
+coverage](https://codecov.io/gh/ropensci/rfema/branch/main/graph/badge.svg)](https://codecov.io/gh/ropensci/rfema?branch=main)
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/484_status.svg)](https://github.com/ropensci/software-review/issues/484)
 
@@ -238,10 +238,10 @@ open_fema("DisasterDeclarationsSummaries",
 ## Installation
 
 Right now, the best way to install and use the `rfema` package is by
-installing directly from GitHub using
-`remotes::install_github("dylan-turner25/rfema")`. The FEMA API does not
-require an API key, meaning no further steps need be taken to start
-using the package.
+installing directly from rOpenSci using
+`install.packages("rfema", repos = "https://ropensci.r-universe.dev")`.
+The FEMA API does not require and API key, meaning no further setup
+steps need be taken to start using the package
 
 ## Usage
 
@@ -328,11 +328,11 @@ want to retrieve by specifying how many records you want returned,
 specifying which columns in a data set to return, and applying filters
 to any of the columns in a data set. For more information and examples
 of use cases, see the [Getting
-Started](https://github.com/dylan-turner25/rfema/blob/main/vignettes/getting_started.md)
+Started](https://github.com/ropensci/rfema/blob/main/vignettes/getting_started.md)
 vignette.
 
 ------------------------------------------------------------------------
 
 Please note that `rfema` is released with a [Contributor Code of
-Conduct](https://github.com/dylan-turner25/rfema/blob/main/CONTRIBUTING.md).
+Conduct](https://ropensci.org/code-of-conduct/#:~:text=rOpenSci%20is%20committed%20to%20providing,understand%E2%80%9D%20or%20%E2%80%9CWhy%E2%80%9D.).
 By contributing to the package you agree to abide by its terms.

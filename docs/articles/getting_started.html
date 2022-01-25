@@ -85,7 +85,7 @@
       <h1 data-toc-skip>rfema: Getting Started</h1>
                         <h4 class="author">Dylan Turner</h4>
             
-            <h4 class="date">2022-01-10</h4>
+            <h4 class="date">2022-01-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/dylan-turner25/rfema/blob/master/vignettes/getting_started.Rmd"><code>vignettes/getting_started.Rmd</code></a></small>
       <div class="hidden name"><code>getting_started.Rmd</code></div>
@@ -102,7 +102,7 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from GitHub using <code>remotes::install_github("dylan-turner25/rfema")</code>. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package</p>
+<p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from rOpenSci using <code>install.packages("rfema", repos = "https://ropensci.r-universe.dev")</code>. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package</p>
 </div>
 <div id="available-datasets" class="section level2">
 <h2 class="hasAnchor">
@@ -165,7 +165,7 @@
 <span class="co">#&gt; # … with 36 more rows, and 1 more variable: id &lt;chr&gt;</span></code></pre></div>
 <p>The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The <code>open_fema</code> function handles this process automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the <code>ask_before_call</code> argument to <code>FALSE</code>). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via <code>open_fema(data_set = "fimaNfipClaims")</code> will yield the following output in the R console.</p>
 <pre><code>#&gt; Calculating estimated API call time...
-#&gt; 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 1.92 hours. Continue?
+#&gt; 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 1.1 hours. Continue?
 #&gt; [1] 1 - Yes, get that data!, 0 - No, let me rethink my API call:</code></pre>
 <p>Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the <code>bulk_dl</code> function.</p>
 <p>Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.</p>

@@ -2,15 +2,15 @@ citHeader("To cite rfema in publications use:")
 
 citEntry(
   entry    = "Article",
-  title    = "rfema",
+  title    = "rfema: Access the openFEMA API",
   author   = as.person("Dylan Turner"),
-  journal  = "TBD",
+  journal  = "rOpenSci",
   year     = 2022,
-  volume   = "TBD",
-  number   = "TBD",
-  pages    = "TBD",
-  url      = "TBD",
+  volume   = "",
+  number   = "",
+  pages    = "",
+  url      = "https://github.com/ropensci/rfema",
   textVersion = paste(
-    "TBD"
+    "Turner, D. 2022. rfema:Access the openFEMA API. rOpenSci, avaliable at https://github.com/ropensci/rfema"
   )
 )

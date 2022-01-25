@@ -10,11 +10,11 @@ r_packages:
   - covr
 
 # codecov:
-#   token: 7bb78e01-105a-43e2-af8c-1cb6eb16d21c
+#   token: 39820295-0cca-408b-a721-5c5486cbd3a4
 
 after_success:
 
-- Rscript -e 'covr::codecov(token = "7bb78e01-105a-43e2-af8c-1cb6eb16d21c")'
+- Rscript -e 'covr::codecov(token = "39820295-0cca-408b-a721-5c5486cbd3a4")'
 
 coverage:
   status:

@@ -17,6 +17,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 coverage](https://codecov.io/gh/ropensci/rfema/branch/main/graph/badge.svg)](https://codecov.io/gh/ropensci/rfema?branch=main)
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/484_status.svg)](https://github.com/ropensci/software-review/issues/484)
+[![DOI](https://zenodo.org/badge/406498163.svg)](https://zenodo.org/badge/latestdoi/406498163)
 
 <!-- badges: start -->
 

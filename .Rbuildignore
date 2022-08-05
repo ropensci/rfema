@@ -9,9 +9,10 @@
 ^codecov\.yml$
 vignettes/getting_started_cache
 vignettes/getting_started.Rmd.orig
-
 vignettes/getting_started.md
 vignettes/compute_vignettes.R
+paper.bib
+paper.md
 _pkgdown.yml
 ^docs/
 CONDUCT.md

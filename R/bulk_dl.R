@@ -42,9 +42,12 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
 
   # filter data sets df to only the most recent version
   ds <- ds[which(as.numeric(ds$version) == latest_version), ]
+  
+  # get distribution info
+  distribution <- data.frame(do.call(rbind,ds$distribution[[1]]))
 
   # get url for bulk download of csv file
-  url <- as.character(ds$distribution.accessURL)
+  url <- as.character(distribution$accessURL[distribution$format == "csv"][[1]])
 
   if (is.null(output_dir)) {
     output_dir <- getwd()
@@ -54,7 +57,7 @@ bulk_dl <- function(data_set, output_dir = NULL, file_name = NULL, size_warning 
   }
 
   if (size_warning) {
-    file_size <- ds$distribution.datasetSize
+    file_size <- distribution$datasetSize[which(distribution$format == "csv")][[1]]
     if (grepl("large", file_size)) {
       message(paste0(
         "FEMA indicates this file is: ",

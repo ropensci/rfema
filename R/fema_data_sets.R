@@ -16,16 +16,25 @@
 #' fema_data_sets()
 #' }
 fema_data_sets <- function() {
-  result <- httr::GET("https://www.fema.gov/api/open/v1/DataSets")
-  jsonData <- httr::content(result)
-  df <- data.frame(t(unlist(jsonData$DataSets[1])))
-  for (k in seq_len(length(jsonData$DataSets))) {
-    df <- plyr::rbind.fill(df, data.frame(t(unlist(jsonData$DataSets[k]))))
+  
+  # get raw data from api endpoint
+  result <- httr::GET(url = "https://www.fema.gov/api/open/v1/OpenFemaDataSets?$inlinecount=allpages")
+  
+  # check status code
+  if (result$status_code != 200) {
+    status <- httr::http_status(result)
+    stop(status$message)
   }
-
-  # remove the html line break characters
-  df <- as.data.frame(lapply(df, function(df) gsub("\n", "", df)))
-
-
-  return(as_tibble(df))
+  
+  json_data <- httr::content(result)[[2]]
+  
+  full_data <- data.frame(do.call(rbind, json_data))
+  
+  # unlist columns in full_data if possible
+  for(k in seq_len(ncol(full_data))){
+    try({full_data[,k] <- unlist(full_data[,k])}, silent = T)
+  }
+  
+  return(as_tibble(full_data))
+  
 }

@@ -36,7 +36,7 @@ parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE)
     trimws(tolower(data_set))), ]
 
   # filter to users data field
-  data <- data[which(trimws(tolower(data$title)) ==
+  data <- data[which(trimws(tolower(data$name)) ==
     trimws(tolower(data_field))), ]
 
   # message

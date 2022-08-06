@@ -144,18 +144,18 @@ data
 ```
 
     ## # A tibble: 2,119 × 40
-    ##    agricultureStruct… asOfDate  baseFloodElevat… basementEnclosur… reportedCity 
-    ##    <chr>              <chr>     <chr>            <chr>             <chr>        
-    ##  1 FALSE              2021-07-… 8                NULL              Temporarily …
-    ##  2 FALSE              2021-09-… 6                0                 Temporarily …
-    ##  3 FALSE              2021-09-… 4                0                 Temporarily …
-    ##  4 FALSE              2021-09-… 6                0                 Temporarily …
-    ##  5 FALSE              2021-09-… NULL             NULL              Temporarily …
-    ##  6 FALSE              2021-09-… 6                NULL              Temporarily …
-    ##  7 FALSE              2021-07-… NULL             NULL              Temporarily …
-    ##  8 FALSE              2021-07-… 7                NULL              Temporarily …
-    ##  9 FALSE              2021-07-… 7                NULL              Temporarily …
-    ## 10 FALSE              2021-09-… NULL             0                 Temporarily …
+    ##    agricultureStructure… asOfDate baseFloodElevat… basementEnclosu… reportedCity
+    ##    <chr>                 <chr>    <chr>            <chr>            <chr>       
+    ##  1 FALSE                 2021-07… 8                NULL             Temporarily…
+    ##  2 FALSE                 2021-11… NULL             NULL             Temporarily…
+    ##  3 FALSE                 2021-11… 7                NULL             Temporarily…
+    ##  4 FALSE                 2022-02… 6                0                Temporarily…
+    ##  5 FALSE                 2021-11… 8                NULL             Temporarily…
+    ##  6 FALSE                 2021-09… NULL             NULL             Temporarily…
+    ##  7 FALSE                 2021-07… NULL             NULL             Temporarily…
+    ##  8 FALSE                 2021-07… 7                NULL             Temporarily…
+    ##  9 FALSE                 2021-07… 7                NULL             Temporarily…
+    ## 10 FALSE                 2022-07… NULL             0                Temporarily…
     ## # … with 2,109 more rows, and 35 more variables: condominiumIndicator <chr>,
     ## #   policyCount <chr>, countyCode <chr>, communityRatingSystemDiscount <chr>,
     ## #   dateOfLoss <chr>, elevatedBuildingIndicator <chr>,
@@ -183,26 +183,26 @@ data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filter
 data
 ```
 
-    ## # A tibble: 2,119 x 40
-    ##    agricultureStructur~ asOfDate            baseFloodElevati~ basementEnclosure~
-    ##    <chr>                <dttm>              <chr>             <chr>             
-    ##  1 FALSE                2021-07-25 00:00:00 8                 NULL              
-    ##  2 FALSE                2021-11-21 00:00:00 NULL              NULL              
-    ##  3 FALSE                2021-11-21 00:00:00 7                 NULL              
-    ##  4 FALSE                2021-09-02 00:00:00 NULL              NULL              
-    ##  5 FALSE                2021-09-02 00:00:00 6                 0                 
-    ##  6 FALSE                2021-11-21 00:00:00 8                 NULL              
-    ##  7 FALSE                2021-09-02 00:00:00 6                 NULL              
-    ##  8 FALSE                2021-11-21 00:00:00 11                NULL              
-    ##  9 FALSE                2021-07-04 00:00:00 NULL              NULL              
-    ## 10 FALSE                2021-07-04 00:00:00 7                 NULL              
-    ## # ... with 2,109 more rows, and 36 more variables: reportedCity <chr>,
+    ## # A tibble: 2,119 × 40
+    ##    agricultureStructureIn… asOfDate            baseFloodElevat… basementEnclosu…
+    ##    <chr>                   <dttm>              <chr>            <chr>           
+    ##  1 FALSE                   2021-07-24 00:00:00 8                NULL            
+    ##  2 FALSE                   2021-11-20 00:00:00 NULL             NULL            
+    ##  3 FALSE                   2021-11-20 00:00:00 7                NULL            
+    ##  4 FALSE                   2022-02-02 00:00:00 6                0               
+    ##  5 FALSE                   2021-11-20 00:00:00 8                NULL            
+    ##  6 FALSE                   2021-09-01 00:00:00 NULL             NULL            
+    ##  7 FALSE                   2021-07-04 00:00:00 NULL             NULL            
+    ##  8 FALSE                   2021-07-04 00:00:00 7                NULL            
+    ##  9 FALSE                   2021-07-04 00:00:00 7                NULL            
+    ## 10 FALSE                   2022-07-20 00:00:00 NULL             0               
+    ## # … with 2,109 more rows, and 36 more variables: reportedCity <chr>,
     ## #   condominiumIndicator <chr>, policyCount <chr>, countyCode <chr>,
     ## #   communityRatingSystemDiscount <chr>, dateOfLoss <dttm>,
     ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
     ## #   elevationDifference <chr>, censusTract <chr>, floodZone <chr>,
     ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
-    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, ...
+    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, …
 
 The `rfema` package also returns data, where possible, in formats that
 are easier to work with. For example, all functions return data as a
@@ -242,7 +242,7 @@ Right now, the best way to install and use the `rfema` package is by
 installing directly from rOpenSci using
 `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`.
 The FEMA API does not require and API key, meaning no further setup
-steps need be taken to start using the package
+steps need be taken to start using the package.
 
 ## Usage
 
@@ -262,26 +262,26 @@ data_sets <- fema_data_sets()
 data_sets
 ```
 
-    ## # A tibble: 37 × 64
-    ##    identifier  name    title   description   distribution.acce… distribution.fo…
-    ##    <chr>       <chr>   <chr>   <chr>         <chr>              <chr>           
-    ##  1 openfema-1  Public… Public… FEMA provide… https://www.fema.… csv             
-    ##  2 openfema-1  Public… Public… FEMA provide… https://www.fema.… csv             
-    ##  3 openfema-26 FemaWe… FEMA W… This data se… https://www.fema.… csv             
-    ##  4 openfema-28 Hazard… Hazard… This dataset… https://www.fema.… csv             
-    ##  5 openfema-36 FemaRe… FEMA R… Provides the… https://www.fema.… csv             
-    ##  6 openfema-22 Emerge… Emerge… This dataset… https://www.fema.… csv             
-    ##  7 openfema-45 Hazard… Hazard… The dataset … https://www.fema.… csv             
-    ##  8 openfema-12 Housin… Housin… This dataset… https://www.fema.… csv             
-    ##  9 openfema-8  DataSe… OpenFE… Metadata for… https://www.fema.… csv             
-    ## 10 openfema-37 Hazard… Hazard… This dataset… https://www.fema.… csv             
-    ## # … with 27 more rows, and 58 more variables: distribution.datasetSize <chr>,
-    ## #   distribution.accessURL.1 <chr>, distribution.format.1 <chr>,
-    ## #   distribution.datasetSize.1 <chr>, distribution.accessURL.2 <chr>,
-    ## #   distribution.format.2 <chr>, distribution.datasetSize.2 <chr>,
-    ## #   webService <chr>, dataDictionary <chr>, keyword <chr>, modified <chr>,
+    ## # A tibble: 36 × 39
+    ##    identifier  name     title description distribution webService dataDictionary
+    ##    <chr>       <chr>    <chr> <chr>       <list>       <chr>      <chr>         
+    ##  1 openfema-13 Housing… Hous… "The datas… <list [3]>   https://w… https://www.f…
+    ##  2 openfema-12 Housing… Hous… "This data… <list [3]>   https://w… https://www.f…
+    ##  3 openfema-44 FemaReg… FEMA… "Provides … <list [3]>   https://w… https://www.f…
+    ##  4 openfema-22 Emergen… Emer… "This data… <list [3]>   https://w… https://www.f…
+    ##  5 openfema-14 Registr… Regi… "This subm… <list [3]>   https://w… https://www.f…
+    ##  6 openfema-8  DataSet… Open… "Metadata … <list [3]>   https://w… https://www.f…
+    ##  7 openfema-15 NonDisa… Non-… "This data… <list [3]>   https://w… https://www.f…
+    ##  8 openfema-32 FimaNfi… FIMA… "Congress … <list [1]>   https://w… https://www.f…
+    ##  9 openfema-7  DataSets Open… "Metadata … <list [3]>   https://w… https://www.f…
+    ## 10 openfema-4  HazardM… Haza… "The datas… <list [3]>   https://w… https://www.f…
+    ## # … with 26 more rows, and 32 more variables: keyword <list>, modified <list>,
     ## #   publisher <chr>, contactPoint <chr>, mbox <chr>, accessLevel <chr>,
-    ## #   landingPage <chr>, temporal <chr>, api <chr>, version <chr>, …
+    ## #   landingPage <chr>, temporal <chr>, api <lgl>, version <int>,
+    ## #   recordCount <list>, bureauCode <chr>, programCode <chr>,
+    ## #   accessLevelComment <chr>, license <chr>, spatial <chr>, theme <chr>,
+    ## #   dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
+    ## #   primaryITInvestmentUII <chr>, references <chr>, issued <list>, …
 
 Once you have the name of the data set you want, simply pass it as an
 argument to the `open_fema()` function which will return the data set as
@@ -304,18 +304,18 @@ retrieved_data
 ```
 
     ## # A tibble: 10 × 40
-    ##    agricultureStructur… asOfDate            baseFloodElevati… basementEnclosure…
-    ##    <chr>                <dttm>              <chr>             <chr>             
-    ##  1 FALSE                2021-07-25 00:00:00 7                 NULL              
-    ##  2 FALSE                2021-07-25 00:00:00 NULL              1                 
-    ##  3 FALSE                2021-07-25 00:00:00 NULL              NULL              
-    ##  4 FALSE                2021-09-30 00:00:00 5                 NULL              
-    ##  5 FALSE                2021-07-25 00:00:00 11                NULL              
-    ##  6 FALSE                2021-07-25 00:00:00 NULL              NULL              
-    ##  7 FALSE                2021-07-25 00:00:00 NULL              NULL              
-    ##  8 FALSE                2021-07-25 00:00:00 NULL              NULL              
-    ##  9 FALSE                2021-07-25 00:00:00 NULL              NULL              
-    ## 10 FALSE                2021-07-25 00:00:00 49                NULL              
+    ##    agricultureStructureIn… asOfDate            baseFloodElevat… basementEnclosu…
+    ##    <chr>                   <dttm>              <chr>            <chr>           
+    ##  1 FALSE                   2021-07-24 00:00:00 NULL             1               
+    ##  2 FALSE                   2021-11-20 00:00:00 50               NULL            
+    ##  3 FALSE                   2022-07-20 00:00:00 NULL             NULL            
+    ##  4 FALSE                   2022-07-20 00:00:00 NULL             NULL            
+    ##  5 FALSE                   2022-07-20 00:00:00 NULL             NULL            
+    ##  6 FALSE                   2022-07-20 00:00:00 8                NULL            
+    ##  7 FALSE                   2021-11-20 00:00:00 NULL             NULL            
+    ##  8 FALSE                   2022-06-12 00:00:00 NULL             NULL            
+    ##  9 FALSE                   2021-11-20 00:00:00 8                NULL            
+    ## 10 FALSE                   2022-07-20 00:00:00 NULL             NULL            
     ## # … with 36 more variables: reportedCity <chr>, condominiumIndicator <chr>,
     ## #   policyCount <chr>, countyCode <chr>, communityRatingSystemDiscount <chr>,
     ## #   dateOfLoss <dttm>, elevatedBuildingIndicator <chr>,

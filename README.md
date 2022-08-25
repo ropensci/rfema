@@ -144,25 +144,26 @@ data
 ```
 
     ## # A tibble: 2,119 × 40
-    ##    agricultureStructure… asOfDate baseFloodElevat… basementEnclosu… reportedCity
-    ##    <chr>                 <chr>    <chr>            <chr>            <chr>       
-    ##  1 FALSE                 2021-07… 8                NULL             Temporarily…
-    ##  2 FALSE                 2021-11… NULL             NULL             Temporarily…
-    ##  3 FALSE                 2021-11… 7                NULL             Temporarily…
-    ##  4 FALSE                 2022-02… 6                0                Temporarily…
-    ##  5 FALSE                 2021-11… 8                NULL             Temporarily…
-    ##  6 FALSE                 2021-09… NULL             NULL             Temporarily…
-    ##  7 FALSE                 2021-07… NULL             NULL             Temporarily…
-    ##  8 FALSE                 2021-07… 7                NULL             Temporarily…
-    ##  9 FALSE                 2021-07… 7                NULL             Temporarily…
-    ## 10 FALSE                 2022-07… NULL             0                Temporarily…
-    ## # … with 2,109 more rows, and 35 more variables: condominiumIndicator <chr>,
-    ## #   policyCount <chr>, countyCode <chr>, communityRatingSystemDiscount <chr>,
-    ## #   dateOfLoss <chr>, elevatedBuildingIndicator <chr>,
-    ## #   elevationCertificateIndicator <chr>, elevationDifference <chr>,
-    ## #   censusTract <chr>, floodZone <chr>, houseWorship <chr>, latitude <chr>,
-    ## #   longitude <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
-    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
+    ##    agriculture…¹ asOfD…² baseF…³ basem…⁴ repor…⁵ condo…⁶ polic…⁷ count…⁸ commu…⁹
+    ##    <chr>         <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
+    ##  1 FALSE         2021-0… 8       NULL    Tempor… N       1       12011   6      
+    ##  2 FALSE         2021-1… NULL    NULL    Tempor… N       1       12011   7      
+    ##  3 FALSE         2021-1… 7       NULL    Tempor… N       1       12011   7      
+    ##  4 FALSE         2022-0… 6       0       Tempor… N       1       12011   7      
+    ##  5 FALSE         2021-1… 8       NULL    Tempor… N       1       12011   7      
+    ##  6 FALSE         2021-0… NULL    NULL    Tempor… H       311     12011   6      
+    ##  7 FALSE         2021-0… 6       NULL    Tempor… N       1       12011   7      
+    ##  8 FALSE         2021-0… NULL    NULL    Tempor… N       1       12011   7      
+    ##  9 FALSE         2021-0… 7       NULL    Tempor… N       1       12011   7      
+    ## 10 FALSE         2021-0… 7       NULL    Tempor… N       1       12011   7      
+    ## # … with 2,109 more rows, 31 more variables: dateOfLoss <chr>,
+    ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
+    ## #   elevationDifference <chr>, censusTract <chr>, floodZone <chr>,
+    ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
+    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
+    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 Compare the above block of code to the following code which obtains the
 same data using the `rfema` package. The `rfema` package allows the same
@@ -184,25 +185,26 @@ data
 ```
 
     ## # A tibble: 2,119 × 40
-    ##    agricultureStructureIn… asOfDate            baseFloodElevat… basementEnclosu…
-    ##    <chr>                   <dttm>              <chr>            <chr>           
-    ##  1 FALSE                   2021-07-24 00:00:00 8                NULL            
-    ##  2 FALSE                   2021-11-20 00:00:00 NULL             NULL            
-    ##  3 FALSE                   2021-11-20 00:00:00 7                NULL            
-    ##  4 FALSE                   2022-02-02 00:00:00 6                0               
-    ##  5 FALSE                   2021-11-20 00:00:00 8                NULL            
-    ##  6 FALSE                   2021-09-01 00:00:00 NULL             NULL            
-    ##  7 FALSE                   2021-07-04 00:00:00 NULL             NULL            
-    ##  8 FALSE                   2021-07-04 00:00:00 7                NULL            
-    ##  9 FALSE                   2021-07-04 00:00:00 7                NULL            
-    ## 10 FALSE                   2022-07-20 00:00:00 NULL             0               
-    ## # … with 2,109 more rows, and 36 more variables: reportedCity <chr>,
-    ## #   condominiumIndicator <chr>, policyCount <chr>, countyCode <chr>,
+    ##    agricul…¹ asOfDate            baseF…² basem…³ repor…⁴ condo…⁵ polic…⁶ count…⁷
+    ##    <chr>     <dttm>              <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
+    ##  1 FALSE     2021-07-24 00:00:00 8       NULL    Tempor… N       1       12011  
+    ##  2 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       12011  
+    ##  3 FALSE     2021-11-20 00:00:00 7       NULL    Tempor… N       1       12011  
+    ##  4 FALSE     2022-02-02 00:00:00 6       0       Tempor… N       1       12011  
+    ##  5 FALSE     2021-11-20 00:00:00 8       NULL    Tempor… N       1       12011  
+    ##  6 FALSE     2021-09-01 00:00:00 NULL    NULL    Tempor… H       311     12011  
+    ##  7 FALSE     2021-09-01 00:00:00 6       NULL    Tempor… N       1       12011  
+    ##  8 FALSE     2021-07-04 00:00:00 NULL    NULL    Tempor… N       1       12011  
+    ##  9 FALSE     2021-07-04 00:00:00 7       NULL    Tempor… N       1       12011  
+    ## 10 FALSE     2021-07-04 00:00:00 7       NULL    Tempor… N       1       12011  
+    ## # … with 2,109 more rows, 32 more variables:
     ## #   communityRatingSystemDiscount <chr>, dateOfLoss <dttm>,
     ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
     ## #   elevationDifference <chr>, censusTract <chr>, floodZone <chr>,
     ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
-    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, …
+    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 The `rfema` package also returns data, where possible, in formats that
 are easier to work with. For example, all functions return data as a
@@ -234,7 +236,7 @@ open_fema("DisasterDeclarationsSummaries",
   theme_light()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ## Installation
 
@@ -263,25 +265,26 @@ data_sets
 ```
 
     ## # A tibble: 36 × 39
-    ##    identifier  name     title description distribution webService dataDictionary
-    ##    <chr>       <chr>    <chr> <chr>       <list>       <chr>      <chr>         
-    ##  1 openfema-13 Housing… Hous… "The datas… <list [3]>   https://w… https://www.f…
-    ##  2 openfema-12 Housing… Hous… "This data… <list [3]>   https://w… https://www.f…
-    ##  3 openfema-44 FemaReg… FEMA… "Provides … <list [3]>   https://w… https://www.f…
-    ##  4 openfema-22 Emergen… Emer… "This data… <list [3]>   https://w… https://www.f…
-    ##  5 openfema-14 Registr… Regi… "This subm… <list [3]>   https://w… https://www.f…
-    ##  6 openfema-8  DataSet… Open… "Metadata … <list [3]>   https://w… https://www.f…
-    ##  7 openfema-15 NonDisa… Non-… "This data… <list [3]>   https://w… https://www.f…
-    ##  8 openfema-32 FimaNfi… FIMA… "Congress … <list [1]>   https://w… https://www.f…
-    ##  9 openfema-7  DataSets Open… "Metadata … <list [3]>   https://w… https://www.f…
-    ## 10 openfema-4  HazardM… Haza… "The datas… <list [3]>   https://w… https://www.f…
-    ## # … with 26 more rows, and 32 more variables: keyword <list>, modified <list>,
-    ## #   publisher <chr>, contactPoint <chr>, mbox <chr>, accessLevel <chr>,
-    ## #   landingPage <chr>, temporal <chr>, api <lgl>, version <int>,
-    ## #   recordCount <list>, bureauCode <chr>, programCode <chr>,
+    ##    identif…¹ name  title descr…² distr…³ webSe…⁴ dataD…⁵ keyword modif…⁶ publi…⁷
+    ##    <chr>     <chr> <chr> <chr>   <list>  <chr>   <chr>   <list>  <list>  <chr>  
+    ##  1 openfema… Hous… Hous… "The d… <list>  https:… https:… <list>  <chr>   Federa…
+    ##  2 openfema… Haza… Haza… "This … <list>  https:… https:… <list>  <NULL>  Federa…
+    ##  3 openfema… Hous… Hous… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  4 openfema… Fema… FEMA… "Provi… <list>  https:… https:… <list>  <chr>   Federa…
+    ##  5 openfema… Emer… Emer… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  6 openfema… Ipaw… IPAW… "The I… <list>  https:… https:… <list>  <chr>   Federa…
+    ##  7 openfema… Regi… Regi… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  8 openfema… Data… Open… "Metad… <list>  https:… https:… <list>  <chr>   Federa…
+    ##  9 openfema… NonD… Non-… "This … <list>  https:… https:… <list>  <NULL>  Federa…
+    ## 10 openfema… Data… Open… "Metad… <list>  https:… https:… <list>  <chr>   Federa…
+    ## # … with 26 more rows, 29 more variables: contactPoint <chr>, mbox <chr>,
+    ## #   accessLevel <chr>, landingPage <chr>, temporal <chr>, api <lgl>,
+    ## #   version <int>, recordCount <list>, bureauCode <chr>, programCode <chr>,
     ## #   accessLevelComment <chr>, license <chr>, spatial <chr>, theme <chr>,
     ## #   dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
-    ## #   primaryITInvestmentUII <chr>, references <chr>, issued <list>, …
+    ## #   primaryITInvestmentUII <chr>, references <chr>, issued <list>,
+    ## #   systemOfRecords <chr>, depDate <list>, depApiMessage <chr>, …
+    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 Once you have the name of the data set you want, simply pass it as an
 argument to the `open_fema()` function which will return the data set as
@@ -304,25 +307,26 @@ retrieved_data
 ```
 
     ## # A tibble: 10 × 40
-    ##    agricultureStructureIn… asOfDate            baseFloodElevat… basementEnclosu…
-    ##    <chr>                   <dttm>              <chr>            <chr>           
-    ##  1 FALSE                   2021-07-24 00:00:00 NULL             1               
-    ##  2 FALSE                   2021-11-20 00:00:00 50               NULL            
-    ##  3 FALSE                   2022-07-20 00:00:00 NULL             NULL            
-    ##  4 FALSE                   2022-07-20 00:00:00 NULL             NULL            
-    ##  5 FALSE                   2022-07-20 00:00:00 NULL             NULL            
-    ##  6 FALSE                   2022-07-20 00:00:00 8                NULL            
-    ##  7 FALSE                   2021-11-20 00:00:00 NULL             NULL            
-    ##  8 FALSE                   2022-06-12 00:00:00 NULL             NULL            
-    ##  9 FALSE                   2021-11-20 00:00:00 8                NULL            
-    ## 10 FALSE                   2022-07-20 00:00:00 NULL             NULL            
-    ## # … with 36 more variables: reportedCity <chr>, condominiumIndicator <chr>,
-    ## #   policyCount <chr>, countyCode <chr>, communityRatingSystemDiscount <chr>,
+    ##    agricul…¹ asOfDate            baseF…² basem…³ repor…⁴ condo…⁵ polic…⁶ count…⁷
+    ##    <chr>     <dttm>              <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
+    ##  1 FALSE     2021-07-24 00:00:00 NULL    1       Tempor… N       1       24033  
+    ##  2 FALSE     2021-07-24 00:00:00 NULL    NULL    Tempor… N       1       30009  
+    ##  3 FALSE     2021-11-20 00:00:00 50      NULL    Tempor… N       1       48201  
+    ##  4 FALSE     2021-11-20 00:00:00 9       NULL    Tempor… N       1       12103  
+    ##  5 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       24029  
+    ##  6 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       48201  
+    ##  7 FALSE     2022-04-16 00:00:00 NULL    NULL    Tempor… N       1       45019  
+    ##  8 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       51095  
+    ##  9 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       12033  
+    ## 10 FALSE     2021-07-24 00:00:00 NULL    NULL    Tempor… N       1       48293  
+    ## # … with 32 more variables: communityRatingSystemDiscount <chr>,
     ## #   dateOfLoss <dttm>, elevatedBuildingIndicator <chr>,
     ## #   elevationCertificateIndicator <chr>, elevationDifference <chr>,
     ## #   censusTract <chr>, floodZone <chr>, houseWorship <chr>, latitude <chr>,
     ## #   longitude <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
-    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
+    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
+    ## # ℹ Use `colnames()` to see all variable names
 
 There are a variety of other ways to more precisely target the data you
 want to retrieve by specifying how many records you want returned,

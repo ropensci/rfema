@@ -8,8 +8,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE,
+                      echo = TRUE,
+                        fig.path = "man/figures/")
 library(knitr)
 library(dplyr)
 library(devtools)
@@ -158,6 +159,9 @@ open_fema("DisasterDeclarationsSummaries",
 
 
 ```
+
+
+
 
 ## Installation
 Right now, the best way to install and use the `rfema` package is by installing directly from rOpenSci using `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package.

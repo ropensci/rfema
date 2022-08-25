@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rfema</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -47,7 +49,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dylan-turner25/rfema/">
+  <a href="https://github.com/dylan-turner25/rfema/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,466 +81,474 @@
 
       
 
-      </header><script src="getting_started_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>rfema: Getting Started</h1>
-                        <h4 class="author">Dylan Turner</h4>
+                        <h4 data-toc-skip class="author">Dylan Turner</h4>
             
-            <h4 class="date">2022-01-25</h4>
+            <h4 data-toc-skip class="date">2022-01-26</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/dylan-turner25/rfema/blob/master/vignettes/getting_started.Rmd"><code>vignettes/getting_started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dylan-turner25/rfema/blob/HEAD/vignettes/getting_started.Rmd" class="external-link"><code>vignettes/getting_started.Rmd</code></a></small>
       <div class="hidden name"><code>getting_started.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>This vignette provides a brief overview on using the <code>rfema</code> package to obtain data from the Open FEMA API. The rest of this vignette covers how to install the package, followed by examples on using the package to obtain data for various objectives.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Right now, the best way to install and use the <code>rfema</code> package is by installing directly from rOpenSci using <code>install.packages("rfema", repos = "https://ropensci.r-universe.dev")</code>. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package</p>
 </div>
-<div id="available-datasets" class="section level2">
-<h2 class="hasAnchor">
-<a href="#available-datasets" class="anchor"></a>Available Datasets</h2>
-<p>For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the <a href="https://www.fema.gov/about/openfema/data-sets">FEMA API documentation page</a>. However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the <code><a href="../reference/fema_data_sets.html">fema_data_sets()</a></code> function to obtain a tibble of available data sets along with associated meta data is a convenient option.</p>
+<div class="section level2">
+<h2 id="available-datasets">Available Datasets<a class="anchor" aria-label="anchor" href="#available-datasets"></a>
+</h2>
+<p>For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the <a href="https://www.fema.gov/about/openfema/data-sets" class="external-link">FEMA API documentation page</a>. However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the <code><a href="../reference/fema_data_sets.html">fema_data_sets()</a></code> function to obtain a tibble of available data sets along with associated meta data is a convenient option.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># store the avaliable data sets as an object in your R environment that can be referenced later</span>
-<span class="va">data_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_sets.html">fema_data_sets</a></span><span class="op">(</span><span class="op">)</span> 
-
-<span class="co"># view data </span>
-<span class="va">data_sets</span>
-<span class="co">#&gt; # A tibble: 37 × 64</span>
-<span class="co">#&gt;    identifier name  title description distribution.ac… distribution.fo… distribution.da… distribution.ac… distribution.fo… distribution.da… distribution.ac…</span>
-<span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 openfema-1 Publ… Publ… FEMA provi… https://www.fem… csv              small (10MB - 5… https://www.fem… json             medium (50MB - … https://www.fem…</span>
-<span class="co">#&gt;  2 openfema-1 Publ… Publ… FEMA provi… https://www.fem… csv              small (10MB - 5… https://www.fem… json             medium (50MB - … https://www.fem…</span>
-<span class="co">#&gt;  3 openfema-… Fema… FEMA… This data … https://www.fem… csv              medium (50MB - … https://www.fem… json             medium (50MB - … https://www.fem…</span>
-<span class="co">#&gt;  4 openfema-… Haza… Haza… This datas… https://www.fem… csv              small (10MB - 5… https://www.fem… json             small (10MB - 5… https://www.fem…</span>
-<span class="co">#&gt;  5 openfema-… Fema… FEMA… Provides t… https://www.fem… csv              tiny (&lt; 10 MB)   https://www.fem… json             tiny (&lt; 10 MB)   https://www.fem…</span>
-<span class="co">#&gt;  6 openfema-… Emer… Emer… This datas… https://www.fem… csv              tiny (&lt; 10MB)    https://www.fem… json             tiny (&lt; 10MB)    https://www.fem…</span>
-<span class="co">#&gt;  7 openfema-… Haza… Haza… The datase… https://www.fem… csv              small (10MB - 5… https://www.fem… json             small (10MB - 5… https://www.fem…</span>
-<span class="co">#&gt;  8 openfema-… Hous… Hous… This datas… https://www.fem… csv              small (10MB - 5… https://www.fem… json             medium (50MB - … https://www.fem…</span>
-<span class="co">#&gt;  9 openfema-8 Data… Open… Metadata f… https://www.fem… csv              tiny (&lt; 10MB)    https://www.fem… json             tiny (&lt; 10MB)    https://www.fem…</span>
-<span class="co">#&gt; 10 openfema-… Haza… Haza… This datas… https://www.fem… csv              small (10MB - 5… https://www.fem… json             medium (50MB - … https://www.fem…</span>
-<span class="co">#&gt; # … with 27 more rows, and 53 more variables: distribution.format.2 &lt;chr&gt;, distribution.datasetSize.2 &lt;chr&gt;, webService &lt;chr&gt;, dataDictionary &lt;chr&gt;,</span>
-<span class="co">#&gt; #   keyword &lt;chr&gt;, modified &lt;chr&gt;, publisher &lt;chr&gt;, contactPoint &lt;chr&gt;, mbox &lt;chr&gt;, accessLevel &lt;chr&gt;, landingPage &lt;chr&gt;, temporal &lt;chr&gt;, api &lt;chr&gt;,</span>
-<span class="co">#&gt; #   version &lt;chr&gt;, bureauCode &lt;chr&gt;, programCode &lt;chr&gt;, accessLevelComment &lt;chr&gt;, license &lt;chr&gt;, spatial &lt;chr&gt;, theme &lt;chr&gt;, dataQuality &lt;chr&gt;,</span>
-<span class="co">#&gt; #   accrualPeriodicity &lt;chr&gt;, language &lt;chr&gt;, primaryITInvestmentUII &lt;chr&gt;, issued &lt;chr&gt;, systemOfRecords &lt;chr&gt;, deprecated &lt;chr&gt;, hash &lt;chr&gt;,</span>
-<span class="co">#&gt; #   lastRefresh &lt;chr&gt;, recordCount &lt;chr&gt;, depApiMessage &lt;chr&gt;, depNewURL &lt;chr&gt;, depWebMessage &lt;chr&gt;, lastDataSetRefresh &lt;chr&gt;, id &lt;chr&gt;, accessUrl &lt;chr&gt;,</span>
-<span class="co">#&gt; #   format &lt;chr&gt;, depDate &lt;chr&gt;, keyword1 &lt;chr&gt;, keyword2 &lt;chr&gt;, keyword3 &lt;chr&gt;, keyword4 &lt;chr&gt;, keyword5 &lt;chr&gt;, keyword6 &lt;chr&gt;, keyword7 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   keyword8 &lt;chr&gt;, keyword9 &lt;chr&gt;, keyword10 &lt;chr&gt;, keyword11 &lt;chr&gt;, keyword12 &lt;chr&gt;, keyword13 &lt;chr&gt;, keyword14 &lt;chr&gt;, references &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># store the avaliable data sets as an object in your R environment that can be referenced later</span></span>
+<span><span class="va">data_sets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_sets.html">fema_data_sets</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># view data </span></span>
+<span><span class="va">data_sets</span></span>
+<span><span class="co">#&gt; # A tibble: 37 × 64</span></span>
+<span><span class="co">#&gt;    identifier  name     title    description      distribution.acces… distribution.fo… distribution.da…</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt;            &lt;chr&gt;           </span></span>
+<span><span class="co">#&gt;  1 openfema-1  PublicA… Public … FEMA provides s… https://www.fema.g… csv              small (10MB - 5…</span></span>
+<span><span class="co">#&gt;  2 openfema-1  PublicA… Public … FEMA provides s… https://www.fema.g… csv              small (10MB - 5…</span></span>
+<span><span class="co">#&gt;  3 openfema-26 FemaWeb… FEMA We… This data set c… https://www.fema.g… csv              medium (50MB - …</span></span>
+<span><span class="co">#&gt;  4 openfema-28 HazardM… Hazard … This dataset co… https://www.fema.g… csv              small (10MB - 5…</span></span>
+<span><span class="co">#&gt;  5 openfema-36 FemaReg… FEMA Re… Provides the li… https://www.fema.g… csv              tiny (&lt; 10 MB)  </span></span>
+<span><span class="co">#&gt;  6 openfema-22 Emergen… Emergen… This dataset co… https://www.fema.g… csv              tiny (&lt; 10MB)   </span></span>
+<span><span class="co">#&gt;  7 openfema-45 HazardM… Hazard … The dataset con… https://www.fema.g… csv              small (10MB - 5…</span></span>
+<span><span class="co">#&gt;  8 openfema-12 Housing… Housing… This dataset wa… https://www.fema.g… csv              small (10MB - 5…</span></span>
+<span><span class="co">#&gt;  9 openfema-8  DataSet… OpenFEM… Metadata for th… https://www.fema.g… csv              tiny (&lt; 10MB)   </span></span>
+<span><span class="co">#&gt; 10 openfema-37 HazardM… Hazard … This dataset co… https://www.fema.g… csv              small (10MB - 5…</span></span>
+<span><span class="co">#&gt; # … with 27 more rows, and 57 more variables: distribution.accessURL.1 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   distribution.format.1 &lt;chr&gt;, distribution.datasetSize.1 &lt;chr&gt;, distribution.accessURL.2 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   distribution.format.2 &lt;chr&gt;, distribution.datasetSize.2 &lt;chr&gt;, webService &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   dataDictionary &lt;chr&gt;, keyword &lt;chr&gt;, modified &lt;chr&gt;, publisher &lt;chr&gt;, contactPoint &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   mbox &lt;chr&gt;, accessLevel &lt;chr&gt;, landingPage &lt;chr&gt;, temporal &lt;chr&gt;, api &lt;chr&gt;, version &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   bureauCode &lt;chr&gt;, programCode &lt;chr&gt;, accessLevelComment &lt;chr&gt;, license &lt;chr&gt;, spatial &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   theme &lt;chr&gt;, dataQuality &lt;chr&gt;, accrualPeriodicity &lt;chr&gt;, language &lt;chr&gt;, …</span></span></code></pre></div>
 </div>
-<div id="example-workflow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-workflow" class="anchor"></a>Example Workflow</h2>
+<div class="section level2">
+<h2 id="example-workflow">Example Workflow<a class="anchor" aria-label="anchor" href="#example-workflow"></a>
+</h2>
 <p>Once we know what data set we want to access, or perhaps if we want to know more about what data is available in a given data set, we can use the <code><a href="../reference/fema_data_fields.html">fema_data_fields()</a></code> function to get a look at the available data fields in a given data set by setting the “data_set” parameter to one of the “name” columns in the data frame returned by the <code><a href="../reference/fema_data_sets.html">fema_data_sets()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># obtain all the data fields for the NFIP Policies data set</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_fields.html">fema_data_fields</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipPolicies"</span><span class="op">)</span>
-
-<span class="co"># Note: the data set field is not case sensative, meaning you do not need to </span>
-<span class="co"># use camel case names despite that being the convention in the FEMA documentation.</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_fields.html">fema_data_fields</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimanfippolicies"</span><span class="op">)</span>
-
-<span class="co"># view the data fields </span>
-<span class="va">df</span>
-<span class="co">#&gt; # A tibble: 46 × 15</span>
-<span class="co">#&gt;    datasetId   openFemaDataSet  name  title  description type   sortOrder datasetVersion hash  lastRefresh isNestedObject isNullable isSearchable primaryKey</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;     </span>
-<span class="co">#&gt;  1 openfema-32 FimaNfipPolicies 1     agric… Agricultur… Yes (… boolean   1              FALSE FALSE       FALSE          ""         aecf8b7e731… 2021-09-0…</span>
-<span class="co">#&gt;  2 openfema-32 FimaNfipPolicies 1     baseF… Base Flood… Base … number    2              TRUE  FALSE       TRUE           "NULL"     e715e5e9ef7… 2021-11-2…</span>
-<span class="co">#&gt;  3 openfema-32 FimaNfipPolicies 1     basem… Basement E… Basem… number    3              TRUE  FALSE       FALSE          ""         7b8e36bb146… 2021-09-0…</span>
-<span class="co">#&gt;  4 openfema-32 FimaNfipPolicies 1     cance… Cancellati… The c… date      4              TRUE  FALSE       TRUE           "NULL"     b2ccd296d07… 2021-12-0…</span>
-<span class="co">#&gt;  5 openfema-32 FimaNfipPolicies 1     condo… Condominiu… This … string    6              TRUE  FALSE       FALSE          ""         765e99726f1… 2021-09-0…</span>
-<span class="co">#&gt;  6 openfema-32 FimaNfipPolicies 1     censu… Census Tra… US Ce… string    5              TRUE  FALSE       FALSE          ""         438bdf12461… 2021-09-0…</span>
-<span class="co">#&gt;  7 openfema-32 FimaNfipPolicies 1     count… County Code FIPS … string    8              TRUE  FALSE       FALSE          ""         b720c88f821… 2021-09-0…</span>
-<span class="co">#&gt;  8 openfema-32 FimaNfipPolicies 1     crsCl… CRS Classi… The C… number    9              TRUE  FALSE       FALSE          ""         35c68c6288c… 2021-09-0…</span>
-<span class="co">#&gt;  9 openfema-32 FimaNfipPolicies 1     const… Constructi… Is th… boolean   7              FALSE FALSE       FALSE          ""         4fc98de7ae5… 2021-09-0…</span>
-<span class="co">#&gt; 10 openfema-32 FimaNfipPolicies 1     deduc… Deductible… The t… number    10             TRUE  FALSE       FALSE          "NULL"     5619a57e826… 2021-11-2…</span>
-<span class="co">#&gt; # … with 36 more rows, and 1 more variable: id &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># obtain all the data fields for the NFIP Policies data set</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_fields.html">fema_data_fields</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipPolicies"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Note: the data set field is not case sensative, meaning you do not need to </span></span>
+<span><span class="co"># use camel case names despite that being the convention in the FEMA documentation.</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_fields.html">fema_data_fields</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimanfippolicies"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># view the data fields </span></span>
+<span><span class="va">df</span></span>
+<span><span class="co">#&gt; # A tibble: 46 × 15</span></span>
+<span><span class="co">#&gt;    datasetId   openFemaDataSet name  title description type  sortOrder datasetVersion hash  lastRefresh</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt;  1 openfema-32 FimaNfipPolici… 1     agri… Agricultur… Yes … boolean   1              FALSE FALSE      </span></span>
+<span><span class="co">#&gt;  2 openfema-32 FimaNfipPolici… 1     base… Base Flood… Base… number    2              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  3 openfema-32 FimaNfipPolici… 1     base… Basement E… Base… number    3              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  4 openfema-32 FimaNfipPolici… 1     canc… Cancellati… The … date      4              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  5 openfema-32 FimaNfipPolici… 1     cond… Condominiu… This… string    6              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  6 openfema-32 FimaNfipPolici… 1     cens… Census Tra… US C… string    5              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  7 openfema-32 FimaNfipPolici… 1     coun… County Code FIPS… string    8              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  8 openfema-32 FimaNfipPolici… 1     crsC… CRS Classi… The … number    9              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  9 openfema-32 FimaNfipPolici… 1     cons… Constructi… Is t… boolean   7              FALSE FALSE      </span></span>
+<span><span class="co">#&gt; 10 openfema-32 FimaNfipPolici… 1     dedu… Deductible… The … number    10             TRUE  FALSE      </span></span>
+<span><span class="co">#&gt; # … with 36 more rows, and 5 more variables: isNestedObject &lt;chr&gt;, isNullable &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   isSearchable &lt;chr&gt;, primaryKey &lt;chr&gt;, id &lt;chr&gt;</span></span></code></pre></div>
 <p>The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The <code>open_fema</code> function handles this process automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the <code>ask_before_call</code> argument to <code>FALSE</code>). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via <code>open_fema(data_set = "fimaNfipClaims")</code> will yield the following output in the R console.</p>
-<pre><code>#&gt; Calculating estimated API call time...
-#&gt; 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 1.1 hours. Continue?
-#&gt; [1] 1 - Yes, get that data!, 0 - No, let me rethink my API call:</code></pre>
+<pre><code><span><span class="co">#&gt; Calculating estimated API call time...</span></span>
+<span><span class="co">#&gt; 2564279 matching records found. At 1000 records per call, it will take 2565 individual API calls to get all matching records. It's estimated that this will take approximately 1.09 hours. Continue?</span></span>
+<span><span class="co">#&gt; [1] 1 - Yes, get that data!, 0 - No, let me rethink my API call:</span></span></code></pre>
 <p>Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the <code>bulk_dl</code> function.</p>
 <p>Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>, top_n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-
-<span class="va">df</span>
-<span class="co">#&gt; # A tibble: 10 × 40</span>
-<span class="co">#&gt;    agricultureStructureIndicator asOfDate            baseFloodElevat… basementEnclosu… reportedCity condominiumIndi… policyCount countyCode communityRating…</span>
-<span class="co">#&gt;    &lt;chr&gt;                         &lt;dttm&gt;              &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 FALSE                         2021-07-25 00:00:00 7                NULL             Temporarily… N                1           51199      7               </span>
-<span class="co">#&gt;  2 FALSE                         2021-07-25 00:00:00 NULL             1                Temporarily… N                1           24033      5               </span>
-<span class="co">#&gt;  3 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           22073      10              </span>
-<span class="co">#&gt;  4 FALSE                         2021-09-30 00:00:00 5                NULL             Temporarily… N                1           12091      5               </span>
-<span class="co">#&gt;  5 FALSE                         2021-07-25 00:00:00 11               NULL             Temporarily… N                1           22103      7               </span>
-<span class="co">#&gt;  6 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           36103      NULL            </span>
-<span class="co">#&gt;  7 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           48201      5               </span>
-<span class="co">#&gt;  8 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           12033      7               </span>
-<span class="co">#&gt;  9 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           37055      7               </span>
-<span class="co">#&gt; 10 FALSE                         2021-07-25 00:00:00 49               NULL             Temporarily… N                1           48201      5               </span>
-<span class="co">#&gt; # … with 31 more variables: dateOfLoss &lt;dttm&gt;, elevatedBuildingIndicator &lt;chr&gt;, elevationCertificateIndicator &lt;chr&gt;, elevationDifference &lt;chr&gt;,</span>
-<span class="co">#&gt; #   censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;,</span>
-<span class="co">#&gt; #   lowestFloorElevation &lt;chr&gt;, numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, nonProfitIndicator &lt;chr&gt;, obstructionType &lt;chr&gt;, occupancyType &lt;chr&gt;,</span>
-<span class="co">#&gt; #   originalConstructionDate &lt;dttm&gt;, originalNBDate &lt;dttm&gt;, amountPaidOnBuildingClaim &lt;chr&gt;, amountPaidOnContentsClaim &lt;chr&gt;,</span>
-<span class="co">#&gt; #   amountPaidOnIncreasedCostOfComplianceClaim &lt;chr&gt;, postFIRMConstructionIndicator &lt;chr&gt;, rateMethod &lt;chr&gt;, smallBusinessIndicatorBuilding &lt;chr&gt;,</span>
-<span class="co">#&gt; #   state &lt;chr&gt;, totalBuildingInsuranceCoverage &lt;chr&gt;, totalContentsInsuranceCoverage &lt;chr&gt;, yearOfLoss &lt;chr&gt;, reportedZipcode &lt;chr&gt;,</span>
-<span class="co">#&gt; #   primaryResidence &lt;chr&gt;, id &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>, top_n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span></span>
+<span><span class="co">#&gt; # A tibble: 10 × 40</span></span>
+<span><span class="co">#&gt;    agricultureStru… asOfDate            baseFloodElevat… basementEnclosu… reportedCity condominiumIndi…</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;            &lt;dttm&gt;              &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;           </span></span>
+<span><span class="co">#&gt;  1 FALSE            2021-07-25 00:00:00 NULL             1                Temporarily… N               </span></span>
+<span><span class="co">#&gt;  2 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  3 FALSE            2021-11-21 00:00:00 8                NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  4 FALSE            2021-11-21 00:00:00 50               NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  5 FALSE            2021-11-21 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  6 FALSE            2021-11-21 00:00:00 15               2                Temporarily… N               </span></span>
+<span><span class="co">#&gt;  7 FALSE            2021-11-21 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  8 FALSE            2021-11-21 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  9 FALSE            2021-11-21 00:00:00 8                NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 10 FALSE            2021-11-21 00:00:00 9                NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; # … with 34 more variables: policyCount &lt;chr&gt;, countyCode &lt;chr&gt;, communityRatingSystemDiscount &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   dateOfLoss &lt;dttm&gt;, elevatedBuildingIndicator &lt;chr&gt;, elevationCertificateIndicator &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   elevationDifference &lt;chr&gt;, censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;, lowestFloorElevation &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, nonProfitIndicator &lt;chr&gt;, obstructionType &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   occupancyType &lt;chr&gt;, originalConstructionDate &lt;dttm&gt;, originalNBDate &lt;dttm&gt;,</span></span>
+<span><span class="co">#&gt; #   amountPaidOnBuildingClaim &lt;chr&gt;, amountPaidOnContentsClaim &lt;chr&gt;, …</span></span></code></pre></div>
 <p>If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the <code><a href="../reference/fema_data_fields.html">fema_data_fields()</a></code> function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_fields.html">fema_data_fields</a></span><span class="op">(</span><span class="st">"fimanfipclaims"</span><span class="op">)</span>
-
-<span class="va">data_fields</span>
-<span class="co">#&gt; # A tibble: 40 × 15</span>
-<span class="co">#&gt;    datasetId   openFemaDataSet name  title  description  type   sortOrder datasetVersion hash  lastRefresh isNestedObject isNullable isSearchable primaryKey</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;     </span>
-<span class="co">#&gt;  1 openfema-31 FimaNfipClaims  1     "agri… "Agricultur… Yes (… boolean   1              FALSE FALSE       FALSE          NULL       91f8c693c90… 2021-11-2…</span>
-<span class="co">#&gt;  2 openfema-31 FimaNfipClaims  1     "asOf… "As Of Date" The e… date      2              TRUE  FALSE       FALSE          NULL       d740807d822… 2021-11-2…</span>
-<span class="co">#&gt;  3 openfema-31 FimaNfipClaims  1     "base… "Base Flood… Base … number    3              TRUE  FALSE       FALSE          NULL       ff76dc6c963… 2021-11-2…</span>
-<span class="co">#&gt;  4 openfema-31 FimaNfipClaims  1     "base… "Basement E… Basem… number    4              TRUE  FALSE       FALSE          NULL       d9ccf2e5435… 2021-11-2…</span>
-<span class="co">#&gt;  5 openfema-31 FimaNfipClaims  1     "repo… "Reported C… This … string    5              TRUE  FALSE       FALSE          NULL       0bdb29845d2… 2021-11-2…</span>
-<span class="co">#&gt;  6 openfema-31 FimaNfipClaims  1     "cond… "Condominiu… This … string    6              TRUE  FALSE       FALSE          NULL       c75d682cf55… 2021-11-2…</span>
-<span class="co">#&gt;  7 openfema-31 FimaNfipClaims  1     "poli… "Policy Cou… Insur… number    7              TRUE  FALSE       FALSE          NULL       3d2b0cef36b… 2021-11-2…</span>
-<span class="co">#&gt;  8 openfema-31 FimaNfipClaims  1     "coun… "County Cod… FIPS … string    8              TRUE  FALSE       TRUE           NULL       f78eca3b993… 2021-11-2…</span>
-<span class="co">#&gt;  9 openfema-31 FimaNfipClaims  1     "comm… "Community … The C… number    9              TRUE  FALSE       FALSE          NULL       d560e158499… 2021-11-2…</span>
-<span class="co">#&gt; 10 openfema-31 FimaNfipClaims  1     "date… "Date Of Lo… Date … date      10             TRUE  FALSE       FALSE          NULL       4b7fe750c3a… 2021-11-2…</span>
-<span class="co">#&gt; # … with 30 more rows, and 1 more variable: id &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">data_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_fields.html">fema_data_fields</a></span><span class="op">(</span><span class="st">"fimanfipclaims"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data_fields</span></span>
+<span><span class="co">#&gt; # A tibble: 40 × 15</span></span>
+<span><span class="co">#&gt;    datasetId   openFemaDataSet name  title description type  sortOrder datasetVersion hash  lastRefresh</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt;  1 openfema-31 FimaNfipClaims  1     "agr… "Agricultu… Yes … boolean   1              FALSE FALSE      </span></span>
+<span><span class="co">#&gt;  2 openfema-31 FimaNfipClaims  1     "asO… "As Of Dat… The … date      2              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  3 openfema-31 FimaNfipClaims  1     "bas… "Base Floo… Base… number    3              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  4 openfema-31 FimaNfipClaims  1     "bas… "Basement … Base… number    4              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  5 openfema-31 FimaNfipClaims  1     "rep… "Reported … This… string    5              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  6 openfema-31 FimaNfipClaims  1     "con… "Condomini… This… string    6              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  7 openfema-31 FimaNfipClaims  1     "pol… "Policy Co… Insu… number    7              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  8 openfema-31 FimaNfipClaims  1     "cou… "County Co… FIPS… string    8              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt;  9 openfema-31 FimaNfipClaims  1     "com… "Community… The … number    9              TRUE  FALSE      </span></span>
+<span><span class="co">#&gt; 10 openfema-31 FimaNfipClaims  1     "dat… "Date Of L… Date… date      10             TRUE  FALSE      </span></span>
+<span><span class="co">#&gt; # … with 30 more rows, and 5 more variables: isNestedObject &lt;chr&gt;, isNullable &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   isSearchable &lt;chr&gt;, primaryKey &lt;chr&gt;, id &lt;chr&gt;</span></span></code></pre></div>
 <p>In this case we will return only the <code>policyCount</code> and <code>floodZone</code> columns. As can be seen, an id column is always returned even if the select argument is used.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>, top_n <span class="op">=</span> <span class="fl">10</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"policyCount"</span>,<span class="st">"floodZone"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">df</span>
-<span class="co">#&gt; # A tibble: 10 × 3</span>
-<span class="co">#&gt;    policyCount floodZone id                      </span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;                   </span>
-<span class="co">#&gt;  1 1           AE        619d2db7ca992633f8bcda27</span>
-<span class="co">#&gt;  2 1           X         619d2db7ca992633f8bcda25</span>
-<span class="co">#&gt;  3 1           AE        619d2db7ca992633f8bcda28</span>
-<span class="co">#&gt;  4 1           AE        619d2db7ca992633f8bcda2a</span>
-<span class="co">#&gt;  5 1           AE        619d2db7ca992633f8bcda2c</span>
-<span class="co">#&gt;  6 1           X         619d2db7ca992633f8bcda2d</span>
-<span class="co">#&gt;  7 1           AE        619d2db7ca992633f8bcda31</span>
-<span class="co">#&gt;  8 1           C         619d2db7ca992633f8bcda3d</span>
-<span class="co">#&gt;  9 1           A         619d2db7ca992633f8bcda43</span>
-<span class="co">#&gt; 10 1           AE        619d2db7ca992633f8bcda45</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>, top_n <span class="op">=</span> <span class="fl">10</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"policyCount"</span>,<span class="st">"floodZone"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span></span>
+<span><span class="co">#&gt; # A tibble: 10 × 3</span></span>
+<span><span class="co">#&gt;    policyCount floodZone id                      </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;                   </span></span>
+<span><span class="co">#&gt;  1 1           X         61eb2db1b54c2b9a4db56b04</span></span>
+<span><span class="co">#&gt;  2 1           AE        61eb2db1b54c2b9a4db56b05</span></span>
+<span><span class="co">#&gt;  3 1           AE        61eb2db1b54c2b9a4db56b06</span></span>
+<span><span class="co">#&gt;  4 1           AE        61eb2db1b54c2b9a4db56b07</span></span>
+<span><span class="co">#&gt;  5 1           AE        61eb2db1b54c2b9a4db56b08</span></span>
+<span><span class="co">#&gt;  6 1           VE        61eb2db1b54c2b9a4db56b09</span></span>
+<span><span class="co">#&gt;  7 1           A         61eb2db1b54c2b9a4db56b0a</span></span>
+<span><span class="co">#&gt;  8 1           A02       61eb2db1b54c2b9a4db56b0b</span></span>
+<span><span class="co">#&gt;  9 1           AE        61eb2db1b54c2b9a4db56b0c</span></span>
+<span><span class="co">#&gt; 10 1           AE        61eb2db1b54c2b9a4db56b0d</span></span></code></pre></div>
 <p>If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the valid_parameters() function to return a tibble containing the variables that are “searchable” for a particular data set.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/valid_parameters.html">valid_parameters</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span><span class="op">)</span>
-
-<span class="va">params</span>
-<span class="co">#&gt; # A tibble: 40 × 1</span>
-<span class="co">#&gt;    title                          </span>
-<span class="co">#&gt;    &lt;chr&gt;                          </span>
-<span class="co">#&gt;  1 agricultureStructureIndicator  </span>
-<span class="co">#&gt;  2 asOfDate                       </span>
-<span class="co">#&gt;  3 baseFloodElevation             </span>
-<span class="co">#&gt;  4 basementEnclosureCrawlspaceType</span>
-<span class="co">#&gt;  5 reportedCity                   </span>
-<span class="co">#&gt;  6 condominiumIndicator           </span>
-<span class="co">#&gt;  7 policyCount                    </span>
-<span class="co">#&gt;  8 countyCode                     </span>
-<span class="co">#&gt;  9 communityRatingSystemDiscount  </span>
-<span class="co">#&gt; 10 dateOfLoss                     </span>
-<span class="co">#&gt; # … with 30 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/valid_parameters.html">valid_parameters</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">params</span></span>
+<span><span class="co">#&gt; # A tibble: 40 × 1</span></span>
+<span><span class="co">#&gt;    title                          </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                          </span></span>
+<span><span class="co">#&gt;  1 agricultureStructureIndicator  </span></span>
+<span><span class="co">#&gt;  2 asOfDate                       </span></span>
+<span><span class="co">#&gt;  3 baseFloodElevation             </span></span>
+<span><span class="co">#&gt;  4 basementEnclosureCrawlspaceType</span></span>
+<span><span class="co">#&gt;  5 reportedCity                   </span></span>
+<span><span class="co">#&gt;  6 condominiumIndicator           </span></span>
+<span><span class="co">#&gt;  7 policyCount                    </span></span>
+<span><span class="co">#&gt;  8 countyCode                     </span></span>
+<span><span class="co">#&gt;  9 communityRatingSystemDiscount  </span></span>
+<span><span class="co">#&gt; 10 dateOfLoss                     </span></span>
+<span><span class="co">#&gt; # … with 30 more rows</span></span></code></pre></div>
 <p>We can see from the above that both <code>policyCount</code> and <code>floodZone</code> are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned. Before doing that however, it can be useful to learn a bit more about each parameter by using the <code><a href="../reference/parameter_values.html">parameter_values()</a></code> function.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># get more information onf the "floodZone" parameter from the NFIP Claims data set</span>
-<span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,data_field <span class="op">=</span> <span class="st">"floodZone"</span><span class="op">)</span>
-<span class="co">#&gt; Data Set: FimaNfipClaims</span>
-<span class="co">#&gt; Data Field: floodZone</span>
-<span class="co">#&gt; Data Field Description: Flood zone derived from the Flood Insurance Rate Map (FIRM) used to rate the insured property.A - Special Flood with no Base Flood Elevation on FIRM; AE, A1-A30 - Special Flood with Base Flood Elevation on FIRM; A99 - Special Flood with Protection Zone; AH, AHB* - Special Flood with Shallow Ponding; AO, AOB* - Special Flood with Sheet Flow; X, B - Moderate Flood from primary water source.  Pockets of areas subject to drainage problems; X, C - Minimal Flood from primary water source.  Pockets of areas subject to drainage problems; D - Possible Flood; V - Velocity Flood with no Base Flood Elevation on FIRM; VE, V1-V30 - Velocity Flood with Base Flood Elevation on FIRM; AE, VE, X - New zone designations used on new maps starting January 1, 1986, in lieu of A1-A30, V1-V30, and B and C; AR - A Special Flood Hazard Area that results from the decertification of a previously accredited flood protection system that is determined to be in the process of being restored to provide base flood protection;AR Dual Zones - (AR/AE, AR/A1-A30, AR/AH, AR/AO, AR/A) Areas subject to flooding from failure of the flood protection system (Zone AR) which also overlap an existing Special Flood Hazard Area as a dual zone; *AHB, AOB, ARE, ARH, ARO, and ARA are not risk zones shown on a map, but are acceptable values for rating purposes</span>
-<span class="co">#&gt; Data Field Example Values: c("AE", "X", "C", "A", "A10", "A06")</span>
-<span class="co">#&gt; More Information Available at: https://www.fema.gov/about/openfema/data-sets</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># get more information onf the "floodZone" parameter from the NFIP Claims data set</span></span>
+<span><span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,data_field <span class="op">=</span> <span class="st">"floodZone"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Data Set: FimaNfipClaims</span></span>
+<span><span class="co">#&gt; Data Field: floodZone</span></span>
+<span><span class="co">#&gt; Data Field Description: Flood zone derived from the Flood Insurance Rate Map (FIRM) used to rate the insured property.A - Special Flood with no Base Flood Elevation on FIRM; AE, A1-A30 - Special Flood with Base Flood Elevation on FIRM; A99 - Special Flood with Protection Zone; AH, AHB* - Special Flood with Shallow Ponding; AO, AOB* - Special Flood with Sheet Flow; X, B - Moderate Flood from primary water source.  Pockets of areas subject to drainage problems; X, C - Minimal Flood from primary water source.  Pockets of areas subject to drainage problems; D - Possible Flood; V - Velocity Flood with no Base Flood Elevation on FIRM; VE, V1-V30 - Velocity Flood with Base Flood Elevation on FIRM; AE, VE, X - New zone designations used on new maps starting January 1, 1986, in lieu of A1-A30, V1-V30, and B and C; AR - A Special Flood Hazard Area that results from the decertification of a previously accredited flood protection system that is determined to be in the process of being restored to provide base flood protection;AR Dual Zones - (AR/AE, AR/A1-A30, AR/AH, AR/AO, AR/A) Areas subject to flooding from failure of the flood protection system (Zone AR) which also overlap an existing Special Flood Hazard Area as a dual zone; *AHB, AOB, ARE, ARH, ARO, and ARA are not risk zones shown on a map, but are acceptable values for rating purposes</span></span>
+<span><span class="co">#&gt; Data Field Example Values: c("X", "AE", "VE", "A", "A02", "AOB")</span></span>
+<span><span class="co">#&gt; More Information Available at: https://www.fema.gov/about/openfema/data-sets</span></span></code></pre></div>
 <p>As can be seen <code><a href="../reference/parameter_values.html">parameter_values()</a></code> returns the data set name, the data field (i.e. the searchable parameter), a description of the data field, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,data_field <span class="op">=</span> <span class="st">"floodZone"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,data_field <span class="op">=</span> <span class="st">"floodZone"</span><span class="op">)</span></span></code></pre></div>
 <p>We can see from the above that <code>floodZone</code> is a character in the data and from the description we know that “AE” and “X” are both valid values for the <code>floodZone</code> parameter. We can thus define a filter to return only records from AE or X flood zones.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># construct a filter that limits records to those in AE or X flood zones</span>
-<span class="va">my_filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>floodZone <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AE"</span>,<span class="st">"X"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># pass the filter to the open_fema function.</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipPolicies"</span>, top_n <span class="op">=</span> <span class="fl">10</span>, 
-               select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"policyCount"</span>,<span class="st">"floodZone"</span><span class="op">)</span>, filters <span class="op">=</span> <span class="va">my_filters</span><span class="op">)</span>
-
-<span class="va">df</span>
-<span class="co">#&gt; # A tibble: 10 × 3</span>
-<span class="co">#&gt;    floodZone policyCount id                      </span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;                   </span>
-<span class="co">#&gt;  1 AE        1           61ad7aad9bf443f510234c3d</span>
-<span class="co">#&gt;  2 AE        1           61ad7aad9bf443f510234c47</span>
-<span class="co">#&gt;  3 AE        1           61ad7aad9bf443f510234c55</span>
-<span class="co">#&gt;  4 AE        1           61ad7aad9bf443f510234c5b</span>
-<span class="co">#&gt;  5 AE        1           61ad7aad9bf443f510234c69</span>
-<span class="co">#&gt;  6 AE        1           61ad7aad9bf443f510234cc1</span>
-<span class="co">#&gt;  7 AE        1           61ad7aad9bf443f510234cc6</span>
-<span class="co">#&gt;  8 AE        1           61ad7aad9bf443f510234cc7</span>
-<span class="co">#&gt;  9 AE        1           61ad7aad9bf443f510234cd0</span>
-<span class="co">#&gt; 10 AE        1           61ad7aad9bf443f510234cdd</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># construct a filter that limits records to those in AE or X flood zones</span></span>
+<span><span class="va">my_filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>floodZone <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AE"</span>,<span class="st">"X"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># pass the filter to the open_fema function.</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipPolicies"</span>, top_n <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>               select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"policyCount"</span>,<span class="st">"floodZone"</span><span class="op">)</span>, filters <span class="op">=</span> <span class="va">my_filters</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in (function (data_set, top_n = NULL, filters = NULL, select = NULL, : Server error: (503) Service Unavailable</span></span>
+<span></span>
+<span><span class="va">df</span></span>
+<span><span class="co">#&gt; # A tibble: 10 × 3</span></span>
+<span><span class="co">#&gt;    policyCount floodZone id                      </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;                   </span></span>
+<span><span class="co">#&gt;  1 1           X         61eb2db1b54c2b9a4db56b04</span></span>
+<span><span class="co">#&gt;  2 1           AE        61eb2db1b54c2b9a4db56b05</span></span>
+<span><span class="co">#&gt;  3 1           AE        61eb2db1b54c2b9a4db56b06</span></span>
+<span><span class="co">#&gt;  4 1           AE        61eb2db1b54c2b9a4db56b07</span></span>
+<span><span class="co">#&gt;  5 1           AE        61eb2db1b54c2b9a4db56b08</span></span>
+<span><span class="co">#&gt;  6 1           VE        61eb2db1b54c2b9a4db56b09</span></span>
+<span><span class="co">#&gt;  7 1           A         61eb2db1b54c2b9a4db56b0a</span></span>
+<span><span class="co">#&gt;  8 1           A02       61eb2db1b54c2b9a4db56b0b</span></span>
+<span><span class="co">#&gt;  9 1           AE        61eb2db1b54c2b9a4db56b0c</span></span>
+<span><span class="co">#&gt; 10 1           AE        61eb2db1b54c2b9a4db56b0d</span></span></code></pre></div>
 </div>
-<div id="more-examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-examples" class="anchor"></a>More Examples</h2>
-<div id="example-return-the-first-100-nfip-claims-for-autauga-county-al-that-happened-between-2010-and-2020-" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-return-the-first-100-nfip-claims-for-autauga-county-al-that-happened-between-2010-and-2020-" class="anchor"></a>Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.</h3>
+<div class="section level2">
+<h2 id="more-examples">More Examples<a class="anchor" aria-label="anchor" href="#more-examples"></a>
+</h2>
+<div class="section level3">
+<h3 id="example-return-the-first-100-nfip-claims-for-autauga-county-al-that-happened-between-2010-and-2020-">Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.<a class="anchor" aria-label="anchor" href="#example-return-the-first-100-nfip-claims-for-autauga-county-al-that-happened-between-2010-and-2020-"></a>
+</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,
-                 top_n <span class="op">=</span> <span class="fl">100</span>,
-                 filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>countyCode <span class="op">=</span> <span class="st">"= 01001"</span>,
-                                yearOfLoss <span class="op">=</span> <span class="st">"&gt;= 2010"</span>,
-                                yearOfLoss <span class="op">=</span> <span class="st">"&lt;= 2020"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">df</span>
-<span class="co">#&gt; # A tibble: 20 × 40</span>
-<span class="co">#&gt;    agricultureStructureIndicator asOfDate            baseFloodElevat… basementEnclosu… reportedCity condominiumIndi… policyCount countyCode communityRating…</span>
-<span class="co">#&gt;    &lt;chr&gt;                         &lt;dttm&gt;              &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 FALSE                         2021-09-08 00:00:00 164              0                Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  2 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  3 FALSE                         2021-07-25 00:00:00 NULL             1                Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  4 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  5 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  6 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  7 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  8 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt;  9 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      NULL            </span>
-<span class="co">#&gt; 10 FALSE                         2021-07-25 00:00:00 184              0                Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt; 11 FALSE                         2021-07-25 00:00:00 184              0                Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt; 12 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      NULL            </span>
-<span class="co">#&gt; 13 FALSE                         2021-07-25 00:00:00 164              NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt; 14 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt; 15 FALSE                         2021-07-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      NULL            </span>
-<span class="co">#&gt; 16 FALSE                         2021-07-25 00:00:00 NULL             1                Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt; 17 FALSE                         2021-07-25 00:00:00 NULL             0                Temporarily… N                1           01001      NULL            </span>
-<span class="co">#&gt; 18 FALSE                         2021-07-25 00:00:00 NULL             1                Temporarily… N                1           01001      8               </span>
-<span class="co">#&gt; 19 FALSE                         2021-07-25 00:00:00 NULL             0                Temporarily… N                1           01001      NULL            </span>
-<span class="co">#&gt; 20 FALSE                         2021-10-25 00:00:00 NULL             NULL             Temporarily… N                1           01001      NULL            </span>
-<span class="co">#&gt; # … with 31 more variables: dateOfLoss &lt;dttm&gt;, elevatedBuildingIndicator &lt;chr&gt;, elevationCertificateIndicator &lt;chr&gt;, elevationDifference &lt;chr&gt;,</span>
-<span class="co">#&gt; #   censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;,</span>
-<span class="co">#&gt; #   lowestFloorElevation &lt;chr&gt;, numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, nonProfitIndicator &lt;chr&gt;, obstructionType &lt;chr&gt;, occupancyType &lt;chr&gt;,</span>
-<span class="co">#&gt; #   originalConstructionDate &lt;dttm&gt;, originalNBDate &lt;dttm&gt;, amountPaidOnBuildingClaim &lt;chr&gt;, amountPaidOnContentsClaim &lt;chr&gt;,</span>
-<span class="co">#&gt; #   amountPaidOnIncreasedCostOfComplianceClaim &lt;chr&gt;, postFIRMConstructionIndicator &lt;chr&gt;, rateMethod &lt;chr&gt;, smallBusinessIndicatorBuilding &lt;chr&gt;,</span>
-<span class="co">#&gt; #   state &lt;chr&gt;, totalBuildingInsuranceCoverage &lt;chr&gt;, totalContentsInsuranceCoverage &lt;chr&gt;, yearOfLoss &lt;chr&gt;, reportedZipcode &lt;chr&gt;,</span>
-<span class="co">#&gt; #   primaryResidence &lt;chr&gt;, id &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"fimaNfipClaims"</span>,</span>
+<span>                 top_n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                 filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>countyCode <span class="op">=</span> <span class="st">"= 01001"</span>,</span>
+<span>                                yearOfLoss <span class="op">=</span> <span class="st">"&gt;= 2010"</span>,</span>
+<span>                                yearOfLoss <span class="op">=</span> <span class="st">"&lt;= 2020"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span></span>
+<span><span class="co">#&gt; # A tibble: 20 × 40</span></span>
+<span><span class="co">#&gt;    agricultureStru… asOfDate            baseFloodElevat… basementEnclosu… reportedCity condominiumIndi…</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;            &lt;dttm&gt;              &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;           </span></span>
+<span><span class="co">#&gt;  1 FALSE            2021-11-21 00:00:00 NULL             0                Temporarily… N               </span></span>
+<span><span class="co">#&gt;  2 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  3 FALSE            2021-07-25 00:00:00 NULL             1                Temporarily… N               </span></span>
+<span><span class="co">#&gt;  4 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  5 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  6 FALSE            2021-11-21 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  7 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  8 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt;  9 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 10 FALSE            2021-11-21 00:00:00 164              0                Temporarily… N               </span></span>
+<span><span class="co">#&gt; 11 FALSE            2021-07-25 00:00:00 184              0                Temporarily… N               </span></span>
+<span><span class="co">#&gt; 12 FALSE            2021-07-25 00:00:00 184              0                Temporarily… N               </span></span>
+<span><span class="co">#&gt; 13 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 14 FALSE            2021-07-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 15 FALSE            2022-01-14 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 16 FALSE            2021-07-25 00:00:00 NULL             1                Temporarily… N               </span></span>
+<span><span class="co">#&gt; 17 FALSE            2021-07-25 00:00:00 NULL             1                Temporarily… N               </span></span>
+<span><span class="co">#&gt; 18 FALSE            2021-11-21 00:00:00 164              NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 19 FALSE            2021-10-25 00:00:00 NULL             NULL             Temporarily… N               </span></span>
+<span><span class="co">#&gt; 20 FALSE            2021-12-25 00:00:00 NULL             0                Temporarily… N               </span></span>
+<span><span class="co">#&gt; # … with 34 more variables: policyCount &lt;chr&gt;, countyCode &lt;chr&gt;, communityRatingSystemDiscount &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   dateOfLoss &lt;dttm&gt;, elevatedBuildingIndicator &lt;chr&gt;, elevationCertificateIndicator &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   elevationDifference &lt;chr&gt;, censusTract &lt;chr&gt;, floodZone &lt;chr&gt;, houseWorship &lt;chr&gt;, latitude &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   longitude &lt;chr&gt;, locationOfContents &lt;chr&gt;, lowestAdjacentGrade &lt;chr&gt;, lowestFloorElevation &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   numberOfFloorsInTheInsuredBuilding &lt;chr&gt;, nonProfitIndicator &lt;chr&gt;, obstructionType &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   occupancyType &lt;chr&gt;, originalConstructionDate &lt;dttm&gt;, originalNBDate &lt;dttm&gt;,</span></span>
+<span><span class="co">#&gt; #   amountPaidOnBuildingClaim &lt;chr&gt;, amountPaidOnContentsClaim &lt;chr&gt;, …</span></span></code></pre></div>
 </div>
-<div id="example-get-data-on-all-hazard-mitigation-grants-associated-with-hurricanes-in-florida-" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-get-data-on-all-hazard-mitigation-grants-associated-with-hurricanes-in-florida-" class="anchor"></a>Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.</h3>
+<div class="section level3">
+<h3 id="example-get-data-on-all-hazard-mitigation-grants-associated-with-hurricanes-in-florida-">Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.<a class="anchor" aria-label="anchor" href="#example-get-data-on-all-hazard-mitigation-grants-associated-with-hurricanes-in-florida-"></a>
+</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># see which parameter can be used for filtering the Hazard Mitigation Grants data set</span>
-<span class="fu"><a href="../reference/valid_parameters.html">valid_parameters</a></span><span class="op">(</span><span class="st">"HazardMitigationGrants"</span><span class="op">)</span> 
-<span class="co">#&gt; # A tibble: 19 × 1</span>
-<span class="co">#&gt;    params             </span>
-<span class="co">#&gt;    &lt;chr&gt;              </span>
-<span class="co">#&gt;  1 id                 </span>
-<span class="co">#&gt;  2 projectType        </span>
-<span class="co">#&gt;  3 projectCounties    </span>
-<span class="co">#&gt;  4 status             </span>
-<span class="co">#&gt;  5 subgrantee         </span>
-<span class="co">#&gt;  6 disasterNumber     </span>
-<span class="co">#&gt;  7 state              </span>
-<span class="co">#&gt;  8 projectAmount      </span>
-<span class="co">#&gt;  9 region             </span>
-<span class="co">#&gt; 10 declarationDate    </span>
-<span class="co">#&gt; 11 projectNumber      </span>
-<span class="co">#&gt; 12 disasterTitle      </span>
-<span class="co">#&gt; 13 projectDescription </span>
-<span class="co">#&gt; 14 lastRefresh        </span>
-<span class="co">#&gt; 15 costSharePercentage</span>
-<span class="co">#&gt; 16 subgranteeFIPSCode </span>
-<span class="co">#&gt; 17 projectTitle       </span>
-<span class="co">#&gt; 18 incidentType       </span>
-<span class="co">#&gt; 19 hash</span>
-
-<span class="co"># see how values of "incidentType" are formatted</span>
-<span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HazardMitigationGrants"</span>, data_field <span class="op">=</span> <span class="st">"incidentType"</span><span class="op">)</span> 
-<span class="co">#&gt; Data Set: HazardMitigationGrants</span>
-<span class="co">#&gt; Data Field: incidentType</span>
-<span class="co">#&gt; Data Field Description: </span>
-<span class="co">#&gt; Data Field Example Values: c("Flood", "Severe Storm(s)", "Tornado", "Freezing", "Hurricane", "Earthquake")</span>
-<span class="co">#&gt; More Information Available at: https://www.fema.gov/about/openfema/data-sets</span>
-
-<span class="co"># check to see how "state" is formatted</span>
-<span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HazardMitigationGrants"</span>, data_field <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span> 
-<span class="co">#&gt; Data Set: HazardMitigationGrants</span>
-<span class="co">#&gt; Data Field: state</span>
-<span class="co">#&gt; Data Field Description: string</span>
-<span class="co">#&gt; Data Field Example Values: c("Kentucky", "Utah", "North Dakota", "Texas", "North Carolina", "Alaska")</span>
-<span class="co">#&gt; More Information Available at: https://www.fema.gov/about/openfema/data-sets</span>
-
-<span class="co"># construct a list containing filters for Hurricane and Florida</span>
-<span class="va">filter_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>incidentType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Hurricane"</span><span class="op">)</span>,
-                 state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Florida"</span><span class="op">)</span><span class="op">)</span> 
-
-<span class="co"># pass filter_list to the open_fema function to retreieve data.</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HazardMitigationGrants"</span>, filters <span class="op">=</span> <span class="va">filter_list</span>, 
-               ask_before_call <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; Obtaining Data: 1 out of 2 iterations (50% complete)</span>
-<span class="co">#&gt; Obtaining Data: 2 out of 2 iterations (100% complete)</span>
-
-
-<span class="va">df</span>
-<span class="co">#&gt; # A tibble: 1,671 × 19</span>
-<span class="co">#&gt;    region state disasterNumber declarationDate     incidentType disasterTitle projectNumber projectType projectTitle projectDescript… projectCounties status</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;          &lt;dttm&gt;              &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;           &lt;chr&gt; </span>
-<span class="co">#&gt;  1 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0004          401.1: Wat… GIS UTILITY… "Load all water… "BROWARD"       Not A…</span>
-<span class="co">#&gt;  2 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0002          205.8: Ret… WIND RETROF… "Protect buildi… "BROWARD"       Closed</span>
-<span class="co">#&gt;  3 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0003          501.1: Oth… REPLACE TRA… "Replace span w… "BROWARD "      Withd…</span>
-<span class="co">#&gt;  4 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0001          602.1: Oth… RECOVERY MA… "Proposed syste… "STATEWIDE"     Closed</span>
-<span class="co">#&gt;  5 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0019          205.8: Ret… WIND RETROF… "Install shutte… "BROWARD"       Closed</span>
-<span class="co">#&gt;  6 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0014          601.1: Gen… ELEVATE/REL… "Construct engi… "BROWARD"       Withd…</span>
-<span class="co">#&gt;  7 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0018          205.8: Ret… WIND RETROF… "Install shutte… "BROWARD"       Closed</span>
-<span class="co">#&gt;  8 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0049          601.1: Gen… EMERGENCY G… "Purchase and i… "BROWARD"       Not A…</span>
-<span class="co">#&gt;  9 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0029          205.8: Ret… WIND RETROF… "Install shutte… "BROWARD"       Withd…</span>
-<span class="co">#&gt; 10 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0023          602.1: Oth… COMMUNICATI… "Purchase  VHF … "BROWARD"       Not A…</span>
-<span class="co">#&gt; # … with 1,661 more rows, and 7 more variables: subgrantee &lt;chr&gt;, subgranteeFIPSCode &lt;chr&gt;, projectAmount &lt;chr&gt;, costSharePercentage &lt;chr&gt;, hash &lt;chr&gt;,</span>
-<span class="co">#&gt; #   lastRefresh &lt;chr&gt;, id &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># see which parameter can be used for filtering the Hazard Mitigation Grants data set</span></span>
+<span><span class="fu"><a href="../reference/valid_parameters.html">valid_parameters</a></span><span class="op">(</span><span class="st">"HazardMitigationGrants"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; # A tibble: 19 × 1</span></span>
+<span><span class="co">#&gt;    params             </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;              </span></span>
+<span><span class="co">#&gt;  1 id                 </span></span>
+<span><span class="co">#&gt;  2 projectType        </span></span>
+<span><span class="co">#&gt;  3 projectCounties    </span></span>
+<span><span class="co">#&gt;  4 status             </span></span>
+<span><span class="co">#&gt;  5 subgrantee         </span></span>
+<span><span class="co">#&gt;  6 disasterNumber     </span></span>
+<span><span class="co">#&gt;  7 state              </span></span>
+<span><span class="co">#&gt;  8 projectAmount      </span></span>
+<span><span class="co">#&gt;  9 region             </span></span>
+<span><span class="co">#&gt; 10 declarationDate    </span></span>
+<span><span class="co">#&gt; 11 projectNumber      </span></span>
+<span><span class="co">#&gt; 12 disasterTitle      </span></span>
+<span><span class="co">#&gt; 13 projectDescription </span></span>
+<span><span class="co">#&gt; 14 lastRefresh        </span></span>
+<span><span class="co">#&gt; 15 costSharePercentage</span></span>
+<span><span class="co">#&gt; 16 subgranteeFIPSCode </span></span>
+<span><span class="co">#&gt; 17 projectTitle       </span></span>
+<span><span class="co">#&gt; 18 incidentType       </span></span>
+<span><span class="co">#&gt; 19 hash</span></span>
+<span></span>
+<span><span class="co"># see how values of "incidentType" are formatted</span></span>
+<span><span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HazardMitigationGrants"</span>, data_field <span class="op">=</span> <span class="st">"incidentType"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Data Set: HazardMitigationGrants</span></span>
+<span><span class="co">#&gt; Data Field: incidentType</span></span>
+<span><span class="co">#&gt; Data Field Description: </span></span>
+<span><span class="co">#&gt; Data Field Example Values: c("Flood", "Severe Storm(s)", "Tornado", "Freezing", "Hurricane", "Earthquake")</span></span>
+<span><span class="co">#&gt; More Information Available at: https://www.fema.gov/about/openfema/data-sets</span></span>
+<span></span>
+<span><span class="co"># check to see how "state" is formatted</span></span>
+<span><span class="fu"><a href="../reference/parameter_values.html">parameter_values</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HazardMitigationGrants"</span>, data_field <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Data Set: HazardMitigationGrants</span></span>
+<span><span class="co">#&gt; Data Field: state</span></span>
+<span><span class="co">#&gt; Data Field Description: string</span></span>
+<span><span class="co">#&gt; Data Field Example Values: c("Kentucky", "Utah", "North Dakota", "Texas", "North Carolina", "Alaska")</span></span>
+<span><span class="co">#&gt; More Information Available at: https://www.fema.gov/about/openfema/data-sets</span></span>
+<span></span>
+<span><span class="co"># construct a list containing filters for Hurricane and Florida</span></span>
+<span><span class="va">filter_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>incidentType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hurricane"</span><span class="op">)</span>,</span>
+<span>                 state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Florida"</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># pass filter_list to the open_fema function to retreieve data.</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HazardMitigationGrants"</span>, filters <span class="op">=</span> <span class="va">filter_list</span>, </span>
+<span>               ask_before_call <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Obtaining Data: 1 out of 2 iterations (50% complete)</span></span>
+<span><span class="co">#&gt; Obtaining Data: 2 out of 2 iterations (100% complete)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">df</span></span>
+<span><span class="co">#&gt; # A tibble: 1,671 × 19</span></span>
+<span><span class="co">#&gt;    region state disasterNumber declarationDate     incidentType disasterTitle projectNumber projectType</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;          &lt;dttm&gt;              &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt;  1 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0004          401.1: Wat…</span></span>
+<span><span class="co">#&gt;  2 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0002          205.8: Ret…</span></span>
+<span><span class="co">#&gt;  3 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0003          501.1: Oth…</span></span>
+<span><span class="co">#&gt;  4 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0001          602.1: Oth…</span></span>
+<span><span class="co">#&gt;  5 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0019          205.8: Ret…</span></span>
+<span><span class="co">#&gt;  6 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0014          601.1: Gen…</span></span>
+<span><span class="co">#&gt;  7 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0018          205.8: Ret…</span></span>
+<span><span class="co">#&gt;  8 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0049          601.1: Gen…</span></span>
+<span><span class="co">#&gt;  9 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0029          205.8: Ret…</span></span>
+<span><span class="co">#&gt; 10 4      Flor… 955            1992-08-24 00:00:00 Hurricane    HURRICANE AN… 0023          602.1: Oth…</span></span>
+<span><span class="co">#&gt; # … with 1,661 more rows, and 11 more variables: projectTitle &lt;chr&gt;, projectDescription &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   projectCounties &lt;chr&gt;, status &lt;chr&gt;, subgrantee &lt;chr&gt;, subgranteeFIPSCode &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   projectAmount &lt;chr&gt;, costSharePercentage &lt;chr&gt;, hash &lt;chr&gt;, lastRefresh &lt;chr&gt;, id &lt;chr&gt;</span></span></code></pre></div>
 </div>
-<div id="example-determine-how-much-money-was-awarded-by-fema-for-rental-assistance-following-hurricane-irma-" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-determine-how-much-money-was-awarded-by-fema-for-rental-assistance-following-hurricane-irma-" class="anchor"></a>Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.</h3>
+<div class="section level3">
+<h3 id="example-determine-how-much-money-was-awarded-by-fema-for-rental-assistance-following-hurricane-irma-">Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.<a class="anchor" aria-label="anchor" href="#example-determine-how-much-money-was-awarded-by-fema-for-rental-assistance-following-hurricane-irma-"></a>
+</h3>
 <p>Get a dataset description for the <code>HousingAssistanceRenters</code> data set to see if this is the right data set for the question</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># get meta data for the `HousingAssistanceRenters`</span>
-<span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_sets.html">fema_data_sets</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"HousingAssistanceRenters"</span><span class="op">)</span>
-
-<span class="co"># there are two entries corresponding to two versions of the data set, </span>
-<span class="co"># we want the most recent one</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="va">ds</span> <span class="op">&lt;-</span> <span class="va">ds</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">version</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">version</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># now print out the data set description and make sure its the data set </span>
-<span class="co"># that applicable or our research question</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">description</span><span class="op">)</span>
-<span class="co">#&gt; [1] "The dataset was generated by FEMA's Enterprise Coordination &amp; Information Management (ECIM) Reporting team and is primarily composed of data from Housing Assistance Program reporting authority from FEMA registration renters and owners within the state, county, zip where the registration is valid. This dataset contains aggregated, non-PII data on FEMA's Housing Assistance Program within the state, county, zip where the registration is valid for the declarations, starting with disaster declarations number 4116.  The data is divided into data for renters and data for property owners. Additional core data elements include number of applicants, county, zip code, severity of damage, owner or renter. Data is self-reported and as such is subject to human error. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.This is raw, unedited data from FEMA's National Emergency Management Information System (NEMIS) and as such is subject to a small percentage of human error. For example, when an applicant registers they enter their street and city address.  The system runs a check and suggests a county.  The applicant, if registering online can override that choice.  If they are registering via the call center the Human Services Specialist (HSS) representatives are instructed to ask (not offer) what county they live in.  So even though the system might suggest County A,  an applicant has the right to choose County B.  The financial information is derived from NEMIS and not FEMA's official financial systems.  Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov;  this dataset is not intended to be used for any official federal financial reporting.Citation: The Agency's preferred citation for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page, Citing Data section: https://www.fema.gov/about/openfema/terms-conditions.If you have media inquiries about this dataset, please email the FEMA News Desk FEMA-News-Desk@dhs.gov or call (202) 646-3272.  For inquiries about FEMA's data and Open government program please contact the OpenFEMA team via email OpenFEMA@fema.dhs.gov."</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># get meta data for the `HousingAssistanceRenters`</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fema_data_sets.html">fema_data_sets</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="st">"HousingAssistanceRenters"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># there are two entries corresponding to two versions of the data set, </span></span>
+<span><span class="co"># we want the most recent one</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="va">ds</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">version</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">version</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># now print out the data set description and make sure its the data set </span></span>
+<span><span class="co"># that applicable or our research question</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ds</span><span class="op">$</span><span class="va">description</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The dataset was generated by FEMA's Enterprise Coordination &amp; Information Management (ECIM) Reporting team and is primarily composed of data from Housing Assistance Program reporting authority from FEMA registration renters and owners within the state, county, zip where the registration is valid. This dataset contains aggregated, non-PII data on FEMA's Housing Assistance Program within the state, county, zip where the registration is valid for the declarations, starting with disaster declarations number 4116.  The data is divided into data for renters and data for property owners. Additional core data elements include number of applicants, county, zip code, severity of damage, owner or renter. Data is self-reported and as such is subject to human error. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.This is raw, unedited data from FEMA's National Emergency Management Information System (NEMIS) and as such is subject to a small percentage of human error. For example, when an applicant registers they enter their street and city address.  The system runs a check and suggests a county.  The applicant, if registering online can override that choice.  If they are registering via the call center the Human Services Specialist (HSS) representatives are instructed to ask (not offer) what county they live in.  So even though the system might suggest County A,  an applicant has the right to choose County B.  The financial information is derived from NEMIS and not FEMA's official financial systems.  Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov;  this dataset is not intended to be used for any official federal financial reporting.Citation: The Agency's preferred citation for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page, Citing Data section: https://www.fema.gov/about/openfema/terms-conditions.If you have media inquiries about this dataset, please email the FEMA News Desk FEMA-News-Desk@dhs.gov or call (202) 646-3272.  For inquiries about FEMA's data and Open government program please contact the OpenFEMA team via email OpenFEMA@fema.dhs.gov."</span></span></code></pre></div>
 <p>See which columns we can filter on to select just Hurricane Irma related grants</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># see which parameter can be used for filtering the Housing Assistance for Renters </span>
-<span class="fu"><a href="../reference/valid_parameters.html">valid_parameters</a></span><span class="op">(</span><span class="st">"HousingAssistanceRenters"</span><span class="op">)</span> 
-<span class="co">#&gt; # A tibble: 44 × 1</span>
-<span class="co">#&gt;    params                    </span>
-<span class="co">#&gt;    &lt;chr&gt;                     </span>
-<span class="co">#&gt;  1 city                      </span>
-<span class="co">#&gt;  2 validRegistrations        </span>
-<span class="co">#&gt;  3 disasterNumber            </span>
-<span class="co">#&gt;  4 zipCode                   </span>
-<span class="co">#&gt;  5 repairReplaceAmount       </span>
-<span class="co">#&gt;  6 totalInspected            </span>
-<span class="co">#&gt;  7 approvedForFemaAssistance </span>
-<span class="co">#&gt;  8 totalWithSubstantialDamage</span>
-<span class="co">#&gt;  9 rentalAmount              </span>
-<span class="co">#&gt; 10 otherNeedsAmount          </span>
-<span class="co">#&gt; # … with 34 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># see which parameter can be used for filtering the Housing Assistance for Renters </span></span>
+<span><span class="fu"><a href="../reference/valid_parameters.html">valid_parameters</a></span><span class="op">(</span><span class="st">"HousingAssistanceRenters"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; # A tibble: 44 × 1</span></span>
+<span><span class="co">#&gt;    params                    </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                     </span></span>
+<span><span class="co">#&gt;  1 city                      </span></span>
+<span><span class="co">#&gt;  2 validRegistrations        </span></span>
+<span><span class="co">#&gt;  3 disasterNumber            </span></span>
+<span><span class="co">#&gt;  4 zipCode                   </span></span>
+<span><span class="co">#&gt;  5 repairReplaceAmount       </span></span>
+<span><span class="co">#&gt;  6 totalInspected            </span></span>
+<span><span class="co">#&gt;  7 approvedForFemaAssistance </span></span>
+<span><span class="co">#&gt;  8 totalWithSubstantialDamage</span></span>
+<span><span class="co">#&gt;  9 rentalAmount              </span></span>
+<span><span class="co">#&gt; 10 otherNeedsAmount          </span></span>
+<span><span class="co">#&gt; # … with 34 more rows</span></span></code></pre></div>
 <p>All we have in this data set is the <code>disasterNumber</code>. Thus, to filter on a specific disaster we have to load the <code>FemaWebDisasterDeclarations</code> data find the disaster number associated with the event we are interested in.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># call the disaster declarations</span>
-<span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu">rfema</span><span class="fu">::</span><span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"FemaWebDisasterDeclarations"</span>, ask_before_call <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-<span class="co">#&gt; Obtaining Data: 1 out of 5 iterations (20% complete) Obtaining Data: 2 out of 5 iterations (40% complete) Obtaining Data: 3 out of 5 iterations (60%</span>
-<span class="co">#&gt; complete) Obtaining Data: 4 out of 5 iterations (80% complete) Obtaining Data: 5 out of 5 iterations (100% complete)</span>
-
-<span class="co"># filter disaster declarations to those with "hurricane" in the name</span>
-<span class="va">hurricanes</span> <span class="op">&lt;-</span> <span class="fu">distinct</span><span class="op">(</span><span class="va">dd</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"hurricane"</span>,<span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">disasterName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">disasterName</span>, <span class="va">disasterNumber</span><span class="op">)</span><span class="op">)</span>
-<span class="va">hurricanes</span>
-<span class="co">#&gt; # A tibble: 381 × 2</span>
-<span class="co">#&gt;    disasterName                               disasterNumber</span>
-<span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;         </span>
-<span class="co">#&gt;  1 HURRICANE MARIA                            3390          </span>
-<span class="co">#&gt;  2 HURRICANE IRMA                             3388          </span>
-<span class="co">#&gt;  3 HURRICANE NATE                             3395          </span>
-<span class="co">#&gt;  4 HURRICANE HARVEY                           4332          </span>
-<span class="co">#&gt;  5 HURRICANE IRMA                             3384          </span>
-<span class="co">#&gt;  6 HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA 4341          </span>
-<span class="co">#&gt;  7 HURRICANE NATE                             3394          </span>
-<span class="co">#&gt;  8 HURRICANE IRMA                             4336          </span>
-<span class="co">#&gt;  9 HURRICANE NATE                             4349          </span>
-<span class="co">#&gt; 10 HURRICANE IRMA                             3385          </span>
-<span class="co">#&gt; # … with 371 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># call the disaster declarations</span></span>
+<span><span class="va">dd</span> <span class="op">&lt;-</span> <span class="fu">rfema</span><span class="fu">::</span><span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"FemaWebDisasterDeclarations"</span>, ask_before_call <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Obtaining Data: 1 out of 5 iterations (20% complete) Obtaining Data: 2 out of 5 iterations (40%</span></span>
+<span><span class="co">#&gt; complete) Obtaining Data: 3 out of 5 iterations (60% complete) Obtaining Data: 4 out of 5 iterations</span></span>
+<span><span class="co">#&gt; (80% complete) Obtaining Data: 5 out of 5 iterations (100% complete)</span></span>
+<span></span>
+<span><span class="co"># filter disaster declarations to those with "hurricane" in the name</span></span>
+<span><span class="va">hurricanes</span> <span class="op">&lt;-</span> <span class="fu">distinct</span><span class="op">(</span><span class="va">dd</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"hurricane"</span>,<span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">disasterName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">disasterName</span>, <span class="va">disasterNumber</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">hurricanes</span></span>
+<span><span class="co">#&gt; # A tibble: 381 × 2</span></span>
+<span><span class="co">#&gt;    disasterName                               disasterNumber</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;         </span></span>
+<span><span class="co">#&gt;  1 HURRICANE MARIA                            3390          </span></span>
+<span><span class="co">#&gt;  2 HURRICANE IRMA                             3388          </span></span>
+<span><span class="co">#&gt;  3 HURRICANE NATE                             3395          </span></span>
+<span><span class="co">#&gt;  4 HURRICANE HARVEY                           4332          </span></span>
+<span><span class="co">#&gt;  5 HURRICANE IRMA                             3384          </span></span>
+<span><span class="co">#&gt;  6 HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA 4341          </span></span>
+<span><span class="co">#&gt;  7 HURRICANE NATE                             3394          </span></span>
+<span><span class="co">#&gt;  8 HURRICANE IRMA                             4336          </span></span>
+<span><span class="co">#&gt;  9 HURRICANE NATE                             4349          </span></span>
+<span><span class="co">#&gt; 10 HURRICANE IRMA                             3385          </span></span>
+<span><span class="co">#&gt; # … with 371 more rows</span></span></code></pre></div>
 <p>We can see immediately that disaster numbers do not uniquely identify an event, since multiple disaster declarations may be declared for the same event, but in different locations. Thus to filter on a particular event, we need to collect all the disaster declaration numbers corresponding to that event (in this case Hurricane Irma).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># get all disaster declarations associated with hurricane irma. </span>
-<span class="co"># notice the use of grepl() which picked up a disaster declaration name </span>
-<span class="co"># that was different than all the others.</span>
-<span class="va">dd_irma</span> <span class="op">&lt;-</span> <span class="va">hurricanes</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"irma"</span>,<span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">disasterName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">dd_irma</span>
-<span class="co">#&gt; # A tibble: 13 × 2</span>
-<span class="co">#&gt;    disasterName                               disasterNumber</span>
-<span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;         </span>
-<span class="co">#&gt;  1 HURRICANE IRMA                             3388          </span>
-<span class="co">#&gt;  2 HURRICANE IRMA                             3384          </span>
-<span class="co">#&gt;  3 HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA 4341          </span>
-<span class="co">#&gt;  4 HURRICANE IRMA                             4336          </span>
-<span class="co">#&gt;  5 HURRICANE IRMA                             3385          </span>
-<span class="co">#&gt;  6 HURRICANE IRMA                             4346          </span>
-<span class="co">#&gt;  7 HURRICANE IRMA                             3383          </span>
-<span class="co">#&gt;  8 HURRICANE IRMA                             3389          </span>
-<span class="co">#&gt;  9 HURRICANE IRMA                             4338          </span>
-<span class="co">#&gt; 10 HURRICANE IRMA                             3386          </span>
-<span class="co">#&gt; 11 HURRICANE IRMA                             4335          </span>
-<span class="co">#&gt; 12 HURRICANE IRMA                             3387          </span>
-<span class="co">#&gt; 13 HURRICANE IRMA                             4337</span>
-
-<span class="co"># get a vector of just the disaster declaration numbers</span>
-<span class="va">dd_nums_irma</span> <span class="op">&lt;-</span> <span class="va">dd_irma</span><span class="op">$</span><span class="va">disasterNumber</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># get all disaster declarations associated with hurricane irma. </span></span>
+<span><span class="co"># notice the use of grepl() which picked up a disaster declaration name </span></span>
+<span><span class="co"># that was different than all the others.</span></span>
+<span><span class="va">dd_irma</span> <span class="op">&lt;-</span> <span class="va">hurricanes</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"irma"</span>,<span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">disasterName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dd_irma</span></span>
+<span><span class="co">#&gt; # A tibble: 13 × 2</span></span>
+<span><span class="co">#&gt;    disasterName                               disasterNumber</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                      &lt;chr&gt;         </span></span>
+<span><span class="co">#&gt;  1 HURRICANE IRMA                             3388          </span></span>
+<span><span class="co">#&gt;  2 HURRICANE IRMA                             3384          </span></span>
+<span><span class="co">#&gt;  3 HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA 4341          </span></span>
+<span><span class="co">#&gt;  4 HURRICANE IRMA                             4336          </span></span>
+<span><span class="co">#&gt;  5 HURRICANE IRMA                             3385          </span></span>
+<span><span class="co">#&gt;  6 HURRICANE IRMA                             4346          </span></span>
+<span><span class="co">#&gt;  7 HURRICANE IRMA                             3383          </span></span>
+<span><span class="co">#&gt;  8 HURRICANE IRMA                             3389          </span></span>
+<span><span class="co">#&gt;  9 HURRICANE IRMA                             4338          </span></span>
+<span><span class="co">#&gt; 10 HURRICANE IRMA                             3386          </span></span>
+<span><span class="co">#&gt; 11 HURRICANE IRMA                             4335          </span></span>
+<span><span class="co">#&gt; 12 HURRICANE IRMA                             3387          </span></span>
+<span><span class="co">#&gt; 13 HURRICANE IRMA                             4337</span></span>
+<span></span>
+<span><span class="co"># get a vector of just the disaster declaration numbers</span></span>
+<span><span class="va">dd_nums_irma</span> <span class="op">&lt;-</span> <span class="va">dd_irma</span><span class="op">$</span><span class="va">disasterNumber</span></span></code></pre></div>
 <p>Now we are read to filter our API call for the <code>HousingAssistanceRenters</code> data set.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># construct filter list</span>
-<span class="va">filter_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>disasterNumber <span class="op">=</span> <span class="va">dd_nums_irma</span><span class="op">)</span>
-
-
-<span class="co"># make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.</span>
-<span class="va">assistance_irma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HousingAssistanceRenters"</span>, filters <span class="op">=</span> <span class="va">filter_list</span>, ask_before_call <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-<span class="co">#&gt; Obtaining Data: 1 out of 6 iterations (16.67% complete) Obtaining Data: 2 out of 6 iterations (33.33% complete) Obtaining Data: 3 out of 6 iterations</span>
-<span class="co">#&gt; (50% complete) Obtaining Data: 4 out of 6 iterations (66.67% complete) Obtaining Data: 5 out of 6 iterations (83.33% complete) Obtaining Data: 6 out of 6</span>
-<span class="co">#&gt; iterations (100% complete)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># construct filter list</span></span>
+<span><span class="va">filter_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>disasterNumber <span class="op">=</span> <span class="va">dd_nums_irma</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.</span></span>
+<span><span class="va">assistance_irma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/open_fema.html">open_fema</a></span><span class="op">(</span>data_set <span class="op">=</span> <span class="st">"HousingAssistanceRenters"</span>, filters <span class="op">=</span> <span class="va">filter_list</span>, ask_before_call <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Obtaining Data: 1 out of 6 iterations (16.67% complete) Obtaining Data: 2 out of 6 iterations (33.33%</span></span>
+<span><span class="co">#&gt; complete) Obtaining Data: 3 out of 6 iterations (50% complete) Obtaining Data: 4 out of 6 iterations</span></span>
+<span><span class="co">#&gt; (66.67% complete) Obtaining Data: 5 out of 6 iterations (83.33% complete) Obtaining Data: 6 out of 6</span></span>
+<span><span class="co">#&gt; iterations (100% complete)</span></span></code></pre></div>
 <p>Check out the returned data</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># check out the returned data</span>
-<span class="va">assistance_irma</span>
-<span class="co">#&gt; # A tibble: 5,353 × 21</span>
-<span class="co">#&gt;    state validRegistrations totalInspected totalInspectedWithNoDamage totalWithModerat… totalWithMajorDa… totalWithSubsta… approvedForFema… totalApprovedIh…</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt;                      &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 VI    1                  0              1                          0                 0                 0                0                0               </span>
-<span class="co">#&gt;  2 VI    2                  1              2                          0                 0                 0                1                2401.64         </span>
-<span class="co">#&gt;  3 VI    1                  1              0                          1                 0                 0                1                2816            </span>
-<span class="co">#&gt;  4 VI    1                  1              0                          1                 0                 0                1                4476.9          </span>
-<span class="co">#&gt;  5 VI    4                  4              2                          1                 0                 0                4                6360            </span>
-<span class="co">#&gt;  6 VI    1                  1              0                          1                 0                 0                1                2122            </span>
-<span class="co">#&gt;  7 VI    1                  0              1                          0                 0                 0                0                0               </span>
-<span class="co">#&gt;  8 VI    1                  1              1                          0                 0                 0                1                499.99          </span>
-<span class="co">#&gt;  9 VI    3                  2              2                          1                 0                 0                1                2622            </span>
-<span class="co">#&gt; 10 VI    1                  1              0                          1                 0                 0                1                3548.62         </span>
-<span class="co">#&gt; # … with 5,343 more rows, and 12 more variables: repairReplaceAmount &lt;chr&gt;, rentalAmount &lt;chr&gt;, otherNeedsAmount &lt;chr&gt;, approvedBetween1And10000 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   approvedBetween10001And25000 &lt;chr&gt;, approvedBetween25001AndMax &lt;chr&gt;, totalMaxGrants &lt;chr&gt;, disasterNumber &lt;chr&gt;, zipCode &lt;chr&gt;, county &lt;chr&gt;,</span>
-<span class="co">#&gt; #   city &lt;chr&gt;, id &lt;chr&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># check out the returned data</span></span>
+<span><span class="va">assistance_irma</span></span>
+<span><span class="co">#&gt; # A tibble: 5,353 × 21</span></span>
+<span><span class="co">#&gt;    state validRegistrations totalInspected totalInspectedWithNoDamage totalWithModera… totalWithMajorD…</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt;                      &lt;chr&gt;            &lt;chr&gt;           </span></span>
+<span><span class="co">#&gt;  1 VI    1                  1              1                          0                0               </span></span>
+<span><span class="co">#&gt;  2 VI    6                  4              4                          2                0               </span></span>
+<span><span class="co">#&gt;  3 VI    1                  1              0                          1                0               </span></span>
+<span><span class="co">#&gt;  4 VI    267                203            186                        63               18              </span></span>
+<span><span class="co">#&gt;  5 VI    4                  4              2                          1                0               </span></span>
+<span><span class="co">#&gt;  6 VI    1                  0              1                          0                0               </span></span>
+<span><span class="co">#&gt;  7 VI    1                  1              1                          0                0               </span></span>
+<span><span class="co">#&gt;  8 VI    1                  1              1                          0                0               </span></span>
+<span><span class="co">#&gt;  9 VI    1                  0              1                          0                0               </span></span>
+<span><span class="co">#&gt; 10 VI    1                  1              1                          0                0               </span></span>
+<span><span class="co">#&gt; # … with 5,343 more rows, and 15 more variables: totalWithSubstantialDamage &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   approvedForFemaAssistance &lt;chr&gt;, totalApprovedIhpAmount &lt;chr&gt;, repairReplaceAmount &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   rentalAmount &lt;chr&gt;, otherNeedsAmount &lt;chr&gt;, approvedBetween1And10000 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   approvedBetween10001And25000 &lt;chr&gt;, approvedBetween25001AndMax &lt;chr&gt;, totalMaxGrants &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   disasterNumber &lt;chr&gt;, zipCode &lt;chr&gt;, county &lt;chr&gt;, city &lt;chr&gt;, id &lt;chr&gt;</span></span></code></pre></div>
 <p>Now we can answer our original question: How much did FEMA awarded for rental assistance following Hurricane Irma?</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># sum the rentalAmount Column</span>
-<span class="va">rent_assistance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">assistance_irma</span><span class="op">$</span><span class="va">rentalAmount</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># scale to millions</span>
-<span class="va">rent_assistance</span> <span class="op">&lt;-</span> <span class="va">rent_assistance</span><span class="op">/</span><span class="fl">1000000</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"$"</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">rent_assistance</span>,<span class="fl">2</span><span class="op">)</span>,
-             <span class="st">" million was awarded by FEMA for rental assistance following Hurricane Irma"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "$314.64 million was awarded by FEMA for rental assistance following Hurricane Irma"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># sum the rentalAmount Column</span></span>
+<span><span class="va">rent_assistance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">assistance_irma</span><span class="op">$</span><span class="va">rentalAmount</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># scale to millions</span></span>
+<span><span class="va">rent_assistance</span> <span class="op">&lt;-</span> <span class="va">rent_assistance</span><span class="op">/</span><span class="fl">1000000</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"$"</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">rent_assistance</span>,<span class="fl">2</span><span class="op">)</span>,</span>
+<span>             <span class="st">" million was awarded by FEMA for rental assistance following Hurricane Irma"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "$314.64 million was awarded by FEMA for rental assistance following Hurricane Irma"</span></span></code></pre></div>
 </div>
 </div>
-<div id="bulk-downloads" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bulk-downloads" class="anchor"></a>Bulk Downloads</h2>
+<div class="section level2">
+<h2 id="bulk-downloads">Bulk Downloads<a class="anchor" aria-label="anchor" href="#bulk-downloads"></a>
+</h2>
 <p>In some cases bulk downloading a full data set file may be preferred. For particularly large data requests, its usually faster to bulk download the entire data set as a csv file and then load it into the R environment. In this case, users can use the bulk_dl() command to download a csv of the full data file and save it to a specified directory.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bulk_dl.html">bulk_dl</a></span><span class="op">(</span><span class="st">"femaRegions"</span><span class="op">)</span> <span class="co"># download a csv file containing all info on FEMA regions</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/bulk_dl.html">bulk_dl</a></span><span class="op">(</span><span class="st">"femaRegions"</span><span class="op">)</span> <span class="co"># download a csv file containing all info on FEMA regions</span></span></code></pre></div>
 </div>
   </div>
 
@@ -553,11 +563,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Dylan Turner.</p>
+  <p></p>
+<p>Developed by Dylan Turner.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -565,6 +577,8 @@
 
   
 
+
+  
 
   </body>
 </html>

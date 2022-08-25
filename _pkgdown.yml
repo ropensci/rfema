@@ -28,12 +28,9 @@ reference:
 - title: All functions
   contents:
   - '`bulk_dl`'
-  - '`fema_api_endpoints`'
   - '`fema_data_fields`'
   - '`fema_data_sets`'
-  - '`gen_api_query`'
   - '`open_fema`'
   - '`parameter_values`'
-  - '`valid_dataset`'
   - '`valid_parameters`'
 

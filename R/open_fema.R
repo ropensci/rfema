@@ -143,7 +143,9 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
       for (i in seq(from = 1, to = iterations, by = 1)) {
         # As above, if you have filters, specific fields, or are sorting, add
         # that to the base URL or make sure it gets concatenated here.
-        result <- httr::GET(paste0(api_query, "&$skip=", (i - 1) * 1000))
+        result <- httr::GET(paste0(api_query, "&$skip=", 
+                                   format( (i - 1) * 1000, 
+                                   scientific=F)))
         if (result$status_code != 200) {
           status <- httr::http_status(result)
           stop(status$message)

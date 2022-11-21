@@ -198,7 +198,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
 
   # replace top_n with 1000 if no value is supplied
   if (is.null(top_n)) {
-    top_n <- 1000
+    top_n <- format(1000, scientific=F)  
   }
 
   # build up the api query starting with the base url for the data set

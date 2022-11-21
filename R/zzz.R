@@ -1,4 +1,7 @@
 .onLoad <- function(libname, pkgname) {
+  
+  # set scientific notation options
+  options(scipen=999)
 
   # memoise functions
   open_fema <<- memoise::memoise(open_fema)

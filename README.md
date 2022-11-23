@@ -1,10 +1,10 @@
 rfema (R FEMA)
 ================
 
--   [Introduction](#introduction)
--   [Why rfema?](#why-rfema)
--   [Installation](#installation)
--   [Usage](#usage)
+- <a href="#introduction" id="toc-introduction">Introduction</a>
+- <a href="#why-rfema" id="toc-why-rfema">Why rfema?</a>
+- <a href="#installation" id="toc-installation">Installation</a>
+- <a href="#usage" id="toc-usage">Usage</a>
 
 [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rfema/actions)
 [![Project Status: Active – The project has reached a stable, usable
@@ -163,7 +163,6 @@ data
     ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
     ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
     ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 Compare the above block of code to the following code which obtains the
 same data using the `rfema` package. The `rfema` package allows the same
@@ -204,7 +203,6 @@ data
     ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
     ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
     ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 
 The `rfema` package also returns data, where possible, in formats that
 are easier to work with. For example, all functions return data as a
@@ -264,27 +262,26 @@ data_sets <- fema_data_sets()
 data_sets
 ```
 
-    ## # A tibble: 36 × 39
+    ## # A tibble: 42 × 39
     ##    identif…¹ name  title descr…² distr…³ webSe…⁴ dataD…⁵ keyword modif…⁶ publi…⁷
     ##    <chr>     <chr> <chr> <chr>   <list>  <chr>   <chr>   <list>  <list>  <chr>  
-    ##  1 openfema… Hous… Hous… "The d… <list>  https:… https:… <list>  <chr>   Federa…
-    ##  2 openfema… Haza… Haza… "This … <list>  https:… https:… <list>  <NULL>  Federa…
+    ##  1 openfema… Disa… Disa… "FEMA … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  2 openfema… Hous… Hous… "The d… <list>  https:… https:… <list>  <chr>   Federa…
     ##  3 openfema… Hous… Hous… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  4 openfema… Fema… FEMA… "Provi… <list>  https:… https:… <list>  <chr>   Federa…
-    ##  5 openfema… Emer… Emer… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  6 openfema… Ipaw… IPAW… "The I… <list>  https:… https:… <list>  <chr>   Federa…
-    ##  7 openfema… Regi… Regi… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  8 openfema… Data… Open… "Metad… <list>  https:… https:… <list>  <chr>   Federa…
-    ##  9 openfema… NonD… Non-… "This … <list>  https:… https:… <list>  <NULL>  Federa…
-    ## 10 openfema… Data… Open… "Metad… <list>  https:… https:… <list>  <chr>   Federa…
-    ## # … with 26 more rows, 29 more variables: contactPoint <chr>, mbox <chr>,
+    ##  4 openfema… Publ… Publ… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  5 openfema… Fema… FEMA… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  6 openfema… Fema… FEMA… "Provi… <list>  https:… https:… <list>  <chr>   Federa…
+    ##  7 openfema… Fema… FEMA… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  8 openfema… Regi… Regi… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ##  9 openfema… Disa… Disa… "FEMA … <list>  https:… https:… <list>  <NULL>  Federa…
+    ## 10 openfema… Emer… Emer… "This … <list>  https:… https:… <list>  <chr>   Federa…
+    ## # … with 32 more rows, 29 more variables: contactPoint <chr>, mbox <chr>,
     ## #   accessLevel <chr>, landingPage <chr>, temporal <chr>, api <lgl>,
     ## #   version <int>, recordCount <list>, bureauCode <chr>, programCode <chr>,
     ## #   accessLevelComment <chr>, license <chr>, spatial <chr>, theme <chr>,
     ## #   dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
-    ## #   primaryITInvestmentUII <chr>, references <chr>, issued <list>,
-    ## #   systemOfRecords <chr>, depDate <list>, depApiMessage <chr>, …
-    ## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+    ## #   primaryITInvestmentUII <chr>, references <list>, issued <list>,
+    ## #   systemOfRecords <chr>, depDate <chr>, depApiMessage <chr>, …
 
 Once you have the name of the data set you want, simply pass it as an
 argument to the `open_fema()` function which will return the data set as
@@ -326,7 +323,6 @@ retrieved_data
     ## #   longitude <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
     ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
     ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
-    ## # ℹ Use `colnames()` to see all variable names
 
 There are a variety of other ways to more precisely target the data you
 want to retrieve by specifying how many records you want returned,

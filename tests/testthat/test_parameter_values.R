@@ -8,7 +8,7 @@ test_that("Error is returned when data field is not in the data set", {
 
 test_that(paste0("returned object is a tibble of dimension 1 x N"), {
   vcr::use_cassette("parameter_value", {
-    returned_obj <- parameter_values("fimanfipclaims", "floodZone", message = FALSE)
+    returned_obj <- parameter_values("fimanfipclaims", "ratedFloodZone", message = FALSE)
   })
   expect_equal(tibble::is_tibble(returned_obj), TRUE) # is a tibble
   expect_equal(ncol(returned_obj) > 1, TRUE) # has a single row
@@ -17,7 +17,7 @@ test_that(paste0("returned object is a tibble of dimension 1 x N"), {
 
 test_that(paste0("returned object is NULL when message argument is TRUE"), {
   vcr::use_cassette("parameter_value2", {
-    returned_obj <- parameter_values("fimanfipclaims", "floodZone", message = TRUE)
+    returned_obj <- parameter_values("fimanfipclaims", "ratedFloodZone", message = TRUE)
   })
   expect_equal(returned_obj, NULL)
 })

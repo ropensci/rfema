@@ -29,7 +29,7 @@ parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE)
   data_set <- valid_dataset(data_set)
 
   # get data set fields
-  data <- open_fema(data_set = "datasetfields")
+  data <- open_fema(data_set = "datasetfields", ask_before_call = F)
 
   # filter to users data set
   data <- data[which(trimws(tolower(data$openFemaDataSet)) ==

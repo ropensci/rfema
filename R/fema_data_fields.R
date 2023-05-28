@@ -24,7 +24,7 @@ fema_data_fields <- function(data_set) {
   data_set <- valid_dataset(data_set)
 
   # obtain the data fields data set using the open_fema function
-  data_fields <- open_fema("DataSetFields")
+  data_fields <- open_fema("DataSetFields", ask_before_call = F)
 
   # keep only data fields which correspond to the choosen data set
   data_fields <- data_fields[which(data_fields$openFemaDataSet == data_set), ]

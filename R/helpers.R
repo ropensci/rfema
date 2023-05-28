@@ -260,6 +260,12 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
         paste(operators$sym, collapse = "|"), "",
         filters[[k]]
       ))
+      
+     suppressWarnings({
+      if(!is.na(as.numeric(filter_temp))){
+        filter_temp <- as.numeric(filter_temp)
+      }
+     })
 
       if (is.character(filter_temp)) {
         filter_temp <- paste0("(", names(filters)[k], " ", op_temp, " ", noquote(paste0("'", filter_temp, "'", collapse = paste0(" or ", names(filters)[k], " ", op_temp, " "))), ")")

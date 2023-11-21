@@ -62,7 +62,14 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
       result <- httr::GET(paste0(api_query))
       if (result$status_code != 200) {
         status <- httr::http_status(result)
-        stop(status$message)
+        
+        if(result$status_code == 503){
+         message <- paste0(status$message,". As the user, this error is usually outside of your control and means the server hosting the FEMA API is experiencing technical difficulties. There is usually nothing to do except wait and try your query again later.") 
+        } else{
+          message <- status$message
+        }
+        
+        stop(message)
       }
       json_data <- httr::content(result)[[2]]
 
@@ -94,10 +101,17 @@ open_fema <- function(data_set, top_n = NULL, filters = NULL,
     )
 
     # run the api call and determine the number of matching records
-    result <- httr::GET(record_check_query)
+    result <- httr::GET(paste0(api_query))
     if (result$status_code != 200) {
       status <- httr::http_status(result)
-      stop(status$message)
+      
+      if(result$status_code == 503){
+        message <- paste0(status$message,". As the user, this error is usually outside of your control and means the server hosting the FEMA API is experiencing technical difficulties. There is usually nothing to do except wait and try your query again later.") 
+      } else{
+        message <- status$message
+      }
+      
+      stop(message)
     }
     json_data <- httr::content(result)
     n_records <- json_data$metadata$count

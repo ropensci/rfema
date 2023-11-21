@@ -1,7 +1,7 @@
 ---
 title: "rfema: Getting Started"
 author: "Dylan Turner"
-date: "`r Sys.Date()`"
+date: "2023-11-12"
 output: rmarkdown::html_vignette
 # output:
 #  github_document:
@@ -13,17 +13,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-
-library(knitr)
+```{r, include = F}
+devtools::load_all()
 library(dplyr)
-install.packages("rfema", repos = "https://ropensci.r-universe.dev") # make sure package is most recent version
-library(rfema)
 ```
+
 
 ## Introduction
 
@@ -34,7 +28,8 @@ Right now, the best way to install and use the `rfema` package is by installing 
 
 ## Available Datasets
 For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the [FEMA API documentation page](https://www.fema.gov/about/openfema/data-sets). However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the `fema_data_sets()` function to obtain a tibble of available data sets along with associated meta data is a convenient option.
-```{r, cache = T}
+
+```{r}
 # store the avaliable data sets as an object in your R environment that can be referenced later
 data_sets <- fema_data_sets() 
 
@@ -43,10 +38,16 @@ data_sets
 
 ```
 
+```{r}
+# print out just the names of the avaliable data sets without all the other meta data
+paste(data_sets$title, sep = ", ")
+```
+
 
 ## Example Workflow
 Once we know what data set we want to access, or perhaps if we want to know more about what data is available in a given data set, we can use the `fema_data_fields()` function to get a look at the available data fields in a given data set by setting the "data_set" parameter to one of the "name" columns in the data frame returned by the `fema_data_sets()` function.
-```{r,cache=T}
+
+```{r}
 # obtain all the data fields for the NFIP Policies data set
 df <- fema_data_fields(data_set = "fimaNfipPolicies")
 
@@ -60,20 +61,21 @@ df
 ```
 
 
-
 The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The `open_fema` function handles this process automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the `ask_before_call` argument to `FALSE`). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")` will yield the following output in the R console.
 
-```{r, echo = F}
-time <- rfema:::time_iterations("fimanfipclaims",2565)
-message(rfema:::get_status_message(n_records = 2564279, iterations = 2565,top_n = NULL, estimated_time = time))
-print(noquote("1 - Yes, get that data!, 0 - No, let me rethink my API call: "))
+
+```
+Calculating estimated API call time...
+2600579 matching records found. At 1000 records per call, it will take 2601 individual API calls to get all matching records. It's estimated that this will take approximately 2.12 hours. Continue?
+ 1 - Yes, get that data!, 0 - No, let me rethink my API call: 
 ```
 
 Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the `bulk_dl` function. 
 
 
-Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If top_n is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
-```{r, cache = T}
+Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If `top_n` is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
+
+```{r}
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
 
 df
@@ -81,93 +83,100 @@ df
 
 If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the `fema_data_fields()` function.
 
-```{r, cache = T}
+
+```{r}
 data_fields <- fema_data_fields("fimanfipclaims")
 
 data_fields
 ```
 
 
-In this case we will return only the `policyCount` and `floodZone` columns. As can be seen, an id column is always returned even if the select argument is used. 
-```{r, cache = T}
-df <- open_fema(data_set = "fimaNfipClaims", top_n = 10, select = c("policyCount","floodZone"))
+In this case we will return only the `policyCount` and `countyCode` columns. 
+```{r}
+df <- open_fema(data_set = "fimaNfipClaims", top_n = 10, select = c("policyCount","countyCode"))
 
 df
+
 ```
 
-If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the valid_parameters() function to return a tibble containing the variables that are "searchable" for a particular data set. 
-```{r, cache = T}
+If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the `valid_parameters()` function to return a tibble containing the variables that are "searchable" for a particular data set. 
+
+```{r}
 params <- valid_parameters(data_set = "fimaNfipClaims")
 
 params
-
 ```
 
-We can see from the above that both `policyCount` and `floodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
+We can see from the above that both `waterDepth` and `ratedfloodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
 
-```{r, cache = T}
-# get more information onf the "floodZone" parameter from the NFIP Claims data set
-parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
+
+```{r}
+# get more information onf the "ratedfloodZone" parameter from the NFIP Claims data set
+parameter_values(data_set = "fimaNfipClaims",data_field = "ratedFloodZone")
 ```
 
-As can be seen `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
-```{r, cache = T}
-parameter_values(data_set = "fimaNfipClaims",data_field = "floodZone")
-```
+As can be seen, `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
 
 
-We can see from the above that `floodZone` is a character in the data and from the description we know that "AE" and "X" are both valid values for the `floodZone` parameter. We can thus define a filter to return only records from AE or X flood zones.
-```{r, cache = T}
-# construct a filter that limits records to those in AE or X flood zones
-my_filters <- list(floodZone = c("AE","X"))
+We can see from the above that `ratedFloodZone` is a character in the data and from the description we know that "AE" and "X" are both valid values for the `ratedFloodZone` parameter. We can thus define a filter to return only records from AE and X flood zones.
+
+```{r}
+# construct a filter that limits records to those in AE flood zones
+my_filters <- list(ratedFloodZone = c("AE","X"))
 
 # pass the filter to the open_fema function.
-df <- open_fema(data_set = "fimaNfipPolicies", top_n = 10, 
-               select = c("policyCount","floodZone"), filters = my_filters)
+df <- open_fema(data_set = "fimaNfipclaims", top_n = 10, 
+               select = c("policyCount","ratedFloodZone"),
+               filters = my_filters)
+
 
 df
-
-
 ```
-
-
-
-
-
 
 ## More Examples
 
-### Example: Return the first 100 NFIP claims for Autauga County, AL that happened between 2010 and 2020.
-```{r, cache = T}
+### Example: Return the first 100 NFIP claims for Florida that happened between 2010 and 2020.
+
+```{r}
 df <- open_fema(data_set = "fimaNfipClaims",
                  top_n = 100,
-                 filters = list(countyCode = "= 01001",
+                 filters = list(state = "FL",
                                 yearOfLoss = ">= 2010",
                                 yearOfLoss = "<= 2020"))
 
 df
+
 ```
 
 
-### Example: Get data on all Hazard Mitigation Grants associated with Hurricanes in Florida.
-```{r, cache = T}
+### Example: Get data on all Hazard Mitigation Assistance Projects associated with flood mitigation in Florida.
+
+```{r}
 # see which parameter can be used for filtering the Hazard Mitigation Grants data set
-valid_parameters("HazardMitigationGrants") 
+valid_parameters("HazardMitigationAssistanceProjects") 
+```
 
-# see how values of "incidentType" are formatted
-parameter_values(data_set = "HazardMitigationGrants", data_field = "incidentType") 
 
+```{r}
+# see how values of "programArea" are formatted
+params <- parameter_values(data_set = "HazardMitigationAssistanceProjects", data_field = "programArea", message = F) 
+params
+```
+
+```{r}
 # check to see how "state" is formatted
-parameter_values(data_set = "HazardMitigationGrants", data_field = "state") 
+params <- parameter_values(data_set = "HazardMitigationAssistanceProjects", data_field = "state", message = F) 
+params
+```
 
-# construct a list containing filters for Hurricane and Florida
-filter_list <- c(incidentType = c("Hurricane"),
+```{r}
+# construct a list containing filters for Flood Mitigation Assistance projects in Florida
+filter_list <- c(programArea = c("FMA"),
                  state = c("Florida")) 
 
 # pass filter_list to the open_fema function to retreieve data.
-df <- open_fema(data_set = "HazardMitigationGrants", filters = filter_list, 
+df <- open_fema(data_set = "HazardMitigationAssistanceProjects", filters = filter_list, 
                ask_before_call = FALSE)
-
 
 df
 ```
@@ -176,29 +185,37 @@ df
 ### Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.
 
 Get a dataset description for the `HousingAssistanceRenters` data set to see if this is the right data set for the question
-```{r, cache = T}
-# get meta data for the `HousingAssistanceRenters`
-ds <- fema_data_sets() %>% filter(name == "HousingAssistanceRenters")
 
+```{r}
+
+
+# get meta data for the `HousingAssistanceRenters`
+ds <- fema_data_sets() 
+ds <- ds[which(ds$name == "HousingAssistanceRenters"),]
 # there are two entries corresponding to two versions of the data set, 
 # we want the most recent one
 nrow(ds)
-ds <- ds %>% filter(version == max(as.numeric(ds$version)))
 
-# now print out the data set description and make sure its the data set 
-# that applicable or our research question
-print(ds$description)
+ds <- ds[which(ds$version == max(as.numeric(ds$version))),]
 
 ```
 
+```{r}
+# now print out the data set description and make sure its the data set 
+# that applicable or our research question
+print(ds$description)
+```
+
 See which columns we can filter on to select just Hurricane Irma related grants
-```{r, cache = T}
+
+```{r}
 # see which parameter can be used for filtering the Housing Assistance for Renters 
 valid_parameters("HousingAssistanceRenters") 
 ```
 
 All we have in this data set is the `disasterNumber`. Thus, to filter on a specific disaster we have to load the `FemaWebDisasterDeclarations` data find the disaster number associated with the event we are interested in.
-```{r, cache = T}
+
+```{r}
 # call the disaster declarations
 dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
 
@@ -206,11 +223,11 @@ dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call
 hurricanes <- distinct(dd %>% filter(grepl("hurricane",tolower(disasterName))) %>% select(disasterName, disasterNumber))
 hurricanes
 
-
 ```
 
 We can see immediately that disaster numbers do not uniquely identify an event, since multiple disaster declarations may be declared for the same event, but in different locations. Thus to filter on a particular event, we need to collect all the disaster declaration numbers corresponding to that event (in this case Hurricane Irma). 
-```{r, cache = T}
+
+```{r}
 # get all disaster declarations associated with hurricane irma. 
 # notice the use of grepl() which picked up a disaster declaration name 
 # that was different than all the others.
@@ -219,14 +236,13 @@ dd_irma
 
 # get a vector of just the disaster declaration numbers
 dd_nums_irma <- dd_irma$disasterNumber
-
 ```
 
 Now we are read to filter our API call for the `HousingAssistanceRenters` data set.
-```{r, cache = T}
+
+```{r}
 # construct filter list
 filter_list <- list(disasterNumber = dd_nums_irma)
-
 
 # make the API call to get individual assistance grants awarded to renters for hurricane Irma damages.
 assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list, ask_before_call = F)
@@ -234,14 +250,16 @@ assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = fi
 ```
 
 Check out the returned data
-```{r, cache = T}
+
+```{r}
 # check out the returned data
 assistance_irma
 ```
 
 
 Now we can answer our original question: How much did FEMA awarded for rental assistance following Hurricane Irma?
-```{r, cache = T}
+
+```{r}
 # sum the rentalAmount Column
 rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
 
@@ -250,17 +268,91 @@ rent_assistance <- rent_assistance/1000000
 
 print(paste0("$",round(rent_assistance,2),
              " million was awarded by FEMA for rental assistance following Hurricane Irma"))
+```
+
+## Clean one of the data sets with a nested structure
+Some data sets that get returned from the FEMA API will be in a nested format. Data from the Integrated Public Alert & Warning System (IPAWS) is one such example of this. See for example the first column of the IPAWS data set, which is XML data returned as a character. Most of the useful information from this data set is in that first column, but isn't in a form that will be useful for most R users. 
+
+```{r}
+
+# get the first ten entries from the IPAWS data set
+ipaws <- rfema::open_fema("IpawsArchivedAlerts", top_n = 100)
+
+
+ipaws
 
 ```
 
+The following is one method for converting the xml data into tabular form.
+```{r}
 
+library(dplyr)
+library(XML)
+
+# create function to unnest the ipaws entries
+unnest_ipaws <- function(xml_entry){
+
+  # convert the raw xml data to a list
+  xml_data <- XML::xmlToList(xml_entry)
+
+  # get names of the list elements in xml data
+  names <- names(xml_data)
+
+  # get a summary of the data to id which elements are nested
+  data_sum <- summary(xml_data)
+
+  # put all the non nested elements into a data frame
+  df <- data.frame(xml_data[names[which(as.numeric(data_sum[,1]) == 1)]])
+
+  # get vector of elements that need to be unnested
+  needs_unnesting <- which(as.numeric(data_sum[,1]) > 1)
+
+  # loop over the elements identified above
+  for(k in needs_unnesting){
+
+    # unlist the nested data
+    unlisted_data <- t(unlist(xml_data[k], recursive = T, use.names = T))
+
+    # store the unlisted data as a data frame
+    temp_df <- data.frame(unlisted_data)
+
+    # add the unnested data frame to the existing "df" data frame
+    df <- cbind.data.frame(df,temp_df)
+  }
+
+  return(df)
+
+}
+
+# get the first 100 entries from the IPAWS alerts data set
+ipaws <- rfema::open_fema("IpawsArchivedAlerts", top_n = 100)
+
+# apply the `unnest_ipaws` function over all the XML entries in the returned `ipaws` object
+ipaws_list <- sapply(ipaws$originalMessage, unnest_ipaws, simplify = T)
+
+# convert the `ipaws_list` into a data frame
+ipaws_df <- dplyr::bind_rows(ipaws_list)
+
+# the number of columns can get unwieldy because of all the unique pieces of information
+# in that "info" element that get tacked on
+
+# dropping the geocoding columns could help simplify
+ipaws_df <- ipaws_df %>% select(-contains("geocode"))
+
+# dropping the "parameter value" columns would also help
+# (depending on if those are needed or not)
+ipaws_df <- ipaws_df %>% select(-contains("parameter.value"))
+
+# view the final data
+as_tibble(ipaws_df)
+
+```
 
 ## Bulk Downloads
 In some cases bulk downloading a full data set file may be preferred. For particularly large data requests, its usually faster to bulk download the entire data set as a csv file and then load it into the R environment. In this case, users can use the bulk_dl() command to download a csv of the full data file and save it to a specified directory.
-```{r,cache = T,message = F, warning = F}
+
+```r
 bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
 
-```{r,cache = F, include = F}
-file.remove("FemaRegions.csv")
-```
+

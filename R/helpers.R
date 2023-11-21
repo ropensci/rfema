@@ -262,7 +262,7 @@ gen_api_query <- function(data_set = NULL, top_n = NULL, filters = NULL,
       ))
       
      suppressWarnings({
-      if(!is.na(as.numeric(filter_temp))){
+      if(!(T %in% is.na(as.numeric(filter_temp)))){
         filter_temp <- as.numeric(filter_temp)
       }
      })

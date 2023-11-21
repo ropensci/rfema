@@ -22,14 +22,14 @@
 parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE) {
 
   # get some example values of the data field
-  data <- open_fema(data_set = data_set, top_n = 999, select = data_field, ask_before_call = F)
+  data <- open_fema(data_set = valid_dataset(data_set), top_n = 500, select = data_field, ask_before_call = F)
   values <- unique(data[, data_field])
 
   # ensure data_set is a valid data set
   data_set <- valid_dataset(data_set)
 
   # get data set fields
-  data <- open_fema(data_set = "datasetfields", ask_before_call = F)
+  data <- suppressMessages(open_fema(data_set = "datasetfields", ask_before_call = F))
 
   # filter to users data set
   data <- data[which(trimws(tolower(data$openFemaDataSet)) ==
@@ -43,7 +43,7 @@ parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE)
   if (message == TRUE) {
     message(
       "Data Set: ", data_set, "\nData Field: ", data_field,
-      "\nData Field Description: ", data$type,
+      "\nData Field Description: ", data$description,
       "\nData Field Example Values: ", head(values),
       "\nMore Information Available at: https://www.fema.gov/about/openfema/data-sets"
     )
@@ -51,7 +51,7 @@ parameter_values <- function(data_set = NULL, data_field = NULL, message = TRUE)
     (
       return(tibble(
         "Data Set" = data_set, "Data Field" = data_field,
-        "Data Field Description" = data$type,
+        "Data Field Description" = data$description,
         "Data Field Example Values" = list(head(values))
       ))
     )

@@ -18,7 +18,12 @@
 valid_parameters <- memoise::memoise(function(data_set = NULL) {
   data_set <- valid_dataset(data_set = data_set)
   data_fields <- fema_data_fields(data_set)
-  data_fields <- data_fields[which(data_fields$isSearchable != "no"), ] # remove rows for parameters that aren't searchable
+  
+  # remove rows for parameters that aren't searchable
+  data_fields <- data_fields[which(data_fields$isSearchable == TRUE), ] 
+  
+  # remove rows for parameters that aren't part of the most current data set version
+  data_fields <- data_fields[which(data_fields$datasetVersion == max(data_fields$datasetVersion)), ] 
   params <- data_fields$name
 
   # one of the data sets (fimanfipclaims) appears to have the columns mislabled. This code

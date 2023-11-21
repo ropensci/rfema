@@ -67,32 +67,29 @@ package as compared to accessing the API directly? In short, the `rfema`
 package handles much of the grunt work associated with constructing API
 queries, dealing with API limits, and applying filters or other
 parameters. Suppose one wants to obtain data on all of the flood
-insurance claims in Broward County, FL between 2010 and 2012. The
-following code obtains that data without the use of the `rfema` package.
-As can be seen it requires quite a few lines of code, in part due to the
-API limiting calls to 1000 records per call which can make obtaining a
-full data set cumbersome.
+insurance claims in Florida for 2020. The following code obtains that
+data without the use of the `rfema` package. As can be seen it requires
+quite a few lines of code, in part due to the API limiting calls to 1000
+records per call which can make obtaining a full data set cumbersome.
 
 ``` r
-# Code needed to obtain data on flood insurance claims in Broward County, FL without the rfema package ------------------
+# Code needed to obtain data on flood insurance claims in FL without the rfema package ------------------
 
 # define the url for the appropriate api end point
-base_url <- "https://www.fema.gov/api/open/v1/FimaNfipClaims"
-
+base_url <- "https://www.fema.gov/api/open/v2/FimaNfipClaims"
 
 # append the base_url to apply filters
-filters <- "?$inlinecount=allpages&$top=1000&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
+filters <- "?$inlinecount=allpages&$filter=(state%20eq%20'FL')%20and%20(yearOfLoss%20eq%202020)"
 
 api_query <- paste0(base_url, filters)
 
 # run a query setting the top_n parameter to 1 to check how many records match the filters
-record_check_query <- "https://www.fema.gov/api/open/v1/FimaNfipClaims?$inlinecount=allpages&$top=1&$select=id&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
+record_check_query <- "https://www.fema.gov/api/open/v2/FimaNfipClaims?$inlinecount=allpages&$top=1&$filter=(state%20eq%20'FL')%20and%20(yearOfLoss%20eq%202020)"
 
 # run the api call and determine the number of matching records
 result <- httr::GET(record_check_query)
 jsonData <- httr::content(result)        
 n_records <- jsonData$metadata$count 
-
 
 # calculate number of calls neccesary to get all records using the 
 # 1000 records/ call max limit defined by FEMA
@@ -143,26 +140,26 @@ data <- as_tibble(lapply(data, function(data) gsub("\n", "", data)))
 data
 ```
 
-    ## # A tibble: 2,119 × 40
-    ##    agriculture…¹ asOfD…² baseF…³ basem…⁴ repor…⁵ condo…⁶ polic…⁷ count…⁸ commu…⁹
+    ## # A tibble: 9,986 × 73
+    ##    agriculture…¹ asOfD…² basem…³ polic…⁴ crsCl…⁵ dateO…⁶ eleva…⁷ eleva…⁸ eleva…⁹
     ##    <chr>         <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-    ##  1 FALSE         2021-0… 8       NULL    Tempor… N       1       12011   6      
-    ##  2 FALSE         2021-1… NULL    NULL    Tempor… N       1       12011   7      
-    ##  3 FALSE         2021-1… 7       NULL    Tempor… N       1       12011   7      
-    ##  4 FALSE         2022-0… 6       0       Tempor… N       1       12011   7      
-    ##  5 FALSE         2021-1… 8       NULL    Tempor… N       1       12011   7      
-    ##  6 FALSE         2021-0… NULL    NULL    Tempor… H       311     12011   6      
-    ##  7 FALSE         2021-0… 6       NULL    Tempor… N       1       12011   7      
-    ##  8 FALSE         2021-0… NULL    NULL    Tempor… N       1       12011   7      
-    ##  9 FALSE         2021-0… 7       NULL    Tempor… N       1       12011   7      
-    ## 10 FALSE         2021-0… 7       NULL    Tempor… N       1       12011   7      
-    ## # … with 2,109 more rows, 31 more variables: dateOfLoss <chr>,
-    ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
-    ## #   elevationDifference <chr>, censusTract <chr>, floodZone <chr>,
-    ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
-    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
-    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
-    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
+    ##  1 FALSE         2021-0… 0       1       5       2020-0… FALSE   NULL    1      
+    ##  2 FALSE         2023-0… 0       1       6       2020-0… FALSE   1       NULL   
+    ##  3 FALSE         2020-0… 2       1       7       2020-0… TRUE    3       -6     
+    ##  4 FALSE         2022-0… 0       1       6       2020-0… FALSE   1       NULL   
+    ##  5 FALSE         2023-0… 1       1       10      2020-0… FALSE   3       1      
+    ##  6 FALSE         2023-0… NULL    1       6       2020-0… TRUE    NULL    0      
+    ##  7 FALSE         2020-0… NULL    1       6       2020-0… FALSE   NULL    7      
+    ##  8 FALSE         2022-1… 0       1       7       2020-0… FALSE   NULL    NULL   
+    ##  9 FALSE         2022-1… 0       1       5       2020-0… FALSE   1       NULL   
+    ## 10 FALSE         2023-0… 0       1       5       2020-0… FALSE   NULL    4      
+    ## # … with 9,976 more rows, 64 more variables: baseFloodElevation <chr>,
+    ## #   ratedFloodZone <chr>, houseWorship <chr>, locationOfContents <chr>,
+    ## #   lowestAdjacentGrade <chr>, lowestFloorElevation <chr>,
+    ## #   numberOfFloorsInTheInsuredBuilding <chr>, nonProfitIndicator <chr>,
+    ## #   obstructionType <chr>, occupancyType <chr>, originalConstructionDate <chr>,
+    ## #   originalNBDate <chr>, amountPaidOnBuildingClaim <chr>,
+    ## #   amountPaidOnContentsClaim <chr>, …
 
 Compare the above block of code to the following code which obtains the
 same data using the `rfema` package. The `rfema` package allows the same
@@ -172,37 +169,36 @@ iterative loop to deal with the 1000 records/call limit.
 
 ``` r
 # define a list of filters to apply
-filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
-
+filterList <- list(state = "FL",yearOfLoss = "= 2020")
 
 # Make the API call using the `open_fema` function. The function will output a 
 # status message to the console letting you monitor the progress of the data retrieval.
-data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
+data <- open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
 
 # view data
 data
 ```
 
-    ## # A tibble: 2,119 × 40
-    ##    agricul…¹ asOfDate            baseF…² basem…³ repor…⁴ condo…⁵ polic…⁶ count…⁷
-    ##    <chr>     <dttm>              <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-    ##  1 FALSE     2021-07-24 00:00:00 8       NULL    Tempor… N       1       12011  
-    ##  2 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       12011  
-    ##  3 FALSE     2021-11-20 00:00:00 7       NULL    Tempor… N       1       12011  
-    ##  4 FALSE     2022-02-02 00:00:00 6       0       Tempor… N       1       12011  
-    ##  5 FALSE     2021-11-20 00:00:00 8       NULL    Tempor… N       1       12011  
-    ##  6 FALSE     2021-09-01 00:00:00 NULL    NULL    Tempor… H       311     12011  
-    ##  7 FALSE     2021-09-01 00:00:00 6       NULL    Tempor… N       1       12011  
-    ##  8 FALSE     2021-07-04 00:00:00 NULL    NULL    Tempor… N       1       12011  
-    ##  9 FALSE     2021-07-04 00:00:00 7       NULL    Tempor… N       1       12011  
-    ## 10 FALSE     2021-07-04 00:00:00 7       NULL    Tempor… N       1       12011  
-    ## # … with 2,109 more rows, 32 more variables:
-    ## #   communityRatingSystemDiscount <chr>, dateOfLoss <dttm>,
-    ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
-    ## #   elevationDifference <chr>, censusTract <chr>, floodZone <chr>,
-    ## #   houseWorship <chr>, latitude <chr>, longitude <chr>,
+    ## # A tibble: 9,986 × 73
+    ##    agriculture…¹ asOfDate            basem…² polic…³ crsCl…⁴ dateOfLoss         
+    ##    <chr>         <dttm>              <chr>   <chr>   <chr>   <dttm>             
+    ##  1 FALSE         2021-03-30 00:00:00 0       1       5       2020-01-02 00:00:00
+    ##  2 FALSE         2023-06-01 00:00:00 0       1       6       2020-01-03 00:00:00
+    ##  3 FALSE         2020-07-17 00:00:00 2       1       7       2020-01-02 00:00:00
+    ##  4 FALSE         2022-09-11 00:00:00 0       1       6       2020-01-05 00:00:00
+    ##  5 FALSE         2023-02-14 00:00:00 1       1       10      2020-01-09 00:00:00
+    ##  6 FALSE         2023-03-03 00:00:00 NULL    1       6       2020-01-01 00:00:00
+    ##  7 FALSE         2020-04-20 00:00:00 NULL    1       6       2020-01-11 00:00:00
+    ##  8 FALSE         2022-11-16 00:00:00 0       1       7       2020-01-04 00:00:00
+    ##  9 FALSE         2022-12-02 00:00:00 0       1       5       2020-01-12 00:00:00
+    ## 10 FALSE         2023-02-22 00:00:00 0       1       5       2020-01-21 00:00:00
+    ## # … with 9,976 more rows, 67 more variables: elevatedBuildingIndicator <chr>,
+    ## #   elevationCertificateIndicator <chr>, elevationDifference <chr>,
+    ## #   baseFloodElevation <chr>, ratedFloodZone <chr>, houseWorship <chr>,
     ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
-    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
+    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>,
+    ## #   originalConstructionDate <dttm>, originalNBDate <dttm>, …
 
 The `rfema` package also returns data, where possible, in formats that
 are easier to work with. For example, all functions return data as a
@@ -262,26 +258,26 @@ data_sets <- fema_data_sets()
 data_sets
 ```
 
-    ## # A tibble: 42 × 39
-    ##    identif…¹ name  title descr…² distr…³ webSe…⁴ dataD…⁵ keyword modif…⁶ publi…⁷
-    ##    <chr>     <chr> <chr> <chr>   <list>  <chr>   <chr>   <list>  <list>  <chr>  
-    ##  1 openfema… Disa… Disa… "FEMA … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  2 openfema… Hous… Hous… "The d… <list>  https:… https:… <list>  <chr>   Federa…
-    ##  3 openfema… Hous… Hous… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  4 openfema… Publ… Publ… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  5 openfema… Fema… FEMA… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  6 openfema… Fema… FEMA… "Provi… <list>  https:… https:… <list>  <chr>   Federa…
-    ##  7 openfema… Fema… FEMA… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  8 openfema… Regi… Regi… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ##  9 openfema… Disa… Disa… "FEMA … <list>  https:… https:… <list>  <NULL>  Federa…
-    ## 10 openfema… Emer… Emer… "This … <list>  https:… https:… <list>  <chr>   Federa…
-    ## # … with 32 more rows, 29 more variables: contactPoint <chr>, mbox <chr>,
-    ## #   accessLevel <chr>, landingPage <chr>, temporal <chr>, api <lgl>,
-    ## #   version <int>, recordCount <list>, bureauCode <chr>, programCode <chr>,
-    ## #   accessLevelComment <chr>, license <chr>, spatial <chr>, theme <chr>,
-    ## #   dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
-    ## #   primaryITInvestmentUII <chr>, references <list>, issued <list>,
-    ## #   systemOfRecords <chr>, depDate <chr>, depApiMessage <chr>, …
+    ## # A tibble: 51 × 35
+    ##    identif…¹ name  title descr…² webSe…³ dataD…⁴ keyword modif…⁵ publi…⁶ conta…⁷
+    ##    <chr>     <chr> <chr> <chr>   <chr>   <chr>   <list>  <chr>   <chr>   <chr>  
+    ##  1 openfema… Fema… FEMA… "This … https:… https:… <list>  2023-0… Federa… OpenFE…
+    ##  2 openfema… Ipaw… IPAW… "The I… https:… https:… <list>  2020-0… Federa… OpenFE…
+    ##  3 openfema… Regi… Regi… "This … https:… https:… <list>  2023-0… Federa… OpenFE…
+    ##  4 openfema… Regi… Regi… "This … https:… https:… <list>  2023-1… Federa… OpenFE…
+    ##  5 openfema… Fema… FEMA… "This … https:… https:… <list>  2023-0… Federa… OpenFE…
+    ##  6 openfema… Haza… Haza… "The d… https:… https:… <list>  2023-1… Federa… OpenFE…
+    ##  7 openfema… Hous… Hous… "This … https:… https:… <list>  2023-0… Federa… OpenFE…
+    ##  8 openfema… Hous… Hous… "The d… https:… https:… <list>  2023-0… Federa… OpenFE…
+    ##  9 openfema… Indi… Indi… "This … https:… https:… <list>  2020-0… Federa… OpenFE…
+    ## 10 openfema… Miss… Miss… "1.1 W… https:… https:… <list>  2023-0… Federa… OpenFE…
+    ## # … with 41 more rows, 25 more variables: mbox <chr>, accessLevel <chr>,
+    ## #   landingPage <list>, temporal <list>, api <lgl>, version <int>,
+    ## #   bureauCode <chr>, programCode <chr>, license <list>, theme <list>,
+    ## #   dataQuality <chr>, accrualPeriodicity <list>, language <chr>,
+    ## #   references <list>, issued <list>, recordCount <list>, depDate <list>,
+    ## #   depApiMessage <list>, depWebMessage <list>, depNewURL <list>, hash <chr>,
+    ## #   lastRefresh <chr>, id <chr>, lastDataSetRefresh <list>, …
 
 Once you have the name of the data set you want, simply pass it as an
 argument to the `open_fema()` function which will return the data set as
@@ -303,26 +299,26 @@ retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 retrieved_data
 ```
 
-    ## # A tibble: 10 × 40
-    ##    agricul…¹ asOfDate            baseF…² basem…³ repor…⁴ condo…⁵ polic…⁶ count…⁷
-    ##    <chr>     <dttm>              <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-    ##  1 FALSE     2021-07-24 00:00:00 NULL    1       Tempor… N       1       24033  
-    ##  2 FALSE     2021-07-24 00:00:00 NULL    NULL    Tempor… N       1       30009  
-    ##  3 FALSE     2021-11-20 00:00:00 50      NULL    Tempor… N       1       48201  
-    ##  4 FALSE     2021-11-20 00:00:00 9       NULL    Tempor… N       1       12103  
-    ##  5 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       24029  
-    ##  6 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       48201  
-    ##  7 FALSE     2022-04-16 00:00:00 NULL    NULL    Tempor… N       1       45019  
-    ##  8 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       51095  
-    ##  9 FALSE     2021-11-20 00:00:00 NULL    NULL    Tempor… N       1       12033  
-    ## 10 FALSE     2021-07-24 00:00:00 NULL    NULL    Tempor… N       1       48293  
-    ## # … with 32 more variables: communityRatingSystemDiscount <chr>,
-    ## #   dateOfLoss <dttm>, elevatedBuildingIndicator <chr>,
+    ## # A tibble: 10 × 73
+    ##    agriculture…¹ asOfDate            basem…² polic…³ crsCl…⁴ dateOfLoss         
+    ##    <chr>         <dttm>              <chr>   <chr>   <chr>   <dttm>             
+    ##  1 FALSE         2020-01-22 00:00:00 NULL    1       8       1998-02-07 00:00:00
+    ##  2 FALSE         2020-01-22 00:00:00 NULL    1       8       2005-08-29 00:00:00
+    ##  3 FALSE         2020-01-22 00:00:00 NULL    1       9       1998-09-28 00:00:00
+    ##  4 FALSE         2019-09-19 00:00:00 1       1       9       1994-10-07 00:00:00
+    ##  5 FALSE         2019-09-19 00:00:00 NULL    1       8       1996-03-11 00:00:00
+    ##  6 FALSE         2020-01-22 00:00:00 NULL    1       NULL    1998-02-03 00:00:00
+    ##  7 FALSE         2020-01-22 00:00:00 NULL    1       5       2017-08-27 00:00:00
+    ##  8 FALSE         2019-10-19 00:00:00 NULL    1       NULL    1992-09-11 00:00:00
+    ##  9 FALSE         2019-10-19 00:00:00 NULL    1       8       1998-09-28 00:00:00
+    ## 10 FALSE         2019-09-19 00:00:00 NULL    1       8       1995-03-11 00:00:00
+    ## # … with 67 more variables: elevatedBuildingIndicator <chr>,
     ## #   elevationCertificateIndicator <chr>, elevationDifference <chr>,
-    ## #   censusTract <chr>, floodZone <chr>, houseWorship <chr>, latitude <chr>,
-    ## #   longitude <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
+    ## #   baseFloodElevation <chr>, ratedFloodZone <chr>, houseWorship <chr>,
+    ## #   locationOfContents <chr>, lowestAdjacentGrade <chr>,
     ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
-    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
+    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>,
+    ## #   originalConstructionDate <dttm>, originalNBDate <dttm>, …
 
 There are a variety of other ways to more precisely target the data you
 want to retrieve by specifying how many records you want returned,

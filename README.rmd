@@ -48,27 +48,25 @@ In accordance with the Open Fema terms and conditions: This product uses the Fed
 
 
 ## Why rfema?
-What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Broward County, FL between 2010 and 2012. The following code obtains that data without the use of the `rfema` package. As can be seen it requires quite a few lines of code, in part due to the API limiting calls to 1000 records per call which can make obtaining a full data set cumbersome.
+What are the advantages of accessing the FEMA API through the `rfema` package as compared to accessing the API directly? In short, the `rfema` package handles much of the grunt work associated with constructing API queries, dealing with API limits, and applying filters or other parameters. Suppose one wants to obtain data on all of the flood insurance claims in Florida for 2020. The following code obtains that data without the use of the `rfema` package. As can be seen it requires quite a few lines of code, in part due to the API limiting calls to 1000 records per call which can make obtaining a full data set cumbersome.
 ```{r}
-# Code needed to obtain data on flood insurance claims in Broward County, FL without the rfema package ------------------
+# Code needed to obtain data on flood insurance claims in FL without the rfema package ------------------
 
 # define the url for the appropriate api end point
-base_url <- "https://www.fema.gov/api/open/v1/FimaNfipClaims"
-
+base_url <- "https://www.fema.gov/api/open/v2/FimaNfipClaims"
 
 # append the base_url to apply filters
-filters <- "?$inlinecount=allpages&$top=1000&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
+filters <- "?$inlinecount=allpages&$filter=(state%20eq%20'FL')%20and%20(yearOfLoss%20eq%202020)"
 
 api_query <- paste0(base_url, filters)
 
 # run a query setting the top_n parameter to 1 to check how many records match the filters
-record_check_query <- "https://www.fema.gov/api/open/v1/FimaNfipClaims?$inlinecount=allpages&$top=1&$select=id&$filter=(countyCode%20eq%20'12011')%20and%20(yearOfLoss%20ge%20'2010')%20and%20(yearOfLoss%20le%20'2012')"
+record_check_query <- "https://www.fema.gov/api/open/v2/FimaNfipClaims?$inlinecount=allpages&$top=1&$filter=(state%20eq%20'FL')%20and%20(yearOfLoss%20eq%202020)"
 
 # run the api call and determine the number of matching records
 result <- httr::GET(record_check_query)
 jsonData <- httr::content(result)        
 n_records <- jsonData$metadata$count 
-
 
 # calculate number of calls neccesary to get all records using the 
 # 1000 records/ call max limit defined by FEMA
@@ -125,12 +123,11 @@ data
 Compare the above block of code to the following code which obtains the same data using the `rfema` package. The `rfema` package allows the same request to be made with two lines of code. Notably, the `open_fema()` function handles checking the number of records and implements an iterative loop to deal with the 1000 records/call limit. 
 ```{r, message = F}
 # define a list of filters to apply
-filterList <- list(countyCode = "= 12011",yearOfLoss = ">= 2010", yearOfLoss = "<= 2012")
-
+filterList <- list(state = "FL",yearOfLoss = "= 2020")
 
 # Make the API call using the `open_fema` function. The function will output a 
 # status message to the console letting you monitor the progress of the data retrieval.
-data <- rfema::open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
+data <- open_fema(data_set = "fimaNfipClaims",ask_before_call = F, filters = filterList)
 
 # view data
 data
@@ -160,9 +157,6 @@ open_fema("DisasterDeclarationsSummaries",
 
 ```
 
-
-
-
 ## Installation
 Right now, the best way to install and use the `rfema` package is by installing directly from rOpenSci using `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package.
 
@@ -188,6 +182,7 @@ retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 
 # view the data
 retrieved_data
+
 ```
 
 There are a variety of other ways to more precisely target the data you want to retrieve by specifying how many records you want returned, specifying which columns in a data set to return, and applying filters to any of the columns in a data set. For more information and examples of use cases, see the [Getting Started](https://github.com/ropensci/rfema/blob/main/vignettes/getting_started.md) vignette.

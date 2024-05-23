@@ -18,7 +18,7 @@
 fema_data_sets <- function() {
   
   # get raw data from api endpoint
-  result <- httr::GET(url = "https://www.fema.gov/api/open/v1/OpenFemaDataSets?$inlinecount=allpages")
+  result <- httr::GET(url = "https://www.fema.gov/api/open/v1/DataSets")
   
   # check status code
   if (result$status_code != 200) {

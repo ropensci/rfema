@@ -29,10 +29,6 @@ load_all()
 [![DOI](https://zenodo.org/badge/406498163.svg)](https://zenodo.org/badge/latestdoi/406498163)
 
 
-<!-- badges: start -->
-  <!-- [![R-CMD-check](https://github.com/dylan-turner25/rfema/workflows/R-CMD-check/badge.svg)](https://github.com/dylan-turner25/rfema/actions) -->
-<!-- badges: end -->
-
 
 
 

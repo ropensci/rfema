@@ -14,7 +14,7 @@ affiliations:
  - name: North Dakota State University, Agricultural Risk Policy Center
    index: 1
 date: 9 August 2025
-bibliography: paper.bib
+bibliography: paper.bib 
 ---
 
 # Summary

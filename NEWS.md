@@ -1,4 +1,15 @@
 
+rfema 1.0.1 (2025-08-09)
+=========================
+
+### DEPRECATED AND DEFUNCT
+
+* `bulk_dl()` function is now deprecated and throws an error when called. FEMA no longer hosts bulk CSV files for download as of August 2025. Users should use the `open_fema()` function to access data through the API instead.
+
+### DOCUMENTATION FIXES
+
+* Updated vignettes and README to remove references to bulk download functionality
+* Updated package documentation to reflect current FEMA API structure and capabilities
 
 rfema 1.0.0 (2022-01-10)
 =========================

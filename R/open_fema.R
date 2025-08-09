@@ -33,7 +33,7 @@
 #' \dontrun{
 #' data <- open_fema(
 #'   data_set = "fimaNfipClaims", top_n = 100,
-#'   filters = list(countyCode = "10001")
+#'   filters = list(state = "FL")
 #' )
 #' }
 open_fema <- function(data_set, top_n = NULL, filters = NULL,

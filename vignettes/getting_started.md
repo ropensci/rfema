@@ -1,7 +1,7 @@
 rfema: Getting Started
 ================
 Dylan Turner
-2023-11-12
+2025-08-09
 
 ## Introduction
 
@@ -41,8 +41,8 @@ data_sets
     ##    <chr>      <chr> <chr> <chr>       <chr>      <chr>          <list>  <chr>   
     ##  1 openfema-… Publ… Publ… "This data… https://w… https://www.f… <list>  2024-10…
     ##  2 openfema-… Haza… Haza… "This data… https://w… https://www.f… <list>  2024-04…
-    ##  3 openfema-… Ipaw… IPAW… "The Integ… https://w… https://www.f… <list>  2024-05…
-    ##  4 openfema-… Miss… Miss… "A mission… https://w… https://www.f… <list>  2024-08…
+    ##  3 openfema-… Miss… Miss… "A mission… https://w… https://www.f… <list>  2024-08…
+    ##  4 openfema-… Ipaw… IPAW… "The Integ… https://w… https://www.f… <list>  2024-05…
     ##  5 openfema-… Fima… FIMA… "Congress … https://w… https://www.f… <list>  2023-03…
     ##  6 openfema-… Haza… Haza… "This data… https://w… https://www.f… <list>  2024-11…
     ##  7 openfema-… Fema… FEMA… "This data… https://w… https://www.f… <list>  2023-01…
@@ -64,8 +64,8 @@ paste(data_sets$title, sep = ", ")
 
     ##  [1] "Public Assistance Grant Award Activities"                      
     ##  [2] "Hazard Mitigation Assistance Mitigated Properties"             
-    ##  [3] "IPAWS Archived Alerts"                                         
-    ##  [4] "Mission Assignments"                                           
+    ##  [3] "Mission Assignments"                                           
+    ##  [4] "IPAWS Archived Alerts"                                         
     ##  [5] "FIMA NFIP Redacted Claims"                                     
     ##  [6] "Hazard Mitigation Assistance Projects Financial Transactions"  
     ##  [7] "FEMA Web Disaster Summaries"                                   

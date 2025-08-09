@@ -32,17 +32,16 @@ provides a set of functions to easily navigate and access all data sets
 provided by FEMA, including (but not limited to) data from the National
 Flood Insurance Program and FEMA’s various disaster aid programs.
 
-FEMA data is publicly available at the open [FEMA
-website](https://www.fema.gov/about/openfema/data-sets) and is available
-for bulk download, however, the files are sometimes very large (multiple
-gigabytes) and many times users do not need all records for a data
-series (for example: many users may only want records for a single state
-for several years). Using FEMA’s API is a good option to circumvent
-working with the bulk data files, but can be inaccessible for those
-without prior API experience. This package contains a set of functions
+FEMA data is publicly available through the open [FEMA
+website](https://www.fema.gov/about/openfema/data-sets) via their API.
+FEMA's datasets are often very large (multiple gigabytes) and many times
+users do not need all records for a data series (for example: many users
+may only want records for a single state for several years). Using
+FEMA's API allows users to query specific subsets of data, but can be
+inaccessible for those without prior API experience. This package contains a set of functions
 that allows users to easily identify and retrieve data from FEMA’s API
 without needing any technical knowledge of APIs. Notably, the FEMA API
-does not require an API key meaning the package is extremely accessible
+does not require an API key, meaning the package is extremely accessible
 regardless of if the user has ever interacted with an API.
 
 The rest of this page explains the benefits of the package and
@@ -237,7 +236,7 @@ open_fema("DisasterDeclarationsSummaries",
 Right now, the best way to install and use the `rfema` package is by
 installing directly from rOpenSci using
 `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`.
-The FEMA API does not require and API key, meaning no further setup
+The FEMA API does not require an API key, meaning no further setup
 steps need be taken to start using the package.
 
 ## Usage
@@ -283,7 +282,7 @@ Once you have the name of the data set you want, simply pass it as an
 argument to the `open_fema()` function which will return the data set as
 a tibble. By default, `open_fema()` will warn you if the number of
 records is greater than 1000 and present an estimated time required to
-complete the records request. As the user, you will the be asked to
+complete the records request. As the user, you will then be asked to
 confirm that you want to retrieve all of the available records (for many
 data sets the total records is quite large). To turn off this feature,
 set the parameter `ask_before_call` equal to FALSE. To limit the number
@@ -292,7 +291,7 @@ exploring a data set without retrieving all records.
 
 ``` r
 # obtain the first 10 records from the fimaNfipClaims data set.
-# Note: the data_set argument is not case sensative
+# Note: the data_set argument is not case sensitive
 retrieved_data <- open_fema(data_set = "fimanfipclaims", top_n = 10)
 
 # view the data

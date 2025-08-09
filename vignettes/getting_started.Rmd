@@ -21,14 +21,14 @@ vignette: >
 This vignette provides a brief overview on using the `rfema` package to obtain data from the Open FEMA API. The rest of this vignette covers how to install the package, followed by examples on using the package to obtain data for various objectives. 
 
 ## Installation
-Right now, the best way to install and use the `rfema` package is by installing directly from rOpenSci using `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package
+Right now, the best way to install and use the `rfema` package is by installing directly from rOpenSci using `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`. The FEMA API does not require an API key, meaning no further setup steps need be taken to start using the package
 
 ## Available Datasets
 For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the [FEMA API documentation page](https://www.fema.gov/about/openfema/data-sets). However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the `fema_data_sets()` function to obtain a tibble of available data sets along with associated meta data is a convenient option.
 
 
 ``` r
-# store the avaliable data sets as an object in your R environment that can be referenced later
+# store the available data sets as an object in your R environment that can be referenced later
 data_sets <- fema_data_sets() 
 
 # view data 
@@ -37,30 +37,30 @@ data_sets
 
 ```
 ## # A tibble: 46 × 35
-##    identifier  name       title description webService dataDictionary keyword modified publisher
-##    <chr>       <chr>      <chr> <chr>       <chr>      <chr>          <list>  <chr>    <chr>    
-##  1 openfema-85 PublicAss… Publ… "This data… https://w… https://www.f… <list>  2024-10… FEMA/Res…
-##  2 openfema-82 HazardMit… Haza… "This data… https://w… https://www.f… <list>  2024-04… FEMA/Res…
-##  3 openfema-79 MissionAs… Miss… "A mission… https://w… https://www.f… <list>  2024-08… FEMA/Res…
-##  4 openfema-35 IpawsArch… IPAW… "The Integ… https://w… https://www.f… <list>  2024-05… FEMA/Nat…
-##  5 openfema-73 FimaNfipC… FIMA… "Congress … https://w… https://www.f… <list>  2023-03… FEMA/Res…
-##  6 openfema-87 HazardMit… Haza… "This data… https://w… https://www.f… <list>  2024-11… FEMA/Res…
-##  7 openfema-24 FemaWebDi… FEMA… "This data… https://w… https://www.f… <list>  2023-01… FEMA/Off…
-##  8 openfema-1  PublicAss… Publ… "FEMA prov… https://w… https://www.f… <list>  2024-01… FEMA/Res…
-##  9 openfema-23 Individua… Indi… "Individua… https://w… https://www.f… <list>  2024-01… FEMA/Res…
-## 10 openfema-44 FemaRegio… FEMA… "Provides … https://w… https://www.f… <list>  2023-09… FEMA/Mis…
+##    identifier name  title description webService dataDictionary keyword modified
+##    <chr>      <chr> <chr> <chr>       <chr>      <chr>          <list>  <chr>   
+##  1 openfema-… Publ… Publ… "This data… https://w… https://www.f… <list>  2024-10…
+##  2 openfema-… Haza… Haza… "This data… https://w… https://www.f… <list>  2024-04…
+##  3 openfema-… Miss… Miss… "A mission… https://w… https://www.f… <list>  2024-08…
+##  4 openfema-… Ipaw… IPAW… "The Integ… https://w… https://www.f… <list>  2024-05…
+##  5 openfema-… Fima… FIMA… "Congress … https://w… https://www.f… <list>  2023-03…
+##  6 openfema-… Haza… Haza… "This data… https://w… https://www.f… <list>  2024-11…
+##  7 openfema-… Fema… FEMA… "This data… https://w… https://www.f… <list>  2023-01…
+##  8 openfema-1 Publ… Publ… "FEMA prov… https://w… https://www.f… <list>  2024-01…
+##  9 openfema-… Indi… Indi… "Individua… https://w… https://www.f… <list>  2024-01…
+## 10 openfema-… Fema… FEMA… "Provides … https://w… https://www.f… <list>  2023-09…
 ## # ℹ 36 more rows
-## # ℹ 26 more variables: contactPoint <chr>, mbox <chr>, accessLevel <chr>, landingPage <list>,
-## #   temporal <list>, api <lgl>, version <int>, bureauCode <chr>, programCode <chr>,
-## #   license <list>, theme <list>, dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
-## #   references <list>, issued <chr>, recordCount <list>, depDate <chr>, depApiMessage <chr>,
-## #   depWebMessage <chr>, depNewURL <chr>, hash <chr>, lastRefresh <chr>, id <chr>,
-## #   lastDataSetRefresh <list>, distribution <list>
+## # ℹ 27 more variables: publisher <chr>, contactPoint <chr>, mbox <chr>,
+## #   accessLevel <chr>, landingPage <list>, temporal <list>, api <lgl>,
+## #   version <int>, bureauCode <chr>, programCode <chr>, license <list>,
+## #   theme <list>, dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
+## #   references <list>, issued <chr>, recordCount <list>, depDate <chr>,
+## #   depApiMessage <chr>, depWebMessage <chr>, depNewURL <chr>, hash <chr>, …
 ```
 
 
 ``` r
-# print out just the names of the avaliable data sets without all the other meta data
+# print out just the names of the available data sets without all the other meta data
 paste(data_sets$title, sep = ", ")
 ```
 
@@ -124,12 +124,12 @@ df <- fema_data_fields(data_set = "fimaNfipPolicies")
 ```
 
 ```
-## Obtaining Data: 1 out of 2 iterations (50% complete)Obtaining Data: 2 out of 2 iterations (100%
-## complete)
+## Obtaining Data: 1 out of 2 iterations (50% complete)Obtaining Data: 2 out of 2
+## iterations (100% complete)
 ```
 
 ``` r
-# Note: the data set field is not case sensative, meaning you do not need to 
+# Note: the data set field is not case sensitive, meaning you do not need to 
 # use camel case names despite that being the convention in the FEMA documentation.
 df <- fema_data_fields(data_set = "fimanfippolicies")
 
@@ -139,20 +139,21 @@ df
 
 ```
 ## # A tibble: 81 × 16
-##    datasetId openFemaDataSet datasetVersion name  title description type  sortOrder isSearchable
-##    <chr>     <chr>           <chr>          <chr> <chr> <chr>       <chr> <chr>     <chr>       
-##  1 openfema… FimaNfipPolici… 2              buil… Buil… Estimated … bigi… 45        TRUE        
-##  2 openfema… FimaNfipPolici… 2              base… Base… Base Flood… deci… 2         TRUE        
-##  3 openfema… FimaNfipPolici… 2              lowe… Lowe… Lowest nat… deci… 18        TRUE        
-##  4 openfema… FimaNfipPolici… 2              lowe… Lowe… A building… deci… 19        TRUE        
-##  5 openfema… FimaNfipPolici… 2              canc… Canc… Reason cod… text  39        TRUE        
-##  6 openfema… FimaNfipPolici… 2              basi… Basi… Basic buil… deci… 46        TRUE        
-##  7 openfema… FimaNfipPolici… 2              addi… Addi… Additional… deci… 47        TRUE        
-##  8 openfema… FimaNfipPolici… 2              basi… Basi… Basic cont… deci… 48        TRUE        
-##  9 openfema… FimaNfipPolici… 2              Addi… Addi… Additional… deci… 49        TRUE        
-## 10 openfema… FimaNfipPolici… 2              agri… Agri… Indicates … bool… 1         FALSE       
+##    datasetId   openFemaDataSet  datasetVersion name      title description type 
+##    <chr>       <chr>            <chr>          <chr>     <chr> <chr>       <chr>
+##  1 openfema-74 FimaNfipPolicies 2              building… Buil… Estimated … bigi…
+##  2 openfema-74 FimaNfipPolicies 2              baseFloo… Base… Base Flood… deci…
+##  3 openfema-74 FimaNfipPolicies 2              lowestAd… Lowe… Lowest nat… deci…
+##  4 openfema-74 FimaNfipPolicies 2              lowestFl… Lowe… A building… deci…
+##  5 openfema-74 FimaNfipPolicies 2              cancella… Canc… Reason cod… text 
+##  6 openfema-74 FimaNfipPolicies 2              basicBui… Basi… Basic buil… deci…
+##  7 openfema-74 FimaNfipPolicies 2              addition… Addi… Additional… deci…
+##  8 openfema-74 FimaNfipPolicies 2              basicCon… Basi… Basic cont… deci…
+##  9 openfema-74 FimaNfipPolicies 2              Addition… Addi… Additional… deci…
+## 10 openfema-74 FimaNfipPolicies 2              agricult… Agri… Indicates … bool…
 ## # ℹ 71 more rows
-## # ℹ 7 more variables: isNestedObject <chr>, isNullable <chr>, primaryKey <chr>, id <chr>,
+## # ℹ 9 more variables: sortOrder <chr>, isSearchable <chr>,
+## #   isNestedObject <chr>, isNullable <chr>, primaryKey <chr>, id <chr>,
 ## #   lastRefresh <chr>, hash <chr>, srid <chr>
 ```
 
@@ -180,25 +181,25 @@ df
 
 ```
 ## # A tibble: 10 × 73
-##    agricultureStructureIndicator asOfDate            basementEnclosureCrawlspaceType policyCount
-##    <chr>                         <dttm>              <chr>                           <chr>      
-##  1 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  2 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  3 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  4 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  5 FALSE                         2025-07-01 00:00:00 0                               1          
-##  6 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  7 FALSE                         2025-07-01 00:00:00 4                               1          
-##  8 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  9 FALSE                         2025-07-01 00:00:00 1                               1          
-## 10 FALSE                         2025-07-01 00:00:00 1                               1          
+##    agricultureStructure…¹ asOfDate            basementEnclosureCra…² policyCount
+##    <chr>                  <dttm>              <chr>                  <chr>      
+##  1 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  2 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  3 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  4 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  5 FALSE                  2025-07-01 00:00:00 0                      1          
+##  6 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  7 FALSE                  2025-07-01 00:00:00 4                      1          
+##  8 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  9 FALSE                  2025-07-01 00:00:00 1                      1          
+## 10 FALSE                  2025-07-01 00:00:00 1                      1          
+## # ℹ abbreviated names: ¹​agricultureStructureIndicator,
+## #   ²​basementEnclosureCrawlspaceType
 ## # ℹ 69 more variables: crsClassificationCode <chr>, dateOfLoss <dttm>,
 ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
 ## #   elevationDifference <chr>, baseFloodElevation <chr>, ratedFloodZone <chr>,
 ## #   houseWorship <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
-## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
-## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>,
-## #   originalConstructionDate <dttm>, originalNBDate <dttm>, amountPaidOnBuildingClaim <chr>, …
+## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>, …
 ```
 
 If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the `fema_data_fields()` function.
@@ -213,20 +214,21 @@ data_fields
 
 ```
 ## # A tibble: 73 × 16
-##    datasetId openFemaDataSet datasetVersion name  title description type  sortOrder isSearchable
-##    <chr>     <chr>           <chr>          <chr> <chr> <chr>       <chr> <chr>     <chr>       
-##  1 openfema… FimaNfipClaims  2              asOf… As o… The effect… date… 2         TRUE        
-##  2 openfema… FimaNfipClaims  2              amou… Amou… Dollar amo… deci… 22        TRUE        
-##  3 openfema… FimaNfipClaims  2              amou… Amou… Dollar amo… deci… 23        TRUE        
-##  4 openfema… FimaNfipClaims  2              amou… Amou… ICC covera… deci… 24        TRUE        
-##  5 openfema… FimaNfipClaims  2              netB… Net … Net buildi… deci… 34        TRUE        
-##  6 openfema… FimaNfipClaims  2              netC… Net … Net conten… deci… 40        TRUE        
-##  7 openfema… FimaNfipClaims  2              agri… Agri… Indicates … bool… 1         FALSE       
-##  8 openfema… FimaNfipClaims  2              base… Base… Basement i… smal… 3         TRUE        
-##  9 openfema… FimaNfipClaims  2              poli… Poli… Insured un… smal… 4         TRUE        
-## 10 openfema… FimaNfipClaims  2              crsC… CRS … The Commun… smal… 5         TRUE        
+##    datasetId   openFemaDataSet datasetVersion name       title description type 
+##    <chr>       <chr>           <chr>          <chr>      <chr> <chr>       <chr>
+##  1 openfema-73 FimaNfipClaims  2              asOfDate   As o… The effect… date…
+##  2 openfema-73 FimaNfipClaims  2              amountPai… Amou… Dollar amo… deci…
+##  3 openfema-73 FimaNfipClaims  2              amountPai… Amou… Dollar amo… deci…
+##  4 openfema-73 FimaNfipClaims  2              amountPai… Amou… ICC covera… deci…
+##  5 openfema-73 FimaNfipClaims  2              netBuildi… Net … Net buildi… deci…
+##  6 openfema-73 FimaNfipClaims  2              netConten… Net … Net conten… deci…
+##  7 openfema-73 FimaNfipClaims  2              agricultu… Agri… Indicates … bool…
+##  8 openfema-73 FimaNfipClaims  2              basementE… Base… Basement i… smal…
+##  9 openfema-73 FimaNfipClaims  2              policyCou… Poli… Insured un… smal…
+## 10 openfema-73 FimaNfipClaims  2              crsClassi… CRS … The Commun… smal…
 ## # ℹ 63 more rows
-## # ℹ 7 more variables: isNestedObject <chr>, isNullable <chr>, primaryKey <chr>, id <chr>,
+## # ℹ 9 more variables: sortOrder <chr>, isSearchable <chr>,
+## #   isNestedObject <chr>, isNullable <chr>, primaryKey <chr>, id <chr>,
 ## #   lastRefresh <chr>, hash <chr>, srid <chr>
 ```
 
@@ -350,25 +352,25 @@ df
 
 ```
 ## # A tibble: 100 × 73
-##    agricultureStructureIndicator asOfDate            basementEnclosureCrawlspaceType policyCount
-##    <chr>                         <dttm>              <chr>                           <chr>      
-##  1 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  2 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  3 FALSE                         2025-07-01 00:00:00 2                               73         
-##  4 FALSE                         2025-07-01 00:00:00 0                               1          
-##  5 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  6 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  7 FALSE                         2025-07-01 00:00:00 0                               1          
-##  8 FALSE                         2025-07-01 00:00:00 NULL                            1          
-##  9 FALSE                         2025-07-01 00:00:00 NULL                            1          
-## 10 FALSE                         2025-07-01 00:00:00 NULL                            1          
+##    agricultureStructure…¹ asOfDate            basementEnclosureCra…² policyCount
+##    <chr>                  <dttm>              <chr>                  <chr>      
+##  1 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  2 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  3 FALSE                  2025-07-01 00:00:00 2                      73         
+##  4 FALSE                  2025-07-01 00:00:00 0                      1          
+##  5 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  6 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  7 FALSE                  2025-07-01 00:00:00 0                      1          
+##  8 FALSE                  2025-07-01 00:00:00 NULL                   1          
+##  9 FALSE                  2025-07-01 00:00:00 NULL                   1          
+## 10 FALSE                  2025-07-01 00:00:00 NULL                   1          
 ## # ℹ 90 more rows
+## # ℹ abbreviated names: ¹​agricultureStructureIndicator,
+## #   ²​basementEnclosureCrawlspaceType
 ## # ℹ 69 more variables: crsClassificationCode <chr>, dateOfLoss <dttm>,
 ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
 ## #   elevationDifference <chr>, baseFloodElevation <chr>, ratedFloodZone <chr>,
-## #   houseWorship <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
-## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
-## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
+## #   houseWorship <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>, …
 ```
 
 
@@ -407,9 +409,9 @@ params
 
 ```
 ## # A tibble: 1 × 4
-##   `Data Set`                         `Data Field` Data Field Descriptio…¹ Data Field Example V…²
-##   <chr>                              <chr>        <chr>                   <list>                
-## 1 HazardMitigationAssistanceProjects programArea  Hazard Mitigation Assi… <tibble [2 × 1]>      
+##   `Data Set`          `Data Field` Data Field Descripti…¹ Data Field Example V…²
+##   <chr>               <chr>        <chr>                  <list>                
+## 1 HazardMitigationAs… programArea  Hazard Mitigation Ass… <tibble [2 × 1]>      
 ## # ℹ abbreviated names: ¹​`Data Field Description`, ²​`Data Field Example Values`
 ```
 
@@ -422,9 +424,9 @@ params
 
 ```
 ## # A tibble: 1 × 4
-##   `Data Set`                         `Data Field` Data Field Descriptio…¹ Data Field Example V…²
-##   <chr>                              <chr>        <chr>                   <list>                
-## 1 HazardMitigationAssistanceProjects state        Full name of the State… <tibble [6 × 1]>      
+##   `Data Set`          `Data Field` Data Field Descripti…¹ Data Field Example V…²
+##   <chr>               <chr>        <chr>                  <list>                
+## 1 HazardMitigationAs… state        Full name of the Stat… <tibble [6 × 1]>      
 ## # ℹ abbreviated names: ¹​`Data Field Description`, ²​`Data Field Example Values`
 ```
 
@@ -434,7 +436,7 @@ params
 filter_list <- c(programArea = c("FMA"),
                  state = c("Florida")) 
 
-# pass filter_list to the open_fema function to retreieve data.
+# pass filter_list to the open_fema function to retrieve data.
 df <- open_fema(data_set = "HazardMitigationAssistanceProjects", filters = filter_list, 
                ask_before_call = FALSE)
 
@@ -443,25 +445,25 @@ df
 
 ```
 ## # A tibble: 686 × 33
-##    projectIdentifier     programArea programFy region state   stateNumberCode county  countyCode
-##    <chr>                 <chr>       <chr>     <chr>  <chr>   <chr>           <chr>   <chr>     
-##  1 FMA-PJ-04-FL-2013-028 FMA         2013      4      Florida 12              Clay    19        
-##  2 FMA-PJ-04-FL-2018-007 FMA         2018      4      Florida 12              Clay    19        
-##  3 FMA-PJ-04-FL-2007-001 FMA         2007      4      Florida 12              Volusia 127       
-##  4 FMA-PJ-04-FL-2023-006 FMA         2023      4      Florida 12              Volusia 127       
-##  5 FMA-PL-04-FL-2014-023 FMA         2014      4      Florida 12              Flagler 35        
-##  6 FMA-PJ-04-FL-2013-027 FMA         2013      4      Florida 12              Clay    19        
-##  7 FMA-PJ-04-FL-2013-033 FMA         2013      4      Florida 12              Volusia 127       
-##  8 FMA-PJ-04-FL-2023-005 FMA         2023      4      Florida 12              Volusia 127       
-##  9 FMA-PJ-04-FL-2006-027 FMA         2006      4      Florida 12              Volusia 127       
-## 10 FMA-PJ-04-FL-2013-029 FMA         2013      4      Florida 12              Clay    19        
+##    projectIdentifier   programArea programFy region state stateNumberCode county
+##    <chr>               <chr>       <chr>     <chr>  <chr> <chr>           <chr> 
+##  1 FMA-PJ-04-FL-2013-… FMA         2013      4      Flor… 12              Clay  
+##  2 FMA-PJ-04-FL-2018-… FMA         2018      4      Flor… 12              Clay  
+##  3 FMA-PJ-04-FL-2007-… FMA         2007      4      Flor… 12              Volus…
+##  4 FMA-PJ-04-FL-2023-… FMA         2023      4      Flor… 12              Volus…
+##  5 FMA-PL-04-FL-2014-… FMA         2014      4      Flor… 12              Flagl…
+##  6 FMA-PJ-04-FL-2013-… FMA         2013      4      Flor… 12              Clay  
+##  7 FMA-PJ-04-FL-2013-… FMA         2013      4      Flor… 12              Volus…
+##  8 FMA-PJ-04-FL-2023-… FMA         2023      4      Flor… 12              Volus…
+##  9 FMA-PJ-04-FL-2006-… FMA         2006      4      Flor… 12              Volus…
+## 10 FMA-PJ-04-FL-2013-… FMA         2013      4      Flor… 12              Clay  
 ## # ℹ 676 more rows
-## # ℹ 25 more variables: disasterNumber <chr>, projectCounties <chr>, projectType <chr>,
-## #   status <chr>, recipient <chr>, recipientTribalIndicator <chr>, subrecipient <chr>,
+## # ℹ 26 more variables: countyCode <chr>, disasterNumber <chr>,
+## #   projectCounties <chr>, projectType <chr>, status <chr>, recipient <chr>,
+## #   recipientTribalIndicator <chr>, subrecipient <chr>,
 ## #   subrecipientTribalIndicator <chr>, dataSource <chr>, dateApproved <dttm>,
 ## #   dateClosed <dttm>, dateInitiallyApproved <dttm>, projectAmount <chr>,
-## #   initialObligationDate <dttm>, initialObligationAmount <chr>, federalShareObligated <chr>,
-## #   subrecipientAdminCostAmt <chr>, srmcObligatedAmt <chr>, recipientAdminCostAmt <chr>, …
+## #   initialObligationDate <dttm>, initialObligationAmount <chr>, …
 ```
 
 
@@ -532,10 +534,11 @@ dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call
 ```
 
 ```
-## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations
-## (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6
-## iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining
-## Data: 6 out of 6 iterations (100% complete)
+## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of
+## 6 iterations (33.33% complete)Obtaining Data: 3 out of 6 iterations (50%
+## complete)Obtaining Data: 4 out of 6 iterations (66.67% complete)Obtaining Data:
+## 5 out of 6 iterations (83.33% complete)Obtaining Data: 6 out of 6 iterations
+## (100% complete)
 ```
 
 ``` r
@@ -608,10 +611,11 @@ assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = fi
 ```
 
 ```
-## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations
-## (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6
-## iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining
-## Data: 6 out of 6 iterations (100% complete)
+## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of
+## 6 iterations (33.33% complete)Obtaining Data: 3 out of 6 iterations (50%
+## complete)Obtaining Data: 4 out of 6 iterations (66.67% complete)Obtaining Data:
+## 5 out of 6 iterations (83.33% complete)Obtaining Data: 6 out of 6 iterations
+## (100% complete)
 ```
 
 Check out the returned data
@@ -624,29 +628,29 @@ assistance_irma
 
 ```
 ## # A tibble: 5,361 × 21
-##    disasterNumber state county                   city  zipCode validRegistrations totalInspected
-##    <chr>          <chr> <chr>                    <chr> <chr>   <chr>              <chr>         
-##  1 4335           VI    St. John (Island) (Coun… ST J… 00083   1                  0             
-##  2 4335           VI    St. Thomas (Island) (Co… CHAL… 00801   1                  0             
-##  3 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   1                  1             
-##  4 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   10                 8             
-##  5 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   1                  1             
-##  6 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   1                  1             
-##  7 4335           VI    St. Thomas (Island) (Co… SAIN… 00801   7                  6             
-##  8 4335           VI    St. Thomas (Island) (Co… STT   00801   1                  1             
-##  9 4335           VI    St. Thomas (Island) (Co… STTH… 00801   6                  4             
-## 10 4335           VI    St. Thomas (Island) (Co… ST T… 00801   219                181           
+##    disasterNumber state county   city  zipCode validRegistrations totalInspected
+##    <chr>          <chr> <chr>    <chr> <chr>   <chr>              <chr>         
+##  1 4335           VI    St. Joh… ST J… 00083   1                  0             
+##  2 4335           VI    St. Tho… CHAL… 00801   1                  0             
+##  3 4335           VI    St. Tho… CHAR… 00801   1                  1             
+##  4 4335           VI    St. Tho… CHAR… 00801   10                 8             
+##  5 4335           VI    St. Tho… CHAR… 00801   1                  1             
+##  6 4335           VI    St. Tho… CHAR… 00801   1                  1             
+##  7 4335           VI    St. Tho… SAIN… 00801   7                  6             
+##  8 4335           VI    St. Tho… STT   00801   1                  1             
+##  9 4335           VI    St. Tho… STTH… 00801   6                  4             
+## 10 4335           VI    St. Tho… ST T… 00801   219                181           
 ## # ℹ 5,351 more rows
-## # ℹ 14 more variables: totalInspectedWithNoDamage <chr>, totalWithModerateDamage <chr>,
-## #   totalWithMajorDamage <chr>, totalWithSubstantialDamage <chr>,
-## #   approvedForFemaAssistance <chr>, totalApprovedIhpAmount <chr>, repairReplaceAmount <chr>,
+## # ℹ 14 more variables: totalInspectedWithNoDamage <chr>,
+## #   totalWithModerateDamage <chr>, totalWithMajorDamage <chr>,
+## #   totalWithSubstantialDamage <chr>, approvedForFemaAssistance <chr>,
+## #   totalApprovedIhpAmount <chr>, repairReplaceAmount <chr>,
 ## #   rentalAmount <chr>, otherNeedsAmount <chr>, approvedBetween1And10000 <chr>,
-## #   approvedBetween10001And25000 <chr>, approvedBetween25001AndMax <chr>, totalMaxGrants <chr>,
-## #   id <chr>
+## #   approvedBetween10001And25000 <chr>, approvedBetween25001AndMax <chr>, …
 ```
 
 
-Now we can answer our original question: How much did FEMA awarded for rental assistance following Hurricane Irma?
+Now we can answer our original question: How much did FEMA award for rental assistance following Hurricane Irma?
 
 
 ``` r
@@ -678,21 +682,22 @@ ipaws
 
 ```
 ## # A tibble: 100 × 18
-##    originalMessage     identifier sender sent  status msgType source scope restriction addresses
-##    <chr>               <chr>      <chr>  <chr> <chr>  <chr>   <chr>  <chr> <chr>       <chr>    
-##  1 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Alert   NULL   Publ… NULL        NULL     
-##  2 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-##  3 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-##  4 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-##  5 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Alert   NULL   Publ… NULL        NULL     
-##  6 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-##  7 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-##  8 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-##  9 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
-## 10 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+##    originalMessage           identifier sender sent  status msgType source scope
+##    <chr>                     <chr>      <chr>  <chr> <chr>  <chr>   <chr>  <chr>
+##  1 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Alert   NULL   Publ…
+##  2 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+##  3 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+##  4 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+##  5 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Alert   NULL   Publ…
+##  6 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+##  7 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+##  8 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+##  9 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
+## 10 "<?xml version=\"1.0\" e… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ…
 ## # ℹ 90 more rows
-## # ℹ 8 more variables: code <chr>, note <chr>, searchGeometry <chr>, incidents <chr>,
-## #   cogId <chr>, id <chr>, xmlns <chr>, info <chr>
+## # ℹ 10 more variables: restriction <chr>, addresses <chr>, code <chr>,
+## #   note <chr>, searchGeometry <chr>, incidents <chr>, cogId <chr>, id <chr>,
+## #   xmlns <chr>, info <chr>
 ```
 
 The following is one method for converting the xml data into tabular form.
@@ -875,25 +880,25 @@ as_tibble(ipaws_df)
 
 ```
 ## # A tibble: 100 × 123
-##    identifier sender sent  status msgType scope code  info.category info.event info.responseType
-##    <chr>      <chr>  <chr> <chr>  <chr>   <chr> <chr> <chr>         <chr>      <chr>            
-##  1 NWS-IDP-P… w-nws… 2018… Actual Alert   Publ… IPAW… Met           Special W… Execute          
-##  2 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Winter St… Prepare          
-##  3 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Gale Warn… Avoid            
-##  4 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood Adv… Avoid            
-##  5 NWS-IDP-P… w-nws… 2018… Actual Alert   Publ… IPAW… Met           Dense Fog… Execute          
-##  6 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Small Cra… Avoid            
-##  7 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Winter We… Execute          
-##  8 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War… Avoid            
-##  9 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War… Avoid            
-## 10 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War… Avoid            
+##    identifier   sender sent  status msgType scope code  info.category info.event
+##    <chr>        <chr>  <chr> <chr>  <chr>   <chr> <chr> <chr>         <chr>     
+##  1 NWS-IDP-PRO… w-nws… 2018… Actual Alert   Publ… IPAW… Met           Special W…
+##  2 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Winter St…
+##  3 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Gale Warn…
+##  4 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood Adv…
+##  5 NWS-IDP-PRO… w-nws… 2018… Actual Alert   Publ… IPAW… Met           Dense Fog…
+##  6 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Small Cra…
+##  7 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Winter We…
+##  8 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War…
+##  9 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War…
+## 10 NWS-IDP-PRO… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War…
 ## # ℹ 90 more rows
-## # ℹ 113 more variables: info.urgency <chr>, info.severity <chr>, info.certainty <chr>,
-## #   info.eventCode.valueName <chr>, info.eventCode.value <chr>, info.effective <chr>,
-## #   info.onset <chr>, info.expires <chr>, info.senderName <chr>, info.headline <chr>,
-## #   info.description <chr>, info.instruction <chr>, info.web <chr>, info.area.areaDesc <chr>,
-## #   Signature.SignedInfo.CanonicalizationMethod.Algorithm <chr>,
-## #   Signature.SignedInfo.SignatureMethod.Algorithm <chr>, …
+## # ℹ 114 more variables: info.responseType <chr>, info.urgency <chr>,
+## #   info.severity <chr>, info.certainty <chr>, info.eventCode.valueName <chr>,
+## #   info.eventCode.value <chr>, info.effective <chr>, info.onset <chr>,
+## #   info.expires <chr>, info.senderName <chr>, info.headline <chr>,
+## #   info.description <chr>, info.instruction <chr>, info.web <chr>,
+## #   info.area.areaDesc <chr>, …
 ```
 
 

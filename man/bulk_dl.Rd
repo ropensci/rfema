@@ -24,10 +24,7 @@ Returns a downloaded csv file of the data set to the
 specified output directory.
 }
 \description{
-For large data requests, it can sometimes be more practical (and quicker)
-to download and work with the entire data set. This function provides an
-easy way to download any of FEMA's data sets in its entirety and save it
-locally as a csv file.
+Deprecated function for downloading full open FEMA data sets as .csv files.
 }
 \examples{
 \dontrun{

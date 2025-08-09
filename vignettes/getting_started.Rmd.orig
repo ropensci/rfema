@@ -70,7 +70,7 @@ Calculating estimated API call time...
  1 - Yes, get that data!, 0 - No, let me rethink my API call: 
 ```
 
-Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the `bulk_dl` function. 
+Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. 
 
 
 Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If `top_n` is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
@@ -346,13 +346,6 @@ ipaws_df <- ipaws_df %>% select(-contains("parameter.value"))
 # view the final data
 as_tibble(ipaws_df)
 
-```
-
-## Bulk Downloads
-In some cases bulk downloading a full data set file may be preferred. For particularly large data requests, its usually faster to bulk download the entire data set as a csv file and then load it into the R environment. In this case, users can use the bulk_dl() command to download a csv of the full data file and save it to a specified directory.
-
-```r
-bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
 ```
 
 

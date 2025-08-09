@@ -1,18 +1,34 @@
-
-
+rfema: Getting Started
+================
+Dylan Turner
+2023-11-12
 
 ## Introduction
 
-This vignette provides a brief overview on using the `rfema` package to obtain data from the Open FEMA API. The rest of this vignette covers how to install the package, followed by examples on using the package to obtain data for various objectives. 
+This vignette provides a brief overview on using the `rfema` package to
+obtain data from the Open FEMA API. The rest of this vignette covers how
+to install the package, followed by examples on using the package to
+obtain data for various objectives.
 
 ## Installation
-Right now, the best way to install and use the `rfema` package is by installing directly from rOpenSci using `install.packages("rfema", repos = "https://ropensci.r-universe.dev")`. The FEMA API does not require and API key, meaning no further setup steps need be taken to start using the package
+
+Right now, the best way to install and use the `rfema` package is by
+installing directly from rOpenSci using
+`install.packages("rfema", repos = "https://ropensci.r-universe.dev")`.
+The FEMA API does not require and API key, meaning no further setup
+steps need be taken to start using the package
 
 ## Available Datasets
-For those unfamiliar with the data sets available through the FEMA API, a good starting place is to visit the [FEMA API documentation page](https://www.fema.gov/about/openfema/data-sets). However, if you are already familiar with the data and want to quickly reference the data set names or another piece of meta data, using the `fema_data_sets()` function to obtain a tibble of available data sets along with associated meta data is a convenient option.
 
+For those unfamiliar with the data sets available through the FEMA API,
+a good starting place is to visit the [FEMA API documentation
+page](https://www.fema.gov/about/openfema/data-sets). However, if you
+are already familiar with the data and want to quickly reference the
+data set names or another piece of meta data, using the
+`fema_data_sets()` function to obtain a tibble of available data sets
+along with associated meta data is a convenient option.
 
-```r
+``` r
 # store the avaliable data sets as an object in your R environment that can be referenced later
 data_sets <- fema_data_sets() 
 
@@ -20,107 +36,97 @@ data_sets <- fema_data_sets()
 data_sets
 ```
 
-```
-## # A tibble: 51 × 35
-##    identifier  name     title descr…¹ webSe…² dataD…³ keyword modif…⁴ publi…⁵ conta…⁶ mbox  acces…⁷
-##    <chr>       <chr>    <chr> <chr>   <chr>   <chr>   <list>  <chr>   <chr>   <chr>   <chr> <chr>  
-##  1 openfema-53 Registr… Regi… "This … https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-##  2 openfema-68 NfipCom… NFIP… "This … https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-##  3 openfema-14 Registr… Regi… "This … https:… https:… <list>  2023-1… Federa… OpenFE… open… public 
-##  4 openfema-45 HazardM… Haza… "The d… https:… https:… <list>  2023-1… Federa… OpenFE… open… public 
-##  5 openfema-54 Housing… Hous… "This … https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-##  6 openfema-55 Housing… Hous… "The d… https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-##  7 openfema-34 Individ… Indi… "This … https:… https:… <list>  2020-0… Federa… OpenFE… open… public 
-##  8 openfema-24 FemaWeb… FEMA… "This … https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-##  9 openfema-33 Mission… Miss… "1.1 W… https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-## 10 openfema-25 FemaWeb… FEMA… "This … https:… https:… <list>  2023-0… Federa… OpenFE… open… public 
-## # … with 41 more rows, 23 more variables: landingPage <list>, temporal <list>, api <lgl>,
-## #   version <int>, bureauCode <chr>, programCode <chr>, license <list>, theme <list>,
-## #   dataQuality <chr>, accrualPeriodicity <list>, language <chr>, references <list>,
-## #   issued <list>, recordCount <list>, depDate <list>, depApiMessage <list>, depWebMessage <list>,
-## #   depNewURL <list>, hash <chr>, lastRefresh <chr>, id <chr>, lastDataSetRefresh <list>,
-## #   distribution <list>, and abbreviated variable names ¹​description, ²​webService,
-## #   ³​dataDictionary, ⁴​modified, ⁵​publisher, ⁶​contactPoint, ⁷​accessLevel
-```
+    ## # A tibble: 46 × 35
+    ##    identifier  name       title description webService dataDictionary keyword modified publisher
+    ##    <chr>       <chr>      <chr> <chr>       <chr>      <chr>          <list>  <chr>    <chr>    
+    ##  1 openfema-85 PublicAss… Publ… "This data… https://w… https://www.f… <list>  2024-10… FEMA/Res…
+    ##  2 openfema-82 HazardMit… Haza… "This data… https://w… https://www.f… <list>  2024-04… FEMA/Res…
+    ##  3 openfema-79 MissionAs… Miss… "A mission… https://w… https://www.f… <list>  2024-08… FEMA/Res…
+    ##  4 openfema-35 IpawsArch… IPAW… "The Integ… https://w… https://www.f… <list>  2024-05… FEMA/Nat…
+    ##  5 openfema-73 FimaNfipC… FIMA… "Congress … https://w… https://www.f… <list>  2023-03… FEMA/Res…
+    ##  6 openfema-87 HazardMit… Haza… "This data… https://w… https://www.f… <list>  2024-11… FEMA/Res…
+    ##  7 openfema-24 FemaWebDi… FEMA… "This data… https://w… https://www.f… <list>  2023-01… FEMA/Off…
+    ##  8 openfema-1  PublicAss… Publ… "FEMA prov… https://w… https://www.f… <list>  2024-01… FEMA/Res…
+    ##  9 openfema-23 Individua… Indi… "Individua… https://w… https://www.f… <list>  2024-01… FEMA/Res…
+    ## 10 openfema-44 FemaRegio… FEMA… "Provides … https://w… https://www.f… <list>  2023-09… FEMA/Mis…
+    ## # ℹ 36 more rows
+    ## # ℹ 26 more variables: contactPoint <chr>, mbox <chr>, accessLevel <chr>, landingPage <list>,
+    ## #   temporal <list>, api <lgl>, version <int>, bureauCode <chr>, programCode <chr>,
+    ## #   license <list>, theme <list>, dataQuality <chr>, accrualPeriodicity <chr>, language <chr>,
+    ## #   references <list>, issued <chr>, recordCount <list>, depDate <chr>, depApiMessage <chr>,
+    ## #   depWebMessage <chr>, depNewURL <chr>, hash <chr>, lastRefresh <chr>, id <chr>,
+    ## #   lastDataSetRefresh <list>, distribution <list>
 
-
-```r
+``` r
 # print out just the names of the avaliable data sets without all the other meta data
 paste(data_sets$title, sep = ", ")
 ```
 
-```
-##  [1] "Registration Intake and Individuals Household Program (RI-IHP)"
-##  [2] "NFIP Community Assistance Visits"                              
-##  [3] "Registration Intake and Individuals Household Program (RI-IHP)"
-##  [4] "Hazard Mitigation Assistance Projects"                         
-##  [5] "Housing Assistance Program Data - Owners"                      
-##  [6] "Housing Assistance Program Data - Renters"                     
-##  [7] "Individuals and Households Program - Valid Registrations"      
-##  [8] "FEMA Web Disaster Summaries"                                   
-##  [9] "Mission Assignments"                                           
-## [10] "FEMA Web Disaster Declarations"                                
-## [11] "Disaster Declarations Summaries"                               
-## [12] "OpenFEMA Data Set Fields"                                      
-## [13] "Disaster Declarations Summaries"                               
-## [14] "Hazard Mitigation Grant Program - Property Acquisitions"       
-## [15] "FEMA Web Declaration Areas"                                    
-## [16] "Housing Assistance Program Data - Renters"                     
-## [17] "IPAWS Archived Alerts"                                         
-## [18] "Hazard Mitigation Assistance Projects"                         
-## [19] "FIMA NFIP Redacted Claims"                                     
-## [20] "FIMA NFIP Redacted Claims"                                     
-## [21] "Emergency Management Performance Grants"                       
-## [22] "FEMA Regions"                                                  
-## [23] "Emergency Management Performance Grants"                       
-## [24] "Non-Disaster and Assistance to Firefighter Grants"             
-## [25] "Hazard Mitigation Assistance Mitigated Properties"             
-## [26] "Hazard Mitigation Grant Program - Disaster Summaries"          
-## [27] "FEMA Regions"                                                  
-## [28] "Hazard Mitigation Assistance Mitigated Properties"             
-## [29] "Individual Assistance Housing Registrants - Large Disasters"   
-## [30] "HMA Subapplications Project Site Inventories"                  
-## [31] "HMA Subapplications"                                           
-## [32] "FIMA NFIP Redacted Policies"                                   
-## [33] "HMA Subapplications By NFIP CRS Communities"                   
-## [34] "Hazard Mitigation Grants"                                      
-## [35] "Housing Assistance Program Data - Owners"                      
-## [36] "NFIP Community Engagements"                                    
-## [37] "FIMA NFIP Redacted Policies"                                   
-## [38] "OpenFEMA Data Sets"                                            
-## [39] "Public Assistance Applicants"                                  
-## [40] "Hazard Mitigation Assistance Mitigated Properties"             
-## [41] "Declaration Denials"                                           
-## [42] "Hazard Mitigation Plan Statuses"                               
-## [43] "NFIP Community Assistance Contacts"                            
-## [44] "Public Assistance Funded Projects Details"                     
-## [45] "Public Assistance Funded Project Summaries"                    
-## [46] "Public Assistance Grant Award Activities"                      
-## [47] "Hazard Mitigation Assistance Projects"                         
-## [48] "Hazard Mitigation Grant Program - Disaster Summaries"          
-## [49] "Public Assistance Applicants Program Deliveries"               
-## [50] "Hazard Mitigation Assistance Projects by NFIP CRS Communities" 
-## [51] "NFIP Community Status Book"
-```
-
+    ##  [1] "Public Assistance Grant Award Activities"                      
+    ##  [2] "Hazard Mitigation Assistance Mitigated Properties"             
+    ##  [3] "Mission Assignments"                                           
+    ##  [4] "IPAWS Archived Alerts"                                         
+    ##  [5] "FIMA NFIP Redacted Claims"                                     
+    ##  [6] "Hazard Mitigation Assistance Projects Financial Transactions"  
+    ##  [7] "FEMA Web Disaster Summaries"                                   
+    ##  [8] "Public Assistance Funded Project Summaries"                    
+    ##  [9] "Individual Assistance Housing Registrants - Large Disasters"   
+    ## [10] "FEMA Regions"                                                  
+    ## [11] "Housing Assistance Program Data - Owners"                      
+    ## [12] "HMA Subapplications By NFIP CRS Communities"                   
+    ## [13] "Public Assistance Applicants"                                  
+    ## [14] "FEMA Web Disaster Declarations"                                
+    ## [15] "OpenFEMA Data Set Fields"                                      
+    ## [16] "OpenFEMA Dataset Codes"                                        
+    ## [17] "FIMA NFIP Redacted Policies"                                   
+    ## [18] "NFIP Community Layer Comprehensive"                            
+    ## [19] "HMA Subapplications Congressional Districts"                   
+    ## [20] "Public Assistance Funded Projects Details"                     
+    ## [21] "NFIP Community Layer No Overlaps Split"                        
+    ## [22] "NFIP Residential Penetration Rates"                            
+    ## [23] "Individual Assistance Multiple Loss Flood Properties"          
+    ## [24] "NFIP Community Layer No Overlaps Whole"                        
+    ## [25] "NFIP Multiple Loss Properties"                                 
+    ## [26] "Housing Assistance Program Data - Renters"                     
+    ## [27] "Individuals and Households Program - Valid Registrations"      
+    ## [28] "Emergency Management Performance Grants"                       
+    ## [29] "Non-Disaster and Assistance to Firefighter Grants"             
+    ## [30] "HMA Subapplications Project Site Inventories"                  
+    ## [31] "HMA Subapplications"                                           
+    ## [32] "Declaration Denials"                                           
+    ## [33] "Public Assistance Applicants Program Deliveries"               
+    ## [34] "Hazard Mitigation Assistance Projects"                         
+    ## [35] "Registration Intake and Individuals Household Program (RI-IHP)"
+    ## [36] "HMA Subapplications Financial Transactions"                    
+    ## [37] "Hazard Mitigation Assistance Projects by NFIP CRS Communities" 
+    ## [38] "Hazard Mitigation Plan Statuses"                               
+    ## [39] "Hazard Mitigation Grant Program - Disaster Summaries"          
+    ## [40] "Individuals and Households Program - Valid Registrations"      
+    ## [41] "OpenFEMA Data Sets"                                            
+    ## [42] "Public Assistance Funded Projects Details"                     
+    ## [43] "Disaster Declarations Summaries"                               
+    ## [44] "Public Assistance Second Appeals Tracker"                      
+    ## [45] "FEMA Web Declaration Areas"                                    
+    ## [46] "NFIP Community Status Book"
 
 ## Example Workflow
-Once we know what data set we want to access, or perhaps if we want to know more about what data is available in a given data set, we can use the `fema_data_fields()` function to get a look at the available data fields in a given data set by setting the "data_set" parameter to one of the "name" columns in the data frame returned by the `fema_data_sets()` function.
 
+Once we know what data set we want to access, or perhaps if we want to
+know more about what data is available in a given data set, we can use
+the `fema_data_fields()` function to get a look at the available data
+fields in a given data set by setting the “data_set” parameter to one of
+the “name” columns in the data frame returned by the `fema_data_sets()`
+function.
 
-```r
+``` r
 # obtain all the data fields for the NFIP Policies data set
 df <- fema_data_fields(data_set = "fimaNfipPolicies")
 ```
 
-```
-## 
-Obtaining Data: 1 out of 2 iterations (50% complete)
-Obtaining Data: 2 out of 2 iterations (100%
-## complete)
-```
+    ## Obtaining Data: 1 out of 2 iterations (50% complete)Obtaining Data: 2 out of 2 iterations (100%
+    ## complete)
 
-```r
+``` r
 # Note: the data set field is not case sensative, meaning you do not need to 
 # use camel case names despite that being the convention in the FEMA documentation.
 df <- fema_data_fields(data_set = "fimanfippolicies")
@@ -129,174 +135,186 @@ df <- fema_data_fields(data_set = "fimanfippolicies")
 df
 ```
 
-```
-## # A tibble: 127 × 15
-##    datase…¹ openF…² datas…³ name  title descr…⁴ type  sortO…⁵ isSea…⁶ isNes…⁷ isNul…⁸ prima…⁹ id   
-##    <chr>    <chr>   <chr>   <chr> <chr> <chr>   <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>
-##  1 openfem… FimaNf… 2       poli… Poli… Date u… date  29      TRUE    FALSE   TRUE    FALSE   3558…
-##  2 openfem… FimaNf… 1       base… Base… Baseme… smal… 3       TRUE    FALSE   FALSE   FALSE   689d…
-##  3 openfem… FimaNf… 1       cond… Cond… This i… text  6       TRUE    FALSE   FALSE   FALSE   ca12…
-##  4 openfem… FimaNf… 1       crsC… CRS … The Co… smal… 9       TRUE    FALSE   FALSE   FALSE   1923…
-##  5 openfem… FimaNf… 1       dedu… Dedu… The to… text  10      TRUE    FALSE   FALSE   FALSE   a3fb…
-##  6 openfem… FimaNf… 1       dedu… Dedu… The to… text  11      TRUE    FALSE   FALSE   FALSE   7c1b…
-##  7 openfem… FimaNf… 1       elev… Elev… Yes (Y… bool… 12      TRUE    FALSE   FALSE   FALSE   e9b1…
-##  8 openfem… FimaNf… 1       elev… Elev… Indica… text  13      TRUE    FALSE   FALSE   FALSE   b59e…
-##  9 openfem… FimaNf… 1       floo… Floo… NFIP F… text  16      TRUE    FALSE   FALSE   FALSE   42ac…
-## 10 openfem… FimaNf… 1       loca… Loca… Code t… smal… 20      TRUE    FALSE   FALSE   FALSE   a72e…
-## # … with 117 more rows, 2 more variables: lastRefresh <chr>, hash <chr>, and abbreviated variable
-## #   names ¹​datasetId, ²​openFemaDataSet, ³​datasetVersion, ⁴​description, ⁵​sortOrder, ⁶​isSearchable,
-## #   ⁷​isNestedObject, ⁸​isNullable, ⁹​primaryKey
-```
+    ## # A tibble: 81 × 16
+    ##    datasetId openFemaDataSet datasetVersion name  title description type  sortOrder isSearchable
+    ##    <chr>     <chr>           <chr>          <chr> <chr> <chr>       <chr> <chr>     <chr>       
+    ##  1 openfema… FimaNfipPolici… 2              buil… Buil… Estimated … bigi… 45        TRUE        
+    ##  2 openfema… FimaNfipPolici… 2              base… Base… Base Flood… deci… 2         TRUE        
+    ##  3 openfema… FimaNfipPolici… 2              lowe… Lowe… Lowest nat… deci… 18        TRUE        
+    ##  4 openfema… FimaNfipPolici… 2              lowe… Lowe… A building… deci… 19        TRUE        
+    ##  5 openfema… FimaNfipPolici… 2              canc… Canc… Reason cod… text  39        TRUE        
+    ##  6 openfema… FimaNfipPolici… 2              basi… Basi… Basic buil… deci… 46        TRUE        
+    ##  7 openfema… FimaNfipPolici… 2              addi… Addi… Additional… deci… 47        TRUE        
+    ##  8 openfema… FimaNfipPolici… 2              basi… Basi… Basic cont… deci… 48        TRUE        
+    ##  9 openfema… FimaNfipPolici… 2              Addi… Addi… Additional… deci… 49        TRUE        
+    ## 10 openfema… FimaNfipPolici… 2              agri… Agri… Indicates … bool… 1         FALSE       
+    ## # ℹ 71 more rows
+    ## # ℹ 7 more variables: isNestedObject <chr>, isNullable <chr>, primaryKey <chr>, id <chr>,
+    ## #   lastRefresh <chr>, hash <chr>, srid <chr>
 
+The FEMA API limits the number of records that can be returned in a
+single query to 1000, meaning if we want more observations than that, a
+loop is necessary to iterate over multiple API calls. The `open_fema`
+function handles this process automatically, but by default will issue a
+warning letting you know how many records match your criteria and how
+many API calls it will take to retrieve all those records and ask you to
+confirm the request before it starts retrieving data (this behavior can
+be turned off by setting the `ask_before_call` argument to `FALSE`).
+Additionally an estimated time will be issued to give you a sense of how
+long it will take to complete the request. For example, requesting the
+entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")`
+will yield the following output in the R console.
 
-The FEMA API limits the number of records that can be returned in a single query to 1000, meaning if we want more observations than that, a loop is necessary to iterate over multiple API calls. The `open_fema` function handles this process automatically, but by default will issue a warning letting you know how many records match your criteria and how many API calls it will take to retrieve all those records and ask you to confirm the request before it starts retrieving data (this behavior can be turned off by setting the `ask_before_call` argument to `FALSE`). Additionally an estimated time will be issued to give you a sense of how long it will take to complete the request. For example, requesting the entire NFIP claims data set via `open_fema(data_set = "fimaNfipClaims")` will yield the following output in the R console.
+    Calculating estimated API call time...
+    2600579 matching records found. At 1000 records per call, it will take 2601 individual API calls to get all matching records. It's estimated that this will take approximately 2.12 hours. Continue?
+     1 - Yes, get that data!, 0 - No, let me rethink my API call: 
 
+Note that the estimated time is based on network conditions at the
+initial time the call is being made and may not be accurate for large
+data requests that take long enough for network conditions to potential
+change significantly during the request.
 
-```
-Calculating estimated API call time...
-2600579 matching records found. At 1000 records per call, it will take 2601 individual API calls to get all matching records. It's estimated that this will take approximately 2.12 hours. Continue?
- 1 - Yes, get that data!, 0 - No, let me rethink my API call: 
-```
+Alternatively, we could specify the top_n argument to limit the number
+of records returned. Specifying top_n greater than 1000 will initiate
+the same message letting you know how many iterations it will take to
+get your data. If `top_n` is less than 1000, the API call will
+automatically be carried out. In the case below, we will return the
+first 10 records from the NFIP Claims data.
 
-Note that the estimated time is based on network conditions at the initial time the call is being made and may not be accurate for large data requests that take long enough for network conditions to potential change significantly during the request. As an aside, for large data requests, like downloading the entire data set, it will usually be faster to perform a bulk download using the `bulk_dl` function. 
-
-
-Alternatively, we could specify the top_n argument to limit the number of records returned. Specifying top_n greater than 1000 will initiate the same message letting you know how many iterations it will take to get your data. If `top_n` is less than 1000, the API call will automatically be carried out. In the case below, we will return the first 10 records from the NFIP Claims data.
-
-
-```r
+``` r
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10)
 
 df
 ```
 
-```
-## # A tibble: 10 × 73
-##    agricu…¹ asOfDate            basem…² polic…³ crsCl…⁴ dateOfLoss          eleva…⁵ eleva…⁶ eleva…⁷
-##    <chr>    <dttm>              <chr>   <chr>   <chr>   <dttm>              <chr>   <chr>   <chr>  
-##  1 FALSE    2020-01-22 00:00:00 NULL    1       8       1998-02-07 00:00:00 FALSE   NULL    NULL   
-##  2 FALSE    2020-01-22 00:00:00 NULL    1       8       2005-08-29 00:00:00 FALSE   NULL    NULL   
-##  3 FALSE    2020-01-22 00:00:00 NULL    1       9       1998-09-28 00:00:00 FALSE   NULL    NULL   
-##  4 FALSE    2019-09-19 00:00:00 1       1       9       1994-10-07 00:00:00 FALSE   NULL    NULL   
-##  5 FALSE    2019-09-19 00:00:00 NULL    1       8       1996-03-11 00:00:00 FALSE   NULL    NULL   
-##  6 FALSE    2020-01-22 00:00:00 NULL    1       NULL    1998-02-03 00:00:00 TRUE    NULL    NULL   
-##  7 FALSE    2020-01-22 00:00:00 NULL    1       5       2017-08-27 00:00:00 FALSE   NULL    NULL   
-##  8 FALSE    2019-10-19 00:00:00 NULL    1       NULL    1992-09-11 00:00:00 FALSE   NULL    NULL   
-##  9 FALSE    2019-10-19 00:00:00 NULL    1       8       1998-09-28 00:00:00 FALSE   NULL    NULL   
-## 10 FALSE    2019-09-19 00:00:00 NULL    1       8       1995-03-11 00:00:00 FALSE   NULL    NULL   
-## # … with 64 more variables: baseFloodElevation <chr>, ratedFloodZone <chr>, houseWorship <chr>,
-## #   locationOfContents <chr>, lowestAdjacentGrade <chr>, lowestFloorElevation <chr>,
-## #   numberOfFloorsInTheInsuredBuilding <chr>, nonProfitIndicator <chr>, obstructionType <chr>,
-## #   occupancyType <chr>, originalConstructionDate <dttm>, originalNBDate <dttm>,
-## #   amountPaidOnBuildingClaim <chr>, amountPaidOnContentsClaim <chr>,
-## #   amountPaidOnIncreasedCostOfComplianceClaim <chr>, postFIRMConstructionIndicator <chr>,
-## #   rateMethod <chr>, smallBusinessIndicatorBuilding <chr>, …
-```
+    ## # A tibble: 10 × 73
+    ##    agricultureStructureIndicator asOfDate            basementEnclosureCrawlspaceType policyCount
+    ##    <chr>                         <dttm>              <chr>                           <chr>      
+    ##  1 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  2 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  3 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  4 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  5 FALSE                         2025-07-01 00:00:00 0                               1          
+    ##  6 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  7 FALSE                         2025-07-01 00:00:00 4                               1          
+    ##  8 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  9 FALSE                         2025-07-01 00:00:00 1                               1          
+    ## 10 FALSE                         2025-07-01 00:00:00 1                               1          
+    ## # ℹ 69 more variables: crsClassificationCode <chr>, dateOfLoss <dttm>,
+    ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
+    ## #   elevationDifference <chr>, baseFloodElevation <chr>, ratedFloodZone <chr>,
+    ## #   houseWorship <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
+    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>,
+    ## #   originalConstructionDate <dttm>, originalNBDate <dttm>, amountPaidOnBuildingClaim <chr>, …
 
-If we wanted to limit the columns returned we could do so by passing a character vector of data fields to be included in the returned data frame. The data fields for a given data set can be retrieved using the `fema_data_fields()` function.
+If we wanted to limit the columns returned we could do so by passing a
+character vector of data fields to be included in the returned data
+frame. The data fields for a given data set can be retrieved using the
+`fema_data_fields()` function.
 
-
-
-```r
+``` r
 data_fields <- fema_data_fields("fimanfipclaims")
 
 data_fields
 ```
 
-```
-## # A tibble: 113 × 15
-##    datase…¹ openF…² datas…³ name  title descr…⁴ type  sortO…⁵ isSea…⁶ isNes…⁷ isNul…⁸ prima…⁹ id   
-##    <chr>    <chr>   <chr>   <chr> <chr> <chr>   <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>
-##  1 openfem… FimaNf… 2       wate… Wate… Depth … smal… 61      TRUE    FALSE   TRUE    FALSE   7e46…
-##  2 openfem… FimaNf… 1       base… Base… Baseme… smal… 4       TRUE    FALSE   FALSE   FALSE   be90…
-##  3 openfem… FimaNf… 1       cond… Cond… This i… text  6       TRUE    FALSE   FALSE   FALSE   8690…
-##  4 openfem… FimaNf… 1       comm… Comm… The Co… smal… 9       TRUE    FALSE   FALSE   FALSE   264c…
-##  5 openfem… FimaNf… 1       elev… Elev… Indica… smal… 12      TRUE    FALSE   TRUE    FALSE   a63c…
-##  6 openfem… FimaNf… 1       floo… Floo… Flood … text  15      TRUE    FALSE   TRUE    FALSE   f727…
-##  7 openfem… FimaNf… 1       loca… Loca… Code t… smal… 18      TRUE    FALSE   TRUE    FALSE   9720…
-##  8 openfem… FimaNf… 1       numb… Numb… Code t… smal… 22      TRUE    FALSE   FALSE   FALSE   56d6…
-##  9 openfem… FimaNf… 1       obst… Obst… Code t… smal… 24      TRUE    FALSE   TRUE    FALSE   85b2…
-## 10 openfem… FimaNf… 1       occu… Occu… Code i… smal… 25      TRUE    FALSE   FALSE   FALSE   7c3b…
-## # … with 103 more rows, 2 more variables: lastRefresh <chr>, hash <chr>, and abbreviated variable
-## #   names ¹​datasetId, ²​openFemaDataSet, ³​datasetVersion, ⁴​description, ⁵​sortOrder, ⁶​isSearchable,
-## #   ⁷​isNestedObject, ⁸​isNullable, ⁹​primaryKey
-```
+    ## # A tibble: 73 × 16
+    ##    datasetId openFemaDataSet datasetVersion name  title description type  sortOrder isSearchable
+    ##    <chr>     <chr>           <chr>          <chr> <chr> <chr>       <chr> <chr>     <chr>       
+    ##  1 openfema… FimaNfipClaims  2              asOf… As o… The effect… date… 2         TRUE        
+    ##  2 openfema… FimaNfipClaims  2              amou… Amou… Dollar amo… deci… 22        TRUE        
+    ##  3 openfema… FimaNfipClaims  2              amou… Amou… Dollar amo… deci… 23        TRUE        
+    ##  4 openfema… FimaNfipClaims  2              amou… Amou… ICC covera… deci… 24        TRUE        
+    ##  5 openfema… FimaNfipClaims  2              netB… Net … Net buildi… deci… 34        TRUE        
+    ##  6 openfema… FimaNfipClaims  2              netC… Net … Net conten… deci… 40        TRUE        
+    ##  7 openfema… FimaNfipClaims  2              agri… Agri… Indicates … bool… 1         FALSE       
+    ##  8 openfema… FimaNfipClaims  2              base… Base… Basement i… smal… 3         TRUE        
+    ##  9 openfema… FimaNfipClaims  2              poli… Poli… Insured un… smal… 4         TRUE        
+    ## 10 openfema… FimaNfipClaims  2              crsC… CRS … The Commun… smal… 5         TRUE        
+    ## # ℹ 63 more rows
+    ## # ℹ 7 more variables: isNestedObject <chr>, isNullable <chr>, primaryKey <chr>, id <chr>,
+    ## #   lastRefresh <chr>, hash <chr>, srid <chr>
 
+In this case we will return only the `policyCount` and `countyCode`
+columns.
 
-In this case we will return only the `policyCount` and `countyCode` columns. 
-
-```r
+``` r
 df <- open_fema(data_set = "fimaNfipClaims", top_n = 10, select = c("policyCount","countyCode"))
 
 df
 ```
 
-```
-## # A tibble: 10 × 2
-##    policyCount countyCode
-##    <chr>       <chr>     
-##  1 1           06073     
-##  2 1           22071     
-##  3 1           12113     
-##  4 1           45013     
-##  5 1           12009     
-##  6 1           51810     
-##  7 1           48201     
-##  8 1           15003     
-##  9 1           12087     
-## 10 1           06053
-```
+    ## # A tibble: 10 × 2
+    ##    policyCount countyCode
+    ##    <chr>       <chr>     
+    ##  1 1           34009     
+    ##  2 1           12086     
+    ##  3 1           12086     
+    ##  4 1           34031     
+    ##  5 1           48167     
+    ##  6 1           22109     
+    ##  7 1           36103     
+    ##  8 1           36059     
+    ##  9 1           34039     
+    ## 10 1           29189
 
-If we want to limit the rows returned rather than the columns, we can also apply filters by specifying values of the columns to return. If we want to quickly see the set of variables that can be used to filter API queries with, we can use the `valid_parameters()` function to return a tibble containing the variables that are "searchable" for a particular data set. 
+If we want to limit the rows returned rather than the columns, we can
+also apply filters by specifying values of the columns to return. If we
+want to quickly see the set of variables that can be used to filter API
+queries with, we can use the `valid_parameters()` function to return a
+tibble containing the variables that are “searchable” for a particular
+data set.
 
-
-```r
+``` r
 params <- valid_parameters(data_set = "fimaNfipClaims")
 
 params
 ```
 
-```
-## # A tibble: 63 × 1
-##    params                            
-##    <chr>                             
-##  1 waterDepth                        
-##  2 basementEnclosureCrawlspaceType   
-##  3 crsClassificationCode             
-##  4 elevationCertificateIndicator     
-##  5 elevationDifference               
-##  6 ratedFloodZone                    
-##  7 locationOfContents                
-##  8 numberOfFloorsInTheInsuredBuilding
-##  9 obstructionType                   
-## 10 buildingDeductibleCode            
-## # … with 53 more rows
-```
+    ## # A tibble: 63 × 1
+    ##    params                                    
+    ##    <chr>                                     
+    ##  1 asOfDate                                  
+    ##  2 amountPaidOnBuildingClaim                 
+    ##  3 amountPaidOnContentsClaim                 
+    ##  4 amountPaidOnIncreasedCostOfComplianceClaim
+    ##  5 netBuildingPaymentAmount                  
+    ##  6 netContentsPaymentAmount                  
+    ##  7 basementEnclosureCrawlspaceType           
+    ##  8 policyCount                               
+    ##  9 crsClassificationCode                     
+    ## 10 dateOfLoss                                
+    ## # ℹ 53 more rows
 
-We can see from the above that both `waterDepth` and `ratedfloodZone` are both searchable variables. Thus we can specify a list that contains the values of each variable that we want returned. Before doing that however, it can be useful to learn a bit more about each parameter by using the `parameter_values()` function. 
+We can see from the above that both `waterDepth` and `ratedfloodZone`
+are both searchable variables. Thus we can specify a list that contains
+the values of each variable that we want returned. Before doing that
+however, it can be useful to learn a bit more about each parameter by
+using the `parameter_values()` function.
 
-
-
-```r
+``` r
 # get more information onf the "ratedfloodZone" parameter from the NFIP Claims data set
 parameter_values(data_set = "fimaNfipClaims",data_field = "ratedFloodZone")
 ```
 
-```
-## Data Set: FimaNfipClaims
-## Data Field: ratedFloodZone
-## Data Field Description: Formerly called floodZone. NFIP Flood Zone derived from the Flood Insurance Rate Map (FIRM) used to rate the insured property.A - Special Flood with no Base Flood Elevation on FIRM; AE, A1-A30 - Special Flood with Base Flood Elevation on FIRM; A99 - Special Flood with Protection Zone; AH, AHB* - Special Flood with Shallow Ponding; AO, AOB* - Special Flood with Sheet Flow; X, B - Moderate Flood from primary water source.  Pockets of areas subject to drainage problems; X, C - Minimal Flood from primary water source.  Pockets of areas subject to drainage problems; D - Possible Flood; V - Velocity Flood with no Base Flood Elevation on FIRM; VE, V1-V30 - Velocity Flood with Base Flood Elevation on FIRM; AE, VE, X - New zone designations used on new maps starting January 1, 1986, in lieu of A1-A30, V1-V30, and B and C; AR - A Special Flood Hazard Area that results from the decertification of a previously accredited flood protection system that is determined to be in the process of being restored to provide base flood protection;AR Dual Zones - (AR/AE, AR/A1-A30, AR/AH, AR/AO, AR/A) Areas subject to flooding from failure of the flood protection system (Zone AR) which also overlap an existing Special Flood Hazard Area as a dual zone; *AHB, AOB, ARE, ARH, ARO, and ARA are not risk zones shown on a map, but are acceptable values for rating purposes
-## Data Field Example Values: c("X", "AE", "VE", "NULL", "C", "V")
-## More Information Available at: https://www.fema.gov/about/openfema/data-sets
-```
+    ## Data Set: FimaNfipClaims
+    ## Data Field: ratedFloodZone
+    ## Data Field Description: Formerly called floodZone. NFIP Flood Zone derived from the Flood Insurance Rate Map (FIRM) used to rate the insured property.A - Special Flood with no Base Flood Elevation on FIRM; AE, A1-A30 - Special Flood with Base Flood Elevation on FIRM; A99 - Special Flood with Protection Zone; AH, AHB* - Special Flood with Shallow Ponding; AO, AOB* - Special Flood with Sheet Flow; X, B - Moderate Flood from primary water source.  Pockets of areas subject to drainage problems; X, C - Minimal Flood from primary water source.  Pockets of areas subject to drainage problems; D - Possible Flood; V - Velocity Flood with no Base Flood Elevation on FIRM; VE, V1-V30 - Velocity Flood with Base Flood Elevation on FIRM; AE, VE, X - New zone designations used on new maps starting January 1, 1986, in lieu of A1-A30, V1-V30, and B and C; AR - A Special Flood Hazard Area that results from the decertification of a previously accredited flood protection system that is determined to be in the process of being restored to provide base flood protection;AR Dual Zones - (AR/AE, AR/A1-A30, AR/AH, AR/AO, AR/A) Areas subject to flooding from failure of the flood protection system (Zone AR) which also overlap an existing Special Flood Hazard Area as a dual zone; *AHB, AOB, ARE, ARH, ARO, and ARA are not risk zones shown on a map, but are acceptable values for rating purposes
+    ## Data Field Example Values: c("AE", "A13", "X", "A04", "C", "A99")
+    ## More Information Available at: https://www.fema.gov/about/openfema/data-sets
 
-As can be seen, `parameter_values()` returns the data set name, the data field (i.e. the searchable parameter), a description of the data field, and a vector of examples of the data field values which can be useful for seeing how the values are formatted in the data. 
+As can be seen, `parameter_values()` returns the data set name, the data
+field (i.e. the searchable parameter), a description of the data field,
+and a vector of examples of the data field values which can be useful
+for seeing how the values are formatted in the data.
 
+We can see from the above that `ratedFloodZone` is a character in the
+data and from the description we know that “AE” and “X” are both valid
+values for the `ratedFloodZone` parameter. We can thus define a filter
+to return only records from AE and X flood zones.
 
-We can see from the above that `ratedFloodZone` is a character in the data and from the description we know that "AE" and "X" are both valid values for the `ratedFloodZone` parameter. We can thus define a filter to return only records from AE and X flood zones.
-
-
-```r
+``` r
 # construct a filter that limits records to those in AE flood zones
 my_filters <- list(ratedFloodZone = c("AE","X"))
 
@@ -309,28 +327,25 @@ df <- open_fema(data_set = "fimaNfipclaims", top_n = 10,
 df
 ```
 
-```
-## # A tibble: 10 × 2
-##    policyCount ratedFloodZone
-##    <chr>       <chr>         
-##  1 1           X             
-##  2 1           X             
-##  3 1           X             
-##  4 1           X             
-##  5 1           X             
-##  6 1           AE            
-##  7 1           X             
-##  8 1           AE            
-##  9 1           AE            
-## 10 1           X
-```
+    ## # A tibble: 10 × 2
+    ##    policyCount ratedFloodZone
+    ##    <chr>       <chr>         
+    ##  1 1           AE            
+    ##  2 1           AE            
+    ##  3 1           AE            
+    ##  4 1           X             
+    ##  5 1           X             
+    ##  6 1           AE            
+    ##  7 1           X             
+    ##  8 1           X             
+    ##  9 1           AE            
+    ## 10 1           AE
 
 ## More Examples
 
 ### Example: Return the first 100 NFIP claims for Florida that happened between 2010 and 2020.
 
-
-```r
+``` r
 df <- open_fema(data_set = "fimaNfipClaims",
                  top_n = 100,
                  filters = list(state = "FL",
@@ -340,92 +355,74 @@ df <- open_fema(data_set = "fimaNfipClaims",
 df
 ```
 
-```
-## # A tibble: 100 × 73
-##    agricu…¹ asOfDate            basem…² polic…³ crsCl…⁴ dateOfLoss          eleva…⁵ eleva…⁶ eleva…⁷
-##    <chr>    <dttm>              <chr>   <chr>   <chr>   <dttm>              <chr>   <chr>   <chr>  
-##  1 FALSE    2020-01-22 00:00:00 NULL    1       7       2012-09-06 00:00:00 FALSE   NULL    3      
-##  2 FALSE    2020-01-22 00:00:00 NULL    1       7       2017-10-07 00:00:00 FALSE   NULL    NULL   
-##  3 FALSE    2021-10-20 00:00:00 NULL    1       6       2014-04-30 00:00:00 TRUE    NULL    -3     
-##  4 FALSE    2020-01-22 00:00:00 NULL    1       5       2017-09-10 00:00:00 FALSE   NULL    NULL   
-##  5 FALSE    2022-06-17 00:00:00 NULL    1       7       2017-09-09 00:00:00 FALSE   NULL    NULL   
-##  6 FALSE    2020-01-22 00:00:00 NULL    1       6       2012-06-09 00:00:00 FALSE   NULL    NULL   
-##  7 FALSE    2020-01-22 00:00:00 NULL    1       8       2011-10-08 00:00:00 FALSE   NULL    NULL   
-##  8 FALSE    2020-01-22 00:00:00 NULL    1       6       2014-04-29 00:00:00 FALSE   NULL    NULL   
-##  9 FALSE    2020-01-22 00:00:00 NULL    1       5       2012-06-24 00:00:00 FALSE   NULL    NULL   
-## 10 FALSE    2023-07-31 00:00:00 NULL    1       7       2014-04-29 00:00:00 TRUE    NULL    3      
-## # … with 90 more rows, 64 more variables: baseFloodElevation <chr>, ratedFloodZone <chr>,
-## #   houseWorship <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
-## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
-## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>,
-## #   originalConstructionDate <dttm>, originalNBDate <dttm>, amountPaidOnBuildingClaim <chr>,
-## #   amountPaidOnContentsClaim <chr>, amountPaidOnIncreasedCostOfComplianceClaim <chr>,
-## #   postFIRMConstructionIndicator <chr>, rateMethod <chr>, smallBusinessIndicatorBuilding <chr>, …
-```
-
+    ## # A tibble: 100 × 73
+    ##    agricultureStructureIndicator asOfDate            basementEnclosureCrawlspaceType policyCount
+    ##    <chr>                         <dttm>              <chr>                           <chr>      
+    ##  1 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  2 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  3 FALSE                         2025-07-01 00:00:00 2                               73         
+    ##  4 FALSE                         2025-07-01 00:00:00 0                               1          
+    ##  5 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  6 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  7 FALSE                         2025-07-01 00:00:00 0                               1          
+    ##  8 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ##  9 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ## 10 FALSE                         2025-07-01 00:00:00 NULL                            1          
+    ## # ℹ 90 more rows
+    ## # ℹ 69 more variables: crsClassificationCode <chr>, dateOfLoss <dttm>,
+    ## #   elevatedBuildingIndicator <chr>, elevationCertificateIndicator <chr>,
+    ## #   elevationDifference <chr>, baseFloodElevation <chr>, ratedFloodZone <chr>,
+    ## #   houseWorship <chr>, locationOfContents <chr>, lowestAdjacentGrade <chr>,
+    ## #   lowestFloorElevation <chr>, numberOfFloorsInTheInsuredBuilding <chr>,
+    ## #   nonProfitIndicator <chr>, obstructionType <chr>, occupancyType <chr>, …
 
 ### Example: Get data on all Hazard Mitigation Assistance Projects associated with flood mitigation in Florida.
 
-
-```r
+``` r
 # see which parameter can be used for filtering the Hazard Mitigation Grants data set
 valid_parameters("HazardMitigationAssistanceProjects") 
 ```
 
-```
-## # A tibble: 29 × 1
-##    params           
-##    <chr>            
-##  1 status           
-##  2 subrecipient     
-##  3 projectIdentifier
-##  4 programArea      
-##  5 programFy        
-##  6 region           
-##  7 state            
-##  8 stateNumberCode  
-##  9 county           
-## 10 countyCode       
-## # … with 19 more rows
-```
+    ## # A tibble: 31 × 1
+    ##    params                  
+    ##    <chr>                   
+    ##  1 initialObligationDate   
+    ##  2 initialObligationAmount 
+    ##  3 federalShareObligated   
+    ##  4 subrecipientAdminCostAmt
+    ##  5 srmcObligatedAmt        
+    ##  6 recipientAdminCostAmt   
+    ##  7 costSharePercentage     
+    ##  8 benefitCostRatio        
+    ##  9 netValueBenefits        
+    ## 10 numberOfFinalProperties 
+    ## # ℹ 21 more rows
 
-
-
-```r
+``` r
 # see how values of "programArea" are formatted
 params <- parameter_values(data_set = "HazardMitigationAssistanceProjects", data_field = "programArea", message = F) 
 params
 ```
 
-```
-## # A tibble: 3 × 4
-##   `Data Set`                         `Data Field` `Data Field Description`                 Data F…¹
-##   <chr>                              <chr>        <chr>                                    <list>  
-## 1 HazardMitigationAssistanceProjects programArea  Hazard Mitigation Assistance grant prog… <tibble>
-## 2 HazardMitigationAssistanceProjects programArea  Hazard Mitigation Assistance grant prog… <tibble>
-## 3 HazardMitigationAssistanceProjects programArea  Hazard Mitigation Assistance grant prog… <tibble>
-## # … with abbreviated variable name ¹​`Data Field Example Values`
-```
+    ## # A tibble: 1 × 4
+    ##   `Data Set`                         `Data Field` Data Field Descriptio…¹ Data Field Example V…²
+    ##   <chr>                              <chr>        <chr>                   <list>                
+    ## 1 HazardMitigationAssistanceProjects programArea  Hazard Mitigation Assi… <tibble [2 × 1]>      
+    ## # ℹ abbreviated names: ¹​`Data Field Description`, ²​`Data Field Example Values`
 
-
-```r
+``` r
 # check to see how "state" is formatted
 params <- parameter_values(data_set = "HazardMitigationAssistanceProjects", data_field = "state", message = F) 
 params
 ```
 
-```
-## # A tibble: 3 × 4
-##   `Data Set`                         `Data Field` `Data Field Description`                 Data F…¹
-##   <chr>                              <chr>        <chr>                                    <list>  
-## 1 HazardMitigationAssistanceProjects state        Full name of the State (e.g., Virginia)… <tibble>
-## 2 HazardMitigationAssistanceProjects state        Full name of the State (e.g., Virginia)… <tibble>
-## 3 HazardMitigationAssistanceProjects state        Full name of the State (e.g., Virginia)… <tibble>
-## # … with abbreviated variable name ¹​`Data Field Example Values`
-```
+    ## # A tibble: 1 × 4
+    ##   `Data Set`                         `Data Field` Data Field Descriptio…¹ Data Field Example V…²
+    ##   <chr>                              <chr>        <chr>                   <list>                
+    ## 1 HazardMitigationAssistanceProjects state        Full name of the State… <tibble [6 × 1]>      
+    ## # ℹ abbreviated names: ¹​`Data Field Description`, ²​`Data Field Example Values`
 
-
-```r
+``` r
 # construct a list containing filters for Flood Mitigation Assistance projects in Florida
 filter_list <- c(programArea = c("FMA"),
                  state = c("Florida")) 
@@ -437,36 +434,33 @@ df <- open_fema(data_set = "HazardMitigationAssistanceProjects", filters = filte
 df
 ```
 
-```
-## # A tibble: 345 × 31
-##    projectIden…¹ progr…² progr…³ region state state…⁴ county count…⁵ disas…⁶ proje…⁷ proje…⁸ status
-##    <chr>         <chr>   <chr>   <chr>  <chr> <chr>   <chr>  <chr>   <chr>   <chr>   <chr>   <chr> 
-##  1 FMA-PJ-04-FL… FMA     2005    4      Flor… 12      Browa… 11      NULL    BROWARD 405.1:… Closed
-##  2 FMA-PJ-04-FL… FMA     2005    4      Flor… 12      Volus… 127     NULL    VOLUSIA 200.1:… Closed
-##  3 FMA-PJ-04-FL… FMA     2017    4      Flor… 12      Clay   19      NULL    CLAY    200.1:… Closed
-##  4 FMA-PJ-04-FL… FMA     2018    4      Flor… 12      Clay   19      NULL    CLAY    202.1:… Oblig…
-##  5 FMA-PJ-04-FL… FMA     2008    4      Flor… 12      Volus… 127     NULL    VOLUSIA 202.2:… Closed
-##  6 FMA-PJ-04-FL… FMA     2007    4      Flor… 12      Volus… 127     NULL    VOLUSIA 202.1:… Closed
-##  7 FMA-PJ-04-FL… FMA     2009    4      Flor… 12      Volus… 127     NULL    VOLUSIA 202.1:… Closed
-##  8 FMA-PJ-04-FL… FMA     2016    4      Flor… 12      Volus… 127     NULL    VOLUSIA 200.1:… Closed
-##  9 FMA-PJ-04-FL… FMA     2009    4      Flor… 12      Volus… 127     NULL    VOLUSIA 200.2:… Closed
-## 10 FMA-PJ-04-FL… FMA     2012    4      Flor… 12      Volus… 127     NULL    VOLUSIA 202.1:… Closed
-## # … with 335 more rows, 19 more variables: recipient <chr>, recipientTribalIndicator <chr>,
-## #   subrecipient <chr>, subrecipientTribalIndicator <chr>, dataSource <chr>, dateApproved <dttm>,
-## #   dateClosed <dttm>, dateInitiallyApproved <dttm>, projectAmount <chr>,
-## #   federalShareObligated <chr>, subrecipientAdminCostAmt <chr>, srmcObligatedAmt <chr>,
-## #   recipientAdminCostAmt <chr>, costSharePercentage <chr>, benefitCostRatio <chr>,
-## #   netValueBenefits <chr>, numberOfFinalProperties <chr>, numberOfProperties <chr>, id <chr>, and
-## #   abbreviated variable names ¹​projectIdentifier, ²​programArea, ³​programFy, ⁴​stateNumberCode, …
-```
-
+    ## # A tibble: 686 × 33
+    ##    projectIdentifier     programArea programFy region state   stateNumberCode county  countyCode
+    ##    <chr>                 <chr>       <chr>     <chr>  <chr>   <chr>           <chr>   <chr>     
+    ##  1 FMA-PJ-04-FL-2013-028 FMA         2013      4      Florida 12              Clay    19        
+    ##  2 FMA-PJ-04-FL-2018-007 FMA         2018      4      Florida 12              Clay    19        
+    ##  3 FMA-PJ-04-FL-2007-001 FMA         2007      4      Florida 12              Volusia 127       
+    ##  4 FMA-PJ-04-FL-2023-006 FMA         2023      4      Florida 12              Volusia 127       
+    ##  5 FMA-PL-04-FL-2014-023 FMA         2014      4      Florida 12              Flagler 35        
+    ##  6 FMA-PJ-04-FL-2013-027 FMA         2013      4      Florida 12              Clay    19        
+    ##  7 FMA-PJ-04-FL-2013-033 FMA         2013      4      Florida 12              Volusia 127       
+    ##  8 FMA-PJ-04-FL-2023-005 FMA         2023      4      Florida 12              Volusia 127       
+    ##  9 FMA-PJ-04-FL-2006-027 FMA         2006      4      Florida 12              Volusia 127       
+    ## 10 FMA-PJ-04-FL-2013-029 FMA         2013      4      Florida 12              Clay    19        
+    ## # ℹ 676 more rows
+    ## # ℹ 25 more variables: disasterNumber <chr>, projectCounties <chr>, projectType <chr>,
+    ## #   status <chr>, recipient <chr>, recipientTribalIndicator <chr>, subrecipient <chr>,
+    ## #   subrecipientTribalIndicator <chr>, dataSource <chr>, dateApproved <dttm>,
+    ## #   dateClosed <dttm>, dateInitiallyApproved <dttm>, projectAmount <chr>,
+    ## #   initialObligationDate <dttm>, initialObligationAmount <chr>, federalShareObligated <chr>,
+    ## #   subrecipientAdminCostAmt <chr>, srmcObligatedAmt <chr>, recipientAdminCostAmt <chr>, …
 
 ### Example: Determine how much money was awarded by FEMA for rental assistance following Hurricane Irma.
 
-Get a dataset description for the `HousingAssistanceRenters` data set to see if this is the right data set for the question
+Get a dataset description for the `HousingAssistanceRenters` data set to
+see if this is the right data set for the question
 
-
-```r
+``` r
 # get meta data for the `HousingAssistanceRenters`
 ds <- fema_data_sets() 
 ds <- ds[which(ds$name == "HousingAssistanceRenters"),]
@@ -475,96 +469,86 @@ ds <- ds[which(ds$name == "HousingAssistanceRenters"),]
 nrow(ds)
 ```
 
-```
-## [1] 2
-```
+    ## [1] 1
 
-```r
+``` r
 ds <- ds[which(ds$version == max(as.numeric(ds$version))),]
 ```
 
-
-```r
+``` r
 # now print out the data set description and make sure its the data set 
 # that applicable or our research question
 print(ds$description)
 ```
 
-```
-## [1] "The dataset was generated by FEMA’s Enterprise Coordination & Information Management (ECIM) Reporting team and is primarily composed of data from Housing Assistance Program reporting authority from FEMA registration renters and owners within the state, county, zip where the registration is valid. \n\nThis dataset contains aggregated, non-PII data on FEMA’s Housing Assistance Program within the state, county, zip where the registration is valid for the declarations, starting with disaster declarations number 4116.  The data is divided into data for renters and data for property owners. Additional core data elements include number of applicants, county, zip code, severity of damage, owner or renter. Data is self-reported and as such is subject to human error. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.\n\nThis is raw, unedited data from FEMA's National Emergency Management Information System (NEMIS) and as such is subject to a small percentage of human error. For example, when an applicant registers they enter their street and city address.  The system runs a check and suggests a county.  The applicant, if registering online can override that choice.  If they are registering via the call center the Human Services Specialist (HSS) representatives are instructed to ask (not offer) what county they live in.  So even though the system might suggest County A,  an applicant has the right to choose County B.  \n\nThe financial information is derived from NEMIS and not FEMA's official financial systems.  Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov;  this dataset is not intended to be used for any official federal financial reporting.\n\nCitation: The Agency’s preferred citation for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page, Citing Data section: https://www.fema.gov/about/openfema/terms-conditions.\n\nIf you have media inquiries about this dataset, please email the FEMA News Desk FEMA-News-Desk@fema.dhs.gov or call (202) 646-3272.  For inquiries about FEMA's data and Open government program please contact the OpenFEMA team via email OpenFEMA@fema.dhs.gov."
-```
+    ## [1] "This dataset was generated by FEMA's Individual Assistance (IA) reporting team to share data on FEMA's Housing Assistance program for house renters within the state, county, and zip code where the registration is valid for the declarations, starting with disaster declaration DR1439 (declared in 2002). It contains aggregated, non-PII data. Core data elements include number of applicants, county, zip code, inspections, severity of damage, and assistance provided. \n\nData is self-reported and subject to human error. For example, when an applicant registers online, they enter their street and city address. While the county is inferred by the system, it may be overridden by the applicant. Similarly, with a call center registration, the Human Services Specialist (HSS) representatives are instructed to ask in what county the applicant resides, but the applicant has the right to choose the county. To learn more about disaster assistance please visit https://www.fema.gov/individual-disaster-assistance.\n\nThe financial information is derived from NEMIS and not FEMA's official financial systems. Due to differences in reporting periods, status of obligations and how business rules are applied, this financial information may differ slightly from official publication on public websites such as usaspending.gov; this dataset is not intended to be used for any official federal financial reporting.\n\nFEMA's terms and conditions and citation requirements for datasets (API usage or file downloads) can be found on the OpenFEMA Terms and Conditions page: https://www.fema.gov/about/openfema/terms-conditions\n\nFor answers to Frequently Asked Questions (FAQs) about the OpenFEMA program, API, and publicly available datasets, please visit: https://www.fema.gov/about/openfema/faq\n\nIf you have media inquiries about this dataset, please email the FEMA Press Office at FEMA-Press-Office@fema.dhs.gov or call (202) 646-3272. For inquiries about FEMA's data and Open Government program, please email the OpenFEMA team at OpenFEMA@fema.dhs.gov."
 
-See which columns we can filter on to select just Hurricane Irma related grants
+See which columns we can filter on to select just Hurricane Irma related
+grants
 
-
-```r
+``` r
 # see which parameter can be used for filtering the Housing Assistance for Renters 
 valid_parameters("HousingAssistanceRenters") 
 ```
 
-```
-## # A tibble: 21 × 1
-##    params                    
-##    <chr>                     
-##  1 disasterNumber            
-##  2 state                     
-##  3 county                    
-##  4 city                      
-##  5 zipCode                   
-##  6 validRegistrations        
-##  7 totalInspected            
-##  8 totalInspectedWithNoDamage
-##  9 totalWithModerateDamage   
-## 10 totalWithMajorDamage      
-## # … with 11 more rows
-```
+    ## # A tibble: 21 × 1
+    ##    params                    
+    ##    <chr>                     
+    ##  1 disasterNumber            
+    ##  2 state                     
+    ##  3 county                    
+    ##  4 city                      
+    ##  5 zipCode                   
+    ##  6 validRegistrations        
+    ##  7 totalInspected            
+    ##  8 totalInspectedWithNoDamage
+    ##  9 totalWithModerateDamage   
+    ## 10 totalWithMajorDamage      
+    ## # ℹ 11 more rows
 
-All we have in this data set is the `disasterNumber`. Thus, to filter on a specific disaster we have to load the `FemaWebDisasterDeclarations` data find the disaster number associated with the event we are interested in.
+All we have in this data set is the `disasterNumber`. Thus, to filter on
+a specific disaster we have to load the `FemaWebDisasterDeclarations`
+data find the disaster number associated with the event we are
+interested in.
 
-
-```r
+``` r
 # call the disaster declarations
 dd <- rfema::open_fema(data_set = "FemaWebDisasterDeclarations", ask_before_call = F)
 ```
 
-```
-## 
-Obtaining Data: 1 out of 5 iterations (20% complete)
-Obtaining Data: 2 out of 5 iterations (40%
-## complete)
-Obtaining Data: 3 out of 5 iterations (60% complete)
-Obtaining Data: 4 out of 5 iterations
-## (80% complete)
-Obtaining Data: 5 out of 5 iterations (100% complete)
-```
+    ## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations
+    ## (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6
+    ## iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining
+    ## Data: 6 out of 6 iterations (100% complete)
 
-```r
+``` r
 # filter disaster declarations to those with "hurricane" in the name
 hurricanes <- distinct(dd %>% filter(grepl("hurricane",tolower(disasterName))) %>% select(disasterName, disasterNumber))
 hurricanes
 ```
 
-```
-## # A tibble: 393 × 2
-##    disasterName     disasterNumber
-##    <chr>            <chr>         
-##  1 HURRICANE IDALIA 4734          
-##  2 HURRICANE IDALIA 4738          
-##  3 HURRICANE LANE   3399          
-##  4 HURRICANE IAN    4673          
-##  5 HURRICANE HENRI  3563          
-##  6 HURRICANE LEE    3599          
-##  7 HURRICANE LEE    3598          
-##  8 HURRICANE IDALIA 3597          
-##  9 HURRICANE NICOLE 4680          
-## 10 HURRICANE IAN    4677          
-## # … with 383 more rows
-```
+    ## # A tibble: 410 × 2
+    ##    disasterName         disasterNumber
+    ##    <chr>                <chr>         
+    ##  1 "HURRICANE MILTON"   4844          
+    ##  2 "HURRICANE MILTON "  4834          
+    ##  3 "HURRICANE MILTON"   3623          
+    ##  4 "HURRICANE HELENE"   4830          
+    ##  5 "HURRICANE HELENE"   4828          
+    ##  6 "HURRICANE DEBBY"    4806          
+    ##  7 "HURRICANE DEBBY"    3607          
+    ##  8 "HURRICANE DEBBY"    3606          
+    ##  9 "HURRICANE BERYL "   4798          
+    ## 10 "HURRICANE & FLOODS" 45            
+    ## # ℹ 400 more rows
 
-We can see immediately that disaster numbers do not uniquely identify an event, since multiple disaster declarations may be declared for the same event, but in different locations. Thus to filter on a particular event, we need to collect all the disaster declaration numbers corresponding to that event (in this case Hurricane Irma). 
+We can see immediately that disaster numbers do not uniquely identify an
+event, since multiple disaster declarations may be declared for the same
+event, but in different locations. Thus to filter on a particular event,
+we need to collect all the disaster declaration numbers corresponding to
+that event (in this case Hurricane Irma).
 
-
-```r
+``` r
 # get all disaster declarations associated with hurricane irma. 
 # notice the use of grepl() which picked up a disaster declaration name 
 # that was different than all the others.
@@ -572,34 +556,32 @@ dd_irma <- hurricanes %>% filter(grepl("irma",tolower(disasterName)))
 dd_irma
 ```
 
-```
-## # A tibble: 13 × 2
-##    disasterName                               disasterNumber
-##    <chr>                                      <chr>         
-##  1 HURRICANE IRMA                             4346          
-##  2 HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA 4341          
-##  3 HURRICANE IRMA                             4338          
-##  4 HURRICANE IRMA                             3389          
-##  5 HURRICANE IRMA                             4337          
-##  6 HURRICANE IRMA                             4336          
-##  7 HURRICANE IRMA                             3388          
-##  8 HURRICANE IRMA                             3387          
-##  9 HURRICANE IRMA                             3386          
-## 10 HURRICANE IRMA                             4335          
-## 11 HURRICANE IRMA                             3385          
-## 12 HURRICANE IRMA                             3384          
-## 13 HURRICANE IRMA                             3383
-```
+    ## # A tibble: 13 × 2
+    ##    disasterName                               disasterNumber
+    ##    <chr>                                      <chr>         
+    ##  1 HURRICANE IRMA                             4346          
+    ##  2 HURRICANE IRMA - SEMINOLE TRIBE OF FLORIDA 4341          
+    ##  3 HURRICANE IRMA                             4338          
+    ##  4 HURRICANE IRMA                             3389          
+    ##  5 HURRICANE IRMA                             4337          
+    ##  6 HURRICANE IRMA                             4336          
+    ##  7 HURRICANE IRMA                             3388          
+    ##  8 HURRICANE IRMA                             3387          
+    ##  9 HURRICANE IRMA                             3386          
+    ## 10 HURRICANE IRMA                             4335          
+    ## 11 HURRICANE IRMA                             3385          
+    ## 12 HURRICANE IRMA                             3384          
+    ## 13 HURRICANE IRMA                             3383
 
-```r
+``` r
 # get a vector of just the disaster declaration numbers
 dd_nums_irma <- dd_irma$disasterNumber
 ```
 
-Now we are read to filter our API call for the `HousingAssistanceRenters` data set.
+Now we are read to filter our API call for the
+`HousingAssistanceRenters` data set.
 
-
-```r
+``` r
 # construct filter list
 filter_list <- list(disasterNumber = dd_nums_irma)
 
@@ -607,55 +589,43 @@ filter_list <- list(disasterNumber = dd_nums_irma)
 assistance_irma <- open_fema(data_set = "HousingAssistanceRenters", filters = filter_list, ask_before_call = F)
 ```
 
-```
-## 
-Obtaining Data: 1 out of 6 iterations (16.67% complete)
-Obtaining Data: 2 out of 6 iterations
-## (33.33% complete)
-Obtaining Data: 3 out of 6 iterations (50% complete)
-Obtaining Data: 4 out of 6
-## iterations (66.67% complete)
-Obtaining Data: 5 out of 6 iterations (83.33% complete)
-Obtaining Data:
-## 6 out of 6 iterations (100% complete)
-```
+    ## Obtaining Data: 1 out of 6 iterations (16.67% complete)Obtaining Data: 2 out of 6 iterations
+    ## (33.33% complete)Obtaining Data: 3 out of 6 iterations (50% complete)Obtaining Data: 4 out of 6
+    ## iterations (66.67% complete)Obtaining Data: 5 out of 6 iterations (83.33% complete)Obtaining
+    ## Data: 6 out of 6 iterations (100% complete)
 
 Check out the returned data
 
-
-```r
+``` r
 # check out the returned data
 assistance_irma
 ```
 
-```
-## # A tibble: 5,358 × 21
-##    disasterNum…¹ state county city  zipCode valid…² total…³ total…⁴ total…⁵ total…⁶ total…⁷ appro…⁸
-##    <chr>         <chr> <chr>  <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-##  1 4335          VI    St. J… ST J… 00083   1       0       1       0       0       0       1      
-##  2 4335          VI    St. T… CHAL… 00801   1       0       1       0       0       0       0      
-##  3 4335          VI    St. T… CHAR… 00801   1       1       1       0       0       0       0      
-##  4 4335          VI    St. T… CHAR… 00801   10      8       6       3       0       0       5      
-##  5 4335          VI    St. T… CHAR… 00801   1       1       1       0       0       0       1      
-##  6 4335          VI    St. T… CHAR… 00801   1       1       1       0       0       0       1      
-##  7 4335          VI    St. T… SAIN… 00801   7       6       7       0       0       0       1      
-##  8 4335          VI    St. T… STT   00801   1       1       1       0       0       0       0      
-##  9 4335          VI    St. T… STTH… 00801   6       4       4       2       0       0       2      
-## 10 4335          VI    St. T… ST T… 00801   219     181     142     66      10      0       126    
-## # … with 5,348 more rows, 9 more variables: totalApprovedIhpAmount <chr>,
-## #   repairReplaceAmount <chr>, rentalAmount <chr>, otherNeedsAmount <chr>,
-## #   approvedBetween1And10000 <chr>, approvedBetween10001And25000 <chr>,
-## #   approvedBetween25001AndMax <chr>, totalMaxGrants <chr>, id <chr>, and abbreviated variable
-## #   names ¹​disasterNumber, ²​validRegistrations, ³​totalInspected, ⁴​totalInspectedWithNoDamage,
-## #   ⁵​totalWithModerateDamage, ⁶​totalWithMajorDamage, ⁷​totalWithSubstantialDamage,
-## #   ⁸​approvedForFemaAssistance
-```
+    ## # A tibble: 5,361 × 21
+    ##    disasterNumber state county                   city  zipCode validRegistrations totalInspected
+    ##    <chr>          <chr> <chr>                    <chr> <chr>   <chr>              <chr>         
+    ##  1 4335           VI    St. John (Island) (Coun… ST J… 00083   1                  0             
+    ##  2 4335           VI    St. Thomas (Island) (Co… CHAL… 00801   1                  0             
+    ##  3 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   1                  1             
+    ##  4 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   10                 8             
+    ##  5 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   1                  1             
+    ##  6 4335           VI    St. Thomas (Island) (Co… CHAR… 00801   1                  1             
+    ##  7 4335           VI    St. Thomas (Island) (Co… SAIN… 00801   7                  6             
+    ##  8 4335           VI    St. Thomas (Island) (Co… STT   00801   1                  1             
+    ##  9 4335           VI    St. Thomas (Island) (Co… STTH… 00801   6                  4             
+    ## 10 4335           VI    St. Thomas (Island) (Co… ST T… 00801   219                181           
+    ## # ℹ 5,351 more rows
+    ## # ℹ 14 more variables: totalInspectedWithNoDamage <chr>, totalWithModerateDamage <chr>,
+    ## #   totalWithMajorDamage <chr>, totalWithSubstantialDamage <chr>,
+    ## #   approvedForFemaAssistance <chr>, totalApprovedIhpAmount <chr>, repairReplaceAmount <chr>,
+    ## #   rentalAmount <chr>, otherNeedsAmount <chr>, approvedBetween1And10000 <chr>,
+    ## #   approvedBetween10001And25000 <chr>, approvedBetween25001AndMax <chr>, totalMaxGrants <chr>,
+    ## #   id <chr>
 
+Now we can answer our original question: How much did FEMA awarded for
+rental assistance following Hurricane Irma?
 
-Now we can answer our original question: How much did FEMA awarded for rental assistance following Hurricane Irma?
-
-
-```r
+``` r
 # sum the rentalAmount Column
 rent_assistance <- sum(as.numeric(assistance_irma$rentalAmount))
 
@@ -666,15 +636,18 @@ print(paste0("$",round(rent_assistance,2),
              " million was awarded by FEMA for rental assistance following Hurricane Irma"))
 ```
 
-```
-## [1] "$314.64 million was awarded by FEMA for rental assistance following Hurricane Irma"
-```
+    ## [1] "$314.64 million was awarded by FEMA for rental assistance following Hurricane Irma"
 
 ## Clean one of the data sets with a nested structure
-Some data sets that get returned from the FEMA API will be in a nested format. Data from the Integrated Public Alert & Warning System (IPAWS) is one such example of this. See for example the first column of the IPAWS data set, which is XML data returned as a character. Most of the useful information from this data set is in that first column, but isn't in a form that will be useful for most R users. 
 
+Some data sets that get returned from the FEMA API will be in a nested
+format. Data from the Integrated Public Alert & Warning System (IPAWS)
+is one such example of this. See for example the first column of the
+IPAWS data set, which is XML data returned as a character. Most of the
+useful information from this data set is in that first column, but isn’t
+in a form that will be useful for most R users.
 
-```r
+``` r
 # get the first ten entries from the IPAWS data set
 ipaws <- rfema::open_fema("IpawsArchivedAlerts", top_n = 100)
 
@@ -682,28 +655,27 @@ ipaws <- rfema::open_fema("IpawsArchivedAlerts", top_n = 100)
 ipaws
 ```
 
-```
-## # A tibble: 100 × 18
-##    originalM…¹ ident…² sender sent  status msgType source scope restr…³ addre…⁴ code  note  searc…⁵
-##    <chr>       <chr>   <chr>  <chr> <chr>  <chr>   <chr>  <chr> <chr>   <chr>   <chr> <chr> <chr>  
-##  1 "<?xml ver… NWS-14… w-nws… 2016… Actual Cancel  NULL   Publ… NULL    NULL    "lis… NULL  "NULL" 
-##  2 "<?xml ver… NWS-14… w-nws… 2016… Actual Alert   NULL   Publ… NULL    NULL    "lis… NULL  "list(…
-##  3 "<?xml ver… NWS-14… w-nws… 2016… Actual Alert   NULL   Publ… NULL    NULL    "lis… NULL  "list(…
-##  4 "<?xml ver… NWS-14… w-nws… 2016… Actual Cancel  NULL   Publ… NULL    NULL    "lis… NULL  "list(…
-##  5 "<?xml ver… NWS-14… w-nws… 2016… Actual Update  NULL   Publ… NULL    NULL    "lis… NULL  "list(…
-##  6 "<?xml ver… NWS-14… w-nws… 2016… Actual Alert   NULL   Publ… NULL    NULL    "lis… NULL  "NULL" 
-##  7 "<?xml ver… NWS-14… w-nws… 2016… Actual Alert   NULL   Publ… NULL    NULL    "lis… NULL  "list(…
-##  8 "<?xml ver… NWS-14… w-nws… 2016… Actual Alert   NULL   Publ… NULL    NULL    "lis… NULL  "list(…
-##  9 "<?xml ver… NWS-14… w-nws… 2016… Actual Update  NULL   Publ… NULL    NULL    "lis… NULL  "NULL" 
-## 10 "<?xml ver… NWS-14… w-nws… 2016… Actual Update  NULL   Publ… NULL    NULL    "lis… NULL  "NULL" 
-## # … with 90 more rows, 5 more variables: incidents <chr>, cogId <chr>, id <chr>, xmlns <chr>,
-## #   info <chr>, and abbreviated variable names ¹​originalMessage, ²​identifier, ³​restriction,
-## #   ⁴​addresses, ⁵​searchGeometry
-```
+    ## # A tibble: 100 × 18
+    ##    originalMessage     identifier sender sent  status msgType source scope restriction addresses
+    ##    <chr>               <chr>      <chr>  <chr> <chr>  <chr>   <chr>  <chr> <chr>       <chr>    
+    ##  1 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Alert   NULL   Publ… NULL        NULL     
+    ##  2 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ##  3 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ##  4 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ##  5 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Alert   NULL   Publ… NULL        NULL     
+    ##  6 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ##  7 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ##  8 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ##  9 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ## 10 "<?xml version=\"1… NWS-IDP-P… w-nws… 2018… Actual Update  NULL   Publ… NULL        NULL     
+    ## # ℹ 90 more rows
+    ## # ℹ 8 more variables: code <chr>, note <chr>, searchGeometry <chr>, incidents <chr>,
+    ## #   cogId <chr>, id <chr>, xmlns <chr>, info <chr>
 
-The following is one method for converting the xml data into tabular form.
+The following is one method for converting the xml data into tabular
+form.
 
-```r
+``` r
 library(dplyr)
 library(XML)
 
@@ -750,7 +722,119 @@ ipaws_list <- sapply(ipaws$originalMessage, unnest_ipaws, simplify = T)
 
 # convert the `ipaws_list` into a data frame
 ipaws_df <- dplyr::bind_rows(ipaws_list)
+```
 
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## New names:
+    ## • `info.language` -> `info.language...8`
+    ## • `info.category` -> `info.category...9`
+    ## • `info.event` -> `info.event...10`
+    ## • `info.responseType` -> `info.responseType...11`
+    ## • `info.urgency` -> `info.urgency...12`
+    ## • `info.severity` -> `info.severity...13`
+    ## • `info.certainty` -> `info.certainty...14`
+    ## • `info.eventCode.valueName` -> `info.eventCode.valueName...15`
+    ## • `info.eventCode.value` -> `info.eventCode.value...16`
+    ## • `info.eventCode.valueName.1` -> `info.eventCode.valueName.1...17`
+    ## • `info.eventCode.value.1` -> `info.eventCode.value.1...18`
+    ## • `info.effective` -> `info.effective...19`
+    ## • `info.onset` -> `info.onset...20`
+    ## • `info.expires` -> `info.expires...21`
+    ## • `info.senderName` -> `info.senderName...22`
+    ## • `info.headline` -> `info.headline...23`
+    ## • `info.description` -> `info.description...24`
+    ## • `info.instruction` -> `info.instruction...25`
+    ## • `info.web` -> `info.web...26`
+    ## • `info.parameter.valueName` -> `info.parameter.valueName...27`
+    ## • `info.parameter.value` -> `info.parameter.value...28`
+    ## • `info.parameter.valueName.1` -> `info.parameter.valueName.1...29`
+    ## • `info.parameter.value.1` -> `info.parameter.value.1...30`
+    ## • `info.parameter.valueName.2` -> `info.parameter.valueName.2...31`
+    ## • `info.parameter.value.2` -> `info.parameter.value.2...32`
+    ## • `info.parameter.valueName.3` -> `info.parameter.valueName.3...33`
+    ## • `info.parameter.value.3` -> `info.parameter.value.3...34`
+    ## • `info.parameter.valueName.4` -> `info.parameter.valueName.4...35`
+    ## • `info.parameter.value.4` -> `info.parameter.value.4...36`
+    ## • `info.parameter.valueName.5` -> `info.parameter.valueName.5...37`
+    ## • `info.parameter.value.5` -> `info.parameter.value.5...38`
+    ## • `info.parameter.valueName.6` -> `info.parameter.valueName.6...39`
+    ## • `info.parameter.value.6` -> `info.parameter.value.6...40`
+    ## • `info.parameter.valueName.7` -> `info.parameter.valueName.7...41`
+    ## • `info.parameter.value.7` -> `info.parameter.value.7...42`
+    ## • `info.parameter.valueName.8` -> `info.parameter.valueName.8...43`
+    ## • `info.parameter.value.8` -> `info.parameter.value.8...44`
+    ## • `info.parameter.valueName.9` -> `info.parameter.valueName.9...45`
+    ## • `info.parameter.value.9` -> `info.parameter.value.9...46`
+    ## • `info.parameter.valueName.10` -> `info.parameter.valueName.10...47`
+    ## • `info.parameter.value.10` -> `info.parameter.value.10...48`
+    ## • `info.parameter.valueName.11` -> `info.parameter.valueName.11...49`
+    ## • `info.parameter.value.11` -> `info.parameter.value.11...50`
+    ## • `info.parameter.valueName.12` -> `info.parameter.valueName.12...51`
+    ## • `info.parameter.value.12` -> `info.parameter.value.12...52`
+    ## • `info.area.areaDesc` -> `info.area.areaDesc...53`
+    ## • `info.area.polygon` -> `info.area.polygon...54`
+    ## • `info.area.geocode.valueName` -> `info.area.geocode.valueName...55`
+    ## • `info.area.geocode.value` -> `info.area.geocode.value...56`
+    ## • `info.area.geocode.valueName.1` -> `info.area.geocode.valueName.1...57`
+    ## • `info.area.geocode.value.1` -> `info.area.geocode.value.1...58`
+    ## • `info.language` -> `info.language...59`
+    ## • `info.category` -> `info.category...60`
+    ## • `info.event` -> `info.event...61`
+    ## • `info.responseType` -> `info.responseType...62`
+    ## • `info.urgency` -> `info.urgency...63`
+    ## • `info.severity` -> `info.severity...64`
+    ## • `info.certainty` -> `info.certainty...65`
+    ## • `info.eventCode.valueName` -> `info.eventCode.valueName...66`
+    ## • `info.eventCode.value` -> `info.eventCode.value...67`
+    ## • `info.eventCode.valueName.1` -> `info.eventCode.valueName.1...68`
+    ## • `info.eventCode.value.1` -> `info.eventCode.value.1...69`
+    ## • `info.effective` -> `info.effective...70`
+    ## • `info.onset` -> `info.onset...71`
+    ## • `info.expires` -> `info.expires...72`
+    ## • `info.senderName` -> `info.senderName...73`
+    ## • `info.headline` -> `info.headline...74`
+    ## • `info.description` -> `info.description...75`
+    ## • `info.instruction` -> `info.instruction...76`
+    ## • `info.web` -> `info.web...77`
+    ## • `info.parameter.valueName` -> `info.parameter.valueName...78`
+    ## • `info.parameter.value` -> `info.parameter.value...79`
+    ## • `info.parameter.valueName.1` -> `info.parameter.valueName.1...80`
+    ## • `info.parameter.value.1` -> `info.parameter.value.1...81`
+    ## • `info.parameter.valueName.2` -> `info.parameter.valueName.2...82`
+    ## • `info.parameter.value.2` -> `info.parameter.value.2...83`
+    ## • `info.parameter.valueName.3` -> `info.parameter.valueName.3...84`
+    ## • `info.parameter.value.3` -> `info.parameter.value.3...85`
+    ## • `info.parameter.valueName.4` -> `info.parameter.valueName.4...86`
+    ## • `info.parameter.value.4` -> `info.parameter.value.4...87`
+    ## • `info.parameter.valueName.5` -> `info.parameter.valueName.5...88`
+    ## • `info.parameter.value.5` -> `info.parameter.value.5...89`
+    ## • `info.parameter.valueName.6` -> `info.parameter.valueName.6...90`
+    ## • `info.parameter.value.6` -> `info.parameter.value.6...91`
+    ## • `info.parameter.valueName.7` -> `info.parameter.valueName.7...92`
+    ## • `info.parameter.value.7` -> `info.parameter.value.7...93`
+    ## • `info.parameter.valueName.8` -> `info.parameter.valueName.8...94`
+    ## • `info.parameter.value.8` -> `info.parameter.value.8...95`
+    ## • `info.parameter.valueName.9` -> `info.parameter.valueName.9...96`
+    ## • `info.parameter.value.9` -> `info.parameter.value.9...97`
+    ## • `info.parameter.valueName.10` -> `info.parameter.valueName.10...98`
+    ## • `info.parameter.value.10` -> `info.parameter.value.10...99`
+    ## • `info.parameter.valueName.11` -> `info.parameter.valueName.11...100`
+    ## • `info.parameter.value.11` -> `info.parameter.value.11...101`
+    ## • `info.parameter.valueName.12` -> `info.parameter.valueName.12...102`
+    ## • `info.parameter.value.12` -> `info.parameter.value.12...103`
+    ## • `info.area.areaDesc` -> `info.area.areaDesc...104`
+    ## • `info.area.polygon` -> `info.area.polygon...105`
+    ## • `info.area.geocode.valueName` -> `info.area.geocode.valueName...106`
+    ## • `info.area.geocode.value` -> `info.area.geocode.value...107`
+    ## • `info.area.geocode.valueName.1` -> `info.area.geocode.valueName.1...108`
+    ## • `info.area.geocode.value.1` -> `info.area.geocode.value.1...109`
+
+``` r
 # the number of columns can get unwieldy because of all the unique pieces of information
 # in that "info" element that get tacked on
 
@@ -765,34 +849,23 @@ ipaws_df <- ipaws_df %>% select(-contains("parameter.value"))
 as_tibble(ipaws_df)
 ```
 
-```
-## # A tibble: 100 × 37
-##    identi…¹ sender sent  status msgType scope code  refer…² info.…³ info.…⁴ info.…⁵ info.…⁶ info.…⁷
-##    <chr>    <chr>  <chr> <chr>  <chr>   <chr> <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-##  1 NWS-141… w-nws… 2016… Actual Cancel  Publ… IPAW… w-nws.… Met     Small … Avoid   Expect… Minor  
-##  2 NWS-141… w-nws… 2016… Actual Alert   Publ… IPAW… <NA>    Met     Severe… Shelter Immedi… Severe 
-##  3 NWS-141… w-nws… 2016… Actual Alert   Publ… IPAW… <NA>    Met     Specia… Execute Expect… Modera…
-##  4 NWS-141… w-nws… 2016… Actual Cancel  Publ… IPAW… w-nws.… Met     Severe… Shelter Immedi… Severe 
-##  5 NWS-141… w-nws… 2016… Actual Update  Publ… IPAW… w-nws.… Met     Severe… Shelter Immedi… Severe 
-##  6 NWS-141… w-nws… 2016… Actual Alert   Publ… IPAW… <NA>    Met     Beach … Avoid   Expect… Modera…
-##  7 NWS-141… w-nws… 2016… Actual Alert   Publ… IPAW… <NA>    Met     Severe… Shelter Immedi… Severe 
-##  8 NWS-141… w-nws… 2016… Actual Alert   Publ… IPAW… <NA>    Met     Marine… Monitor Expect… Minor  
-##  9 NWS-141… w-nws… 2016… Actual Update  Publ… IPAW… w-nws.… Met     Small … Avoid   Expect… Minor  
-## 10 NWS-141… w-nws… 2016… Actual Update  Publ… IPAW… w-nws.… Met     Hazard… Avoid   Expect… Modera…
-## # … with 90 more rows, 24 more variables: info.certainty <chr>, info.eventCode.valueName <chr>,
-## #   info.eventCode.value <chr>, info.eventCode.valueName.1 <chr>, info.eventCode.value.1 <chr>,
-## #   info.effective <chr>, info.onset <chr>, info.expires <chr>, info.senderName <chr>,
-## #   info.headline <chr>, info.description <chr>, info.instruction <chr>, info.web <chr>,
-## #   info.area.areaDesc <chr>, Signature.SignedInfo.CanonicalizationMethod.Algorithm <chr>,
-## #   Signature.SignedInfo.SignatureMethod.Algorithm <chr>,
-## #   Signature.SignedInfo.Reference.Transforms.Transform.Algorithm <chr>, …
-```
-
-## Bulk Downloads
-In some cases bulk downloading a full data set file may be preferred. For particularly large data requests, its usually faster to bulk download the entire data set as a csv file and then load it into the R environment. In this case, users can use the bulk_dl() command to download a csv of the full data file and save it to a specified directory.
-
-```r
-bulk_dl("femaRegions") # download a csv file containing all info on FEMA regions
-```
-
-
+    ## # A tibble: 100 × 123
+    ##    identifier sender sent  status msgType scope code  info.category info.event info.responseType
+    ##    <chr>      <chr>  <chr> <chr>  <chr>   <chr> <chr> <chr>         <chr>      <chr>            
+    ##  1 NWS-IDP-P… w-nws… 2018… Actual Alert   Publ… IPAW… Met           Special W… Execute          
+    ##  2 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Winter St… Prepare          
+    ##  3 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Gale Warn… Avoid            
+    ##  4 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood Adv… Avoid            
+    ##  5 NWS-IDP-P… w-nws… 2018… Actual Alert   Publ… IPAW… Met           Dense Fog… Execute          
+    ##  6 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Small Cra… Avoid            
+    ##  7 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Winter We… Execute          
+    ##  8 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War… Avoid            
+    ##  9 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War… Avoid            
+    ## 10 NWS-IDP-P… w-nws… 2018… Actual Update  Publ… IPAW… Met           Flood War… Avoid            
+    ## # ℹ 90 more rows
+    ## # ℹ 113 more variables: info.urgency <chr>, info.severity <chr>, info.certainty <chr>,
+    ## #   info.eventCode.valueName <chr>, info.eventCode.value <chr>, info.effective <chr>,
+    ## #   info.onset <chr>, info.expires <chr>, info.senderName <chr>, info.headline <chr>,
+    ## #   info.description <chr>, info.instruction <chr>, info.web <chr>, info.area.areaDesc <chr>,
+    ## #   Signature.SignedInfo.CanonicalizationMethod.Algorithm <chr>,
+    ## #   Signature.SignedInfo.SignatureMethod.Algorithm <chr>, …
